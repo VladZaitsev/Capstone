@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ingredients_mock"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintTop_toBottomOf="@+id/ingredients_txt"
+    tools:showIn="@layout/item_recipe">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:id="@+id/ingredients_content_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="@dimen/hor_margin"
+            android:layout_marginStart="@dimen/hor_margin"
+            android:text="available ingredient" />
+
+        <TextView
+            android:id="@+id/ingredients_unit_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="@dimen/hor_margin"
+            android:layout_marginStart="@dimen/hor_margin"
+            android:text="kg" />
+
+        <TextView
+            android:id="@+id/ingredients_quantity_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="@dimen/ver_margin"
+            android:layout_toStartOf="@+id/ingredients_unit_1"
+            android:text="1"
+            android:layout_marginRight="@dimen/ver_margin"
+            android:layout_toLeftOf="@+id/ingredients_unit_1" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:id="@+id/ingredients_content_2"
+            android:layout_width="wrap_content"
+            android:textColor="@color/ingredient_not_enough"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="@dimen/hor_margin"
+            android:layout_marginStart="@dimen/hor_margin"
+            android:text="partly available ingredient" />
+
+        <TextView
+            android:id="@+id/ingredients_unit_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="@dimen/hor_margin"
+            android:layout_marginStart="@dimen/hor_margin"
+            android:text="kg" />
+
+        <TextView
+            android:id="@+id/ingredients_quantity_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="@dimen/ver_margin"
+            android:layout_toStartOf="@+id/ingredients_unit_2"
+            android:text="1"
+            android:layout_marginRight="@dimen/ver_margin"
+            android:layout_toLeftOf="@+id/ingredients_unit_2" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:textColor="@color/ingredient_is_not_available"
+            android:id="@+id/ingredients_content_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="@dimen/hor_margin"
+            android:layout_marginStart="@dimen/hor_margin"
+            android:text="not available ingredient" />
+
+        <TextView
+            android:id="@+id/ingredients_unit_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="@dimen/hor_margin"
+            android:layout_marginStart="@dimen/hor_margin"
+            android:text="kg" />
+
+        <TextView
+            android:id="@+id/ingredients_quantity_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="@dimen/ver_margin"
+            android:layout_toStartOf="@+id/ingredients_unit_3"
+            android:text="1"
+            android:layout_marginRight="@dimen/ver_margin"
+            android:layout_toLeftOf="@+id/ingredients_unit_3" />
+    </RelativeLayout>
+</LinearLayout>

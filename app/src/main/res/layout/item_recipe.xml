@@ -35,7 +35,7 @@
                 android:layout_marginTop="@dimen/ver_margin"
                 android:maxLines="3"
                 android:text="@string/mock_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintBottom_toTopOf="@+id/btn_top_barrier"
                 app:layout_constraintEnd_toStartOf="@+id/txt_barrier"
                 app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +88,6 @@
                 android:layout_marginTop="@dimen/ver_margin"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/cd_recount"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/btn_top_barrier"
                 app:srcCompat="@drawable/btn_recount" />
@@ -103,7 +102,6 @@
                 android:layout_marginTop="@dimen/ver_margin"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/cd_basket"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/recount_btn"
                 app:layout_constraintTop_toTopOf="@+id/btn_top_barrier"
                 app:srcCompat="@drawable/btn_basket" />
@@ -118,7 +116,6 @@
                 android:layout_marginTop="@dimen/ver_margin"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/cd_basket"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/btn_top_barrier"
                 app:srcCompat="@drawable/btn_expand" />
@@ -136,6 +133,46 @@
                 android:layout_height="wrap_content"
                 app:barrierDirection="left"
                 app:constraint_referenced_ids="quantity_txt,calories_txt,price_txt" />
+
+            <TextView
+                android:id="@+id/ingredients_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ver_margin"
+                android:layout_marginEnd="@dimen/hor_margin"
+                android:layout_marginStart="@dimen/hor_margin"
+                android:layout_marginTop="@dimen/ver_margin"
+                android:text="@string/ingredients"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recount_btn" />
+
+            <include layout="@layout/include_item_recipe_ingredients"
+                android:id="@+id/ingredients_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredients_txt" />
+
+            <TextView
+                android:id="@+id/steps_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ver_margin"
+                android:layout_marginEnd="@dimen/hor_margin"
+                android:layout_marginStart="@dimen/hor_margin"
+                android:layout_marginTop="@dimen/ver_margin"
+                android:text="@string/steps"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredients_layout" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="steps' pager"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@+id/steps_txt"/>
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
