@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">CookingAid</string>
+
+    <!-- mocks-->
+    <string name="mock_title">Title</string>
+    <string name="mock_persons">6 pers.</string>
+
+    <!-- content descriptions-->
+    <string name="cd_image">image</string>
+    <string name="cd_expand">expand</string>
+    <string name="cd_recount">recount ingredients quantity</string>
+    <string name="cd_basket">put ingredients to basket</string>
+    <string name="mock_calories">kkal</string>
+    <string name="mock_price">price</string>
 </resources>

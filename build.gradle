@@ -20,6 +20,12 @@ allprojects {
         google()
         jcenter()
     }
+    ext {
+        androidSupportVersion = "27.1.1"
+        constraintLayout = "1.1.2"
+        picassoVersion='2.5.2'
+    }
+
 }
 
 task clean(type: Delete) {

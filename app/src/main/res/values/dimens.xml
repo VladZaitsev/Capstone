@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="recipe_card_view_margin">8dp</dimen>
+    <dimen name="recipe_card_view_elevation">8dp</dimen>
+
+    <dimen name="hor_margin">16dp</dimen>
+    <dimen name="title_top_margin">16dp</dimen>
+    <dimen name="ver_margin">8dp</dimen>
+</resources>
