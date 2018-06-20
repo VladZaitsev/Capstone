@@ -4,14 +4,23 @@
     <!-- mocks-->
     <string name="mock_title">Title</string>
     <string name="mock_persons">6 pers.</string>
+    <string name="mock_calories">kkal</string>
+    <string name="mock_price">price</string>
 
     <!-- content descriptions-->
     <string name="cd_image">image</string>
     <string name="cd_expand">expand</string>
     <string name="cd_recount">recount ingredients quantity</string>
     <string name="cd_basket">put ingredients to basket</string>
-    <string name="mock_calories">kkal</string>
-    <string name="mock_price">price</string>
+
     <string name="ingredients">Ingredients</string>
     <string name="steps">Steps</string>
+
+    <!-- recipes types-->
+    <string name="recipe_soup">soup</string>
+    <string name="recipe_main">main</string>
+    <string name="recipe_salad">salad</string>
+    <string name="recipe_desert">desert</string>
+    <string name="recipe_drink">drink</string>
+    <string name="recipe_pizza">pizza</string>
 </resources>

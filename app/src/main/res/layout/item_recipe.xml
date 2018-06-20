@@ -11,7 +11,8 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/ver_margin">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -45,8 +46,8 @@
                 android:id="@+id/quantity_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/hor_margin"
                 android:layout_marginBottom="@dimen/ver_margin"
+                android:layout_marginEnd="@dimen/hor_margin"
                 android:layout_marginRight="@dimen/hor_margin"
                 android:text="@string/mock_persons"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -146,10 +147,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recount_btn" />
 
-            <include layout="@layout/include_item_recipe_ingredients"
+            <include
                 android:id="@+id/ingredients_layout"
-                app:layout_constraintStart_toStartOf="parent"
+                layout="@layout/include_item_recipe_ingredients"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ingredients_txt" />
 
             <TextView
@@ -164,14 +166,23 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ingredients_layout" />
+
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:text="steps' pager"
                 android:textAlignment="center"
-                app:layout_constraintTop_toBottomOf="@+id/steps_txt"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/steps_txt" />
+
+            <android.support.constraint.Group
+                android:id="@+id/group2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:constraint_referenced_ids="textView2,steps_txt,ingredients_layout,ingredients_txt" />
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
