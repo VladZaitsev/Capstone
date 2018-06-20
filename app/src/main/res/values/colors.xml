@@ -6,6 +6,7 @@
 
     <color name="colorBackground">#e9e9e9</color>
     <color name="colorBackgroundSelected">#cccccc</color>
+    <color name="colorBorder">#666666</color>
 
     <color name="ingredient_not_enough">#fcdb21</color>
     <color name="ingredient_is_not_available">#ec6060</color>

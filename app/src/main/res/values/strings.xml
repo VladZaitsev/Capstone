@@ -8,6 +8,8 @@
     <string name="mock_calories">110 kkal</string>
     <string name="mock_price"> 2$</string>
     <string name="mock_time">01:00</string>
+    <string name="mock_quantity">2 kg</string>
+
 
     <!-- content descriptions-->
     <string name="cd_image">image</string>
@@ -27,5 +29,7 @@
     <string name="recipe_drink">drink</string>
     <string name="recipe_pizza">pizza</string>
     <string name="cd_timer_start">start or stop timer</string>
+    <string name="mock_details">details</string>
+
 
 </resources>
