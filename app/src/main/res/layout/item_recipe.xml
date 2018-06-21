@@ -28,12 +28,9 @@
 
             <TextView
                 android:id="@+id/title_txt"
+                style="@style/AppTheme.CommonMargin"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/ver_margin"
-                android:layout_marginEnd="@dimen/hor_margin"
-                android:layout_marginStart="@dimen/hor_margin"
-                android:layout_marginTop="@dimen/ver_margin"
                 android:maxLines="3"
                 android:text="@string/mock_title"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -44,11 +41,9 @@
 
             <TextView
                 android:id="@+id/quantity_txt"
+                style="@style/AppTheme.CommonMargin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ver_margin"
-                android:layout_marginEnd="@dimen/hor_margin"
-                android:layout_marginRight="@dimen/hor_margin"
                 android:text="@string/mock_persons"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -56,11 +51,9 @@
 
             <TextView
                 android:id="@+id/calories_txt"
+                style="@style/AppTheme.CommonMargin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ver_margin"
-                android:layout_marginEnd="@dimen/hor_margin"
-                android:layout_marginRight="@dimen/hor_margin"
                 android:text="@string/mock_calories"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,11 +61,9 @@
 
             <TextView
                 android:id="@+id/price_txt"
+                style="@style/AppTheme.CommonMargin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ver_margin"
-                android:layout_marginEnd="@dimen/hor_margin"
-                android:layout_marginRight="@dimen/hor_margin"
                 android:text="@string/mock_price"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -80,12 +71,9 @@
 
             <ImageButton
                 android:id="@+id/recount_btn"
+                style="@style/AppTheme.CommonMargin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ver_margin"
-                android:layout_marginLeft="@dimen/hor_margin"
-                android:layout_marginStart="@dimen/hor_margin"
-                android:layout_marginTop="@dimen/ver_margin"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/cd_recount"
                 app:layout_constraintStart_toStartOf="parent"
@@ -94,12 +82,9 @@
 
             <ImageButton
                 android:id="@+id/basket_btn"
+                style="@style/AppTheme.CommonMargin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ver_margin"
-                android:layout_marginLeft="@dimen/hor_margin"
-                android:layout_marginStart="@dimen/hor_margin"
-                android:layout_marginTop="@dimen/ver_margin"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/cd_basket"
                 app:layout_constraintStart_toEndOf="@+id/recount_btn"
@@ -108,12 +93,9 @@
 
             <ImageButton
                 android:id="@+id/expand_btn"
+                style="@style/AppTheme.CommonMargin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ver_margin"
-                android:layout_marginEnd="@dimen/hor_margin"
-                android:layout_marginRight="@dimen/hor_margin"
-                android:layout_marginTop="@dimen/ver_margin"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/cd_basket"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -136,12 +118,9 @@
 
             <TextView
                 android:id="@+id/ingredients_txt"
+                style="@style/AppTheme.CommonMargin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ver_margin"
-                android:layout_marginEnd="@dimen/hor_margin"
-                android:layout_marginStart="@dimen/hor_margin"
-                android:layout_marginTop="@dimen/ver_margin"
                 android:text="@string/ingredients"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintStart_toStartOf="parent"
@@ -156,12 +135,9 @@
 
             <TextView
                 android:id="@+id/steps_txt"
+                style="@style/AppTheme.CommonMargin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ver_margin"
-                android:layout_marginEnd="@dimen/hor_margin"
-                android:layout_marginStart="@dimen/hor_margin"
-                android:layout_marginTop="@dimen/ver_margin"
                 android:text="@string/steps"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintStart_toStartOf="parent"
