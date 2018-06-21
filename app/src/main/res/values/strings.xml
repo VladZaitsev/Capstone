@@ -30,6 +30,10 @@
     <string name="recipe_pizza">pizza</string>
     <string name="cd_timer_start">start or stop timer</string>
     <string name="mock_details">details</string>
+    <string name="cd_select_all">select all items</string>
+    <string name="mock_lists_quantity">(2)</string>
+    <string name="mock_total_price">Total: 2$</string>
+    <string name="mock_total_weight">Weight: 4kg</string>
 
 
 </resources>
