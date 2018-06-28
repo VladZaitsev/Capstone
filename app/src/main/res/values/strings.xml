@@ -43,5 +43,7 @@
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
 
+    <string name="recipes_resource" translatable="false">https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/</string>
+
 
 </resources>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ingredients_mock"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:id="@+id/ingredients_content_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="@dimen/hor_margin"
+            android:layout_marginStart="@dimen/hor_margin"
+            android:text="Milk" />
+
+        <TextView
+            android:id="@+id/ingredients_unit_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/hor_margin"
+            android:layout_marginStart="@dimen/hor_margin"
+            android:text="1 l" />
+
+        <TextView
+            android:id="@+id/ingredients_quantity_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="70dp"
+            android:text="2 days" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:id="@+id/ingredients_content_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="@dimen/hor_margin"
+            android:layout_marginStart="@dimen/hor_margin"
+            android:text="Bread" />
+
+        <TextView
+            android:id="@+id/ingredients_unit_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/hor_margin"
+            android:layout_marginStart="@dimen/hor_margin"
+            android:text="0.5 kg" />
+
+        <TextView
+            android:id="@+id/ingredients_quantity_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="70dp"
+            android:text="3 days" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:id="@+id/ingredients_content_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="@dimen/hor_margin"
+            android:layout_marginStart="@dimen/hor_margin"
+            android:text="Tomatoes" />
+
+        <TextView
+            android:id="@+id/ingredients_unit_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/hor_margin"
+            android:layout_marginStart="@dimen/hor_margin"
+            android:text="2 kg" />
+
+        <TextView
+            android:id="@+id/ingredients_quantity_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="70dp"
+            android:text="5 days" />
+    </RelativeLayout>
+</LinearLayout>

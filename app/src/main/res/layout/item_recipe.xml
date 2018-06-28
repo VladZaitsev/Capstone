@@ -1,6 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeItemViewModel" />
+    </data>
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -27,12 +34,12 @@
                 app:srcCompat="@drawable/mock_recipe_item" />
 
             <TextView
-                android:id="@+id/title_txt"
+                android:id="@+id/name_txt"
                 style="@style/AppTheme.CommonMargin"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:maxLines="3"
-                android:text="@string/mock_title"
+                android:text="@{viewmodel.name}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintBottom_toTopOf="@+id/btn_top_barrier"
                 app:layout_constraintEnd_toStartOf="@+id/txt_barrier"
@@ -47,7 +54,7 @@
                 android:text="@string/mock_persons"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/title_txt" />
+                app:layout_constraintTop_toTopOf="@+id/name_txt" />
 
             <TextView
                 android:id="@+id/calories_txt"
@@ -98,16 +105,17 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/cd_basket"
+                android:onClick="@{()->viewmodel.expandBtnClick()}"
+                android:src="@{viewmodel.isExpanded ? @drawable/btn_expand_less :@drawable/btn_expand_more }"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/btn_top_barrier"
-                app:srcCompat="@drawable/btn_expand" />
+                app:layout_constraintTop_toTopOf="@+id/btn_top_barrier" />
 
             <android.support.constraint.Barrier
                 android:id="@+id/btn_top_barrier"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="title_txt,quantity_txt,calories_txt,price_txt" />
+                app:constraint_referenced_ids="name_txt,quantity_txt,calories_txt,price_txt" />
 
             <android.support.constraint.Barrier
                 android:id="@+id/txt_barrier"
@@ -157,7 +165,7 @@
                 android:id="@+id/group2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="@{viewmodel.isExpanded?View.VISIBLE : View.GONE}"
                 app:constraint_referenced_ids="textView2,steps_txt,ingredients_layout,ingredients_txt" />
         </android.support.constraint.ConstraintLayout>
 
