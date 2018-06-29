@@ -9,6 +9,9 @@ import android.databinding.ObservableList;
 
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
+import com.baikaleg.v3.cookingaid.data.model.Step;
+
+import io.reactivex.Observable;
 
 public class RecipeItemViewModel extends BaseObservable {
 
@@ -19,12 +22,21 @@ public class RecipeItemViewModel extends BaseObservable {
     public ObservableBoolean isExpanded = new ObservableBoolean(false);
 
     public final ObservableList<Ingredient> ingredients = new ObservableArrayList<>();
+    public final ObservableList<String> stepsShortDescriptions = new ObservableArrayList<>();
 
-    public RecipeItemViewModel(Recipe recipe, RecipeEventNavigator navigator) {
-        name.set(recipe.getName());
+    public RecipeItemViewModel(Recipe data, RecipeItemEventNavigator navigator) {
+        name.set(data.getName());
 
         ingredients.clear();
-        ingredients.addAll(recipe.getIngredients());
+        ingredients.addAll(data.getIngredients());
+
+        Observable.fromArray(data)
+                .map(Recipe::getSteps)
+                .flatMap(steps -> Observable.fromIterable(steps)
+                        .map(Step::getShortDescription))
+                .toList()
+                .toObservable()
+                .subscribe(list -> stepsShortDescriptions.addAll(list));
 
         notifyChange();
     }

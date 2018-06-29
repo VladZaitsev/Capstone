@@ -1,6 +1,7 @@
 package com.baikaleg.v3.cookingaid.ui.recipes;
 
 import android.databinding.BindingAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.LinearLayout;
 
@@ -8,6 +9,7 @@ import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.ui.recipes.adapter.RecipesViewAdapter;
 import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeIngredientView;
+import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeStepPagerAdapter;
 
 import java.util.List;
 
@@ -38,4 +40,12 @@ public class RecipesBinding {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    @BindingAdapter("app:stepTitles")
+    public static void setStepTitles(ViewPager pager, List<String> list) {
+        RecipeStepPagerAdapter adapter = (RecipeStepPagerAdapter) pager.getAdapter();
+        if (adapter != null) {
+            adapter.refresh(list);
+        }
+    }
 }

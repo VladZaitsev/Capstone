@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.databinding.ItemRecipeBinding;
-import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeEventNavigator;
 import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeItemViewModel;
+import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeStepPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +32,12 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull RecipesViewHolder holder, int position) {
         final Recipe recipe = recipesList.get(position);
+
         RecipeItemViewModel viewModel=new RecipeItemViewModel(recipe,null);
         holder.recipeItemBinding.setViewmodel(viewModel);
+
+        RecipeStepPagerAdapter pagerAdapter=new RecipeStepPagerAdapter();
+        holder.recipeItemBinding.stepsContent.setAdapter(pagerAdapter);
     }
 
     @Override

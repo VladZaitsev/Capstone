@@ -129,12 +129,12 @@
                 android:id="@+id/ingredients_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginTop="@dimen/ver_margin"
                 android:background="@drawable/background_view"
                 android:elevation="@dimen/view_elevation"
-                app:layout_constraintStart_toStartOf="parent"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recount_btn">
 
                 <TextView
@@ -153,32 +153,39 @@
                     app:ingredients="@{viewmodel.ingredients}" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/steps_txt"
-                style="@style/AppTheme.CommonMargin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/steps"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ingredients_container" />
-
-            <TextView
-                android:id="@+id/textView2"
+            <LinearLayout
+                android:id="@+id/steps_container"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:text="steps' pager"
-                android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ver_margin"
+                android:background="@drawable/background_view"
+                android:elevation="@dimen/view_elevation"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/steps_txt" />
+                app:layout_constraintTop_toBottomOf="@+id/ingredients_container">
+
+                <TextView
+                    android:id="@+id/steps_txt"
+                    style="@style/AppTheme.CommonMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/steps"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/steps_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    app:stepTitles="@{viewmodel.stepsShortDescriptions}"/>
+            </LinearLayout>
 
             <android.support.constraint.Group
-                android:id="@+id/group2"
+                android:id="@+id/group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="@{viewmodel.isExpanded?View.VISIBLE : View.GONE, default=gone}"
-                app:constraint_referenced_ids="textView2,steps_txt,ingredients_container" />
+                app:constraint_referenced_ids="steps_container,ingredients_container" />
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
