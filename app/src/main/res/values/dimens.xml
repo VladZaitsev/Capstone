@@ -4,7 +4,7 @@
     <dimen name="card_view_elevation">8dp</dimen>
     <dimen name="card_view_radius">5dp</dimen>
 
-    <dimen name="view_elevation">4dp</dimen>
+    <dimen name="view_elevation">2dp</dimen>
     <dimen name="view_radius">1dp</dimen>
 
     <dimen name="fab_margin">24dp</dimen>
@@ -12,5 +12,6 @@
 
     <dimen name="hor_margin">16dp</dimen>
     <dimen name="ver_margin">8dp</dimen>
-
+    <dimen name="subview_ver_margin">4dp</dimen>
+    <dimen name="subview_hor_margin">16dp</dimen>
 </resources>

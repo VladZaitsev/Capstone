@@ -15,4 +15,10 @@
         <item name="android:layout_marginTop">@dimen/ver_margin</item>
     </style>
 
+    <style name="AppTheme.SubviewMargin">
+        <item name="android:layout_marginStart">@dimen/subview_hor_margin</item>
+        <item name="android:layout_marginEnd">@dimen/subview_hor_margin</item>
+        <item name="android:layout_marginBottom">@dimen/subview_ver_margin</item>
+        <item name="android:layout_marginTop">@dimen/subview_ver_margin</item>
+    </style>
 </resources>
