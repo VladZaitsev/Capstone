@@ -1,16 +1,21 @@
 package com.baikaleg.v3.cookingaid.ui.recipes;
 
-import android.arch.lifecycle.ViewModelProviders;
+import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.LayoutInflater;
+import android.widget.TextView;
 
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.databinding.ActivityRecipeBinding;
-import com.baikaleg.v3.cookingaid.ui.recipes.adapter.RecipesViewAdapter;
 
-import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
@@ -18,28 +23,69 @@ import dagger.android.support.DaggerAppCompatActivity;
 public class RecipesActivity extends DaggerAppCompatActivity {
 
     private ActivityRecipeBinding binding;
-    private RecipesViewAdapter adapter;
-
-    @Inject
-    public RecipesViewModelFactory viewModelFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Inflate view and obtain an instance of the binding class.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe);
-        // Obtain the ViewModel component.
-        RecipesViewModel recipesViewModel = ViewModelProviders.of(this, viewModelFactory).get(RecipesViewModel.class);
-        // Assign the component to a property in the binding class.
-        binding.setViewmodel(recipesViewModel);
 
-        createAdapter();
-        binding.recycler.setAdapter(adapter);
-        binding.recycler.setLayoutManager(new LinearLayoutManager(this));
+        //Titles of recipes categories
+        String[] titles = getResources().getStringArray(R.array.categories);
+        //Images of recipes categories
+        TypedArray images = getResources().obtainTypedArray(R.array.category_imgs);
+
+        createFragments(titles);
+        binding.tabs.setupWithViewPager(binding.viewpager);
+
+        for (int i = 0; i < titles.length; i++) {
+            setTab(titles[i], images.getResourceId(i, -1), i);
+           // images.recycle();
+        }
     }
 
-    private RecipesViewAdapter createAdapter() {
-        adapter = new RecipesViewAdapter();
-        return adapter;
+    private void createFragments(String[] titles) {
+        CategoryPagerAdapter adapter = new CategoryPagerAdapter(getSupportFragmentManager());
+        for (int i = 0; i < titles.length; i++) {
+            RecipesFragment fragment = new RecipesFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("key", titles[i]);
+            fragment.setArguments(bundle);
+            adapter.addFrag(fragment);
+        }
+        binding.viewpager.setAdapter(adapter);
+    }
+
+    private void setTab(String title, int imageId, int i) {
+        TextView tab = (TextView) LayoutInflater
+                .from(this)
+                .inflate(R.layout.tab_recipe_item, null);
+        tab.setText(title);
+        tab.setCompoundDrawablesWithIntrinsicBounds(0, imageId, 0, 0);
+        binding.tabs.getTabAt(i).setCustomView(tab);
+    }
+
+    private class CategoryPagerAdapter extends FragmentStatePagerAdapter {
+        private final List<Fragment> fragments = new ArrayList<>();
+
+
+        CategoryPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+
+        void addFrag(Fragment fragment) {
+            fragments.add(fragment);
+
+        }
     }
 }

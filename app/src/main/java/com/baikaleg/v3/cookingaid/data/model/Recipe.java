@@ -29,6 +29,9 @@ public class Recipe implements Parcelable {
     @Expose
     private String image = null;
 
+    //TODO describe additional fields
+    private String category = null;
+
     public Recipe(int id, String name, List<Ingredient> ingredients, List<Step> steps, int servings, String image) {
         this.id = id;
         this.name = name;
@@ -81,6 +84,14 @@ public class Recipe implements Parcelable {
 
     public String getImage() {
         return image;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     @Override

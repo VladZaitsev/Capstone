@@ -23,8 +23,15 @@ public class Repository implements DataSource {
         recipeApi = new RecipeApi(context);
     }
 
+    //TODO Replace category inserting after source changing
     @Override
     public Observable<List<Recipe>> getRecipes() {
-        return recipeApi.createService().getRecipes();
+        return recipeApi.createService().getRecipes()
+                .flatMap(recipes -> Observable.fromIterable(recipes)
+                        .doOnNext(recipe -> {
+                            recipe.setCategory("dessert");
+                        })
+                        .toList()
+                        .toObservable());
     }
 }

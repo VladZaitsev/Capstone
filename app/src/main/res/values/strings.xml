@@ -26,12 +26,11 @@
     <string name="cd_timer_start">start or stop timer</string>
 
     <!-- recipes types-->
+    <string name="recipe_dessert">dessert</string>
     <string name="recipe_soup">soup</string>
-    <string name="recipe_main">main</string>
     <string name="recipe_salad">salad</string>
-    <string name="recipe_desert">desert</string>
-    <string name="recipe_drink">drink</string>
     <string name="recipe_pizza">pizza</string>
+    <string name="recipe_drink">drink</string>
 
     <!-- names-->
     <string name="ingredients">Ingredients</string>

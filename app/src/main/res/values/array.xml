@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="categories">
+        <item>@string/recipe_dessert</item>
+        <item>@string/recipe_soup</item>
+        <item>@string/recipe_pizza</item>
+        <item>@string/recipe_salad</item>
+        <item>@string/recipe_drink</item>
+    </string-array>
+
+    <integer-array name="category_imgs">
+        <item>@drawable/ic_dessert</item>
+        <item>@drawable/ic_soup</item>
+        <item>@drawable/ic_pizza</item>
+        <item>@drawable/ic_salad</item>
+        <item>@drawable/ic_drink</item>
+    </integer-array>
+</resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="com.baikaleg.v3.cookingaid.ui.recipes.RecipesViewModel" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{!viewmodel.isError &amp;&amp; !viewmodel.isEmpty ? View.VISIBLE : View.GONE, default=gone}"
+            app:recipes="@{viewmodel.data}" />
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewmodel.isEmpty?View.VISIBLE : View.GONE, default=visible}"
+            android:text="empty"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="error"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:visibility="@{viewmodel.isError?View.VISIBLE : View.GONE, default=gone}" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
