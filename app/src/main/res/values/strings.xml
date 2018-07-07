@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">CookingAid</string>
+    <string name="title_activity_recipes">Recipes</string>
+    <string name="title_activity_basket">Basket</string>
+    <string name="title_activity_storage">Storage</string>
 
     <!-- mocks-->
     <string name="mock_title">Title</string>
@@ -47,4 +50,13 @@
     <!-- messages-->
     <string name="msg_no_recipes">Sorry, no recipes</string>
     <string name="msg_no_internet">Sorry, no internet</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
 </resources>

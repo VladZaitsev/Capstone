@@ -10,24 +10,25 @@ import android.view.LayoutInflater;
 import android.widget.TextView;
 
 import com.baikaleg.v3.cookingaid.R;
-import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.databinding.ActivityRecipeBinding;
+import com.baikaleg.v3.cookingaid.ui.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import dagger.android.support.DaggerAppCompatActivity;
-
-@ActivityScoped
-public class RecipesActivity extends DaggerAppCompatActivity {
+public class RecipesActivity extends BaseActivity {
 
     private ActivityRecipeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setTitle(getString(R.string.title_activity_recipes));
         // Inflate view and obtain an instance of the binding class.
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        binding = DataBindingUtil.inflate(inflater, R.layout.activity_recipe, frameLayout, true);
+        //  setContentView(this, R.layout.activity_recipe);
 
         //Original names of recipes categories
         String[] originalNames = getResources().getStringArray(R.array.categories_original);
@@ -42,6 +43,12 @@ public class RecipesActivity extends DaggerAppCompatActivity {
         for (int i = 0; i < titles.length; i++) {
             setTab(titles[i], images.getResourceId(i, -1), i);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     private void createFragments(String[] names) {

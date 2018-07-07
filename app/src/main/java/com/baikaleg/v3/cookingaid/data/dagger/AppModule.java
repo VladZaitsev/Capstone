@@ -3,8 +3,11 @@ package com.baikaleg.v3.cookingaid.data.dagger;
 import android.app.Application;
 import android.content.Context;
 
+import com.baikaleg.v3.cookingaid.data.dagger.modules.BasketModule;
 import com.baikaleg.v3.cookingaid.data.dagger.modules.RecipesModule;
 import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
+import com.baikaleg.v3.cookingaid.ui.BaseActivity;
+import com.baikaleg.v3.cookingaid.ui.basket.BasketActivity;
 import com.baikaleg.v3.cookingaid.ui.recipes.RecipesActivity;
 
 import dagger.Binds;
@@ -20,4 +23,12 @@ public interface AppModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = RecipesModule.class)
     RecipesActivity recipesActivityInjector();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = BasketModule.class)
+    BasketActivity basketActivityInjector();
+
+    @ActivityScoped
+    @ContributesAndroidInjector()
+    BaseActivity baseActivityInjector();
 }
