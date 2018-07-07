@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -10,32 +11,49 @@
             type="com.baikaleg.v3.cookingaid.ui.recipes.RecipesViewModel" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/recipesRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:recipesRefresh="@{viewmodel}"
+        app:refreshing="@{viewmodel.isLoading}">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="@{!viewmodel.isError &amp;&amp; !viewmodel.isEmpty ? View.VISIBLE : View.GONE, default=gone}"
-            app:recipes="@{viewmodel.data}" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/empty"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="@{viewmodel.isEmpty?View.VISIBLE : View.GONE, default=visible}"
-            android:text="empty"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{!viewmodel.isError &amp;&amp; !viewmodel.isEmpty ? View.VISIBLE : View.GONE, default=gone}"
+                app:recipes="@{viewmodel.data}" />
 
-        <TextView
-            android:id="@+id/error"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="error"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:visibility="@{viewmodel.isError?View.VISIBLE : View.GONE, default=gone}" />
+            <TextView
+                android:id="@+id/empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/msg_no_recipes"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:visibility="@{viewmodel.isEmpty?View.VISIBLE : View.GONE, default=visible}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/msg_no_internet"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:visibility="@{viewmodel.isError?View.VISIBLE : View.GONE, default=gone}" />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </layout>

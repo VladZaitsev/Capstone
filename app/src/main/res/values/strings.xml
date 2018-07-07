@@ -44,5 +44,7 @@
 
     <string name="recipes_resource" translatable="false">https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/</string>
 
-
+    <!-- messages-->
+    <string name="msg_no_recipes">Sorry, no recipes</string>
+    <string name="msg_no_internet">Sorry, no internet</string>
 </resources>

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="categories_original">
+        <item>dessert</item>
+        <item>soup</item>
+        <item>pizza</item>
+        <item>salad</item>
+        <item>drink</item>
+    </string-array>
+
     <string-array name="categories">
         <item>@string/recipe_dessert</item>
         <item>@string/recipe_soup</item>

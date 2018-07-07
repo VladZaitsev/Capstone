@@ -3,7 +3,6 @@ package com.baikaleg.v3.cookingaid.ui.recipes;
 import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -30,28 +29,25 @@ public class RecipesActivity extends DaggerAppCompatActivity {
         // Inflate view and obtain an instance of the binding class.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe);
 
+        //Original names of recipes categories
+        String[] originalNames = getResources().getStringArray(R.array.categories_original);
         //Titles of recipes categories
         String[] titles = getResources().getStringArray(R.array.categories);
         //Images of recipes categories
         TypedArray images = getResources().obtainTypedArray(R.array.category_imgs);
 
-        createFragments(titles);
+        createFragments(originalNames);
         binding.tabs.setupWithViewPager(binding.viewpager);
 
         for (int i = 0; i < titles.length; i++) {
             setTab(titles[i], images.getResourceId(i, -1), i);
-           // images.recycle();
         }
     }
 
-    private void createFragments(String[] titles) {
+    private void createFragments(String[] names) {
         CategoryPagerAdapter adapter = new CategoryPagerAdapter(getSupportFragmentManager());
-        for (int i = 0; i < titles.length; i++) {
-            RecipesFragment fragment = new RecipesFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("key", titles[i]);
-            fragment.setArguments(bundle);
-            adapter.addFrag(fragment);
+        for (String name : names) {
+            adapter.addFrag(RecipesFragment.newInstance(name));
         }
         binding.viewpager.setAdapter(adapter);
     }
@@ -67,7 +63,6 @@ public class RecipesActivity extends DaggerAppCompatActivity {
 
     private class CategoryPagerAdapter extends FragmentStatePagerAdapter {
         private final List<Fragment> fragments = new ArrayList<>();
-
 
         CategoryPagerAdapter(FragmentManager fm) {
             super(fm);

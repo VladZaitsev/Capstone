@@ -20,6 +20,7 @@ import dagger.android.support.DaggerFragment;
 
 @ActivityScoped
 public class RecipesFragment extends DaggerFragment {
+    private static final String arg_cat="argCategory";
 
     private RecipesViewModel recipesViewModel;
 
@@ -30,11 +31,19 @@ public class RecipesFragment extends DaggerFragment {
     public RecipesFragment() {
     }
 
+    public static RecipesFragment newInstance(String category){
+        RecipesFragment fragment = new RecipesFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(arg_cat, category);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments()!=null){
-            String category=getArguments().getString("key");
+            String category=getArguments().getString(arg_cat);
 
             recipesViewModel = ViewModelProviders.of(this, viewModelFactory).get(RecipesViewModel.class);
             recipesViewModel.setCategory(category);

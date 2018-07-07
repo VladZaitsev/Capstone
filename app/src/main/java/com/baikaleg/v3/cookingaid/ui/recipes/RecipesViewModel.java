@@ -8,7 +8,6 @@ import android.databinding.PropertyChangeRegistry;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.baikaleg.v3.cookingaid.BR;
 import com.baikaleg.v3.cookingaid.data.Repository;
 import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
@@ -43,15 +42,19 @@ public class RecipesViewModel extends ViewModel implements Observable {
     @Bindable
     public final MutableLiveData<Boolean> isEmpty = new MutableLiveData<>();
 
+    @Bindable
+    public final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+
     @Inject
     public RecipesViewModel(Repository repository) {
         this.repository = repository;
         this.compositeDisposable = new CompositeDisposable();
 
-        init();
+        load();
     }
 
-    private void init() {
+    public void load() {
+        isLoading.setValue(true);
         compositeDisposable.clear();
         Disposable disposable = repository.getRecipes()
                 .flatMap(io.reactivex.Observable::fromIterable)
@@ -82,19 +85,20 @@ public class RecipesViewModel extends ViewModel implements Observable {
         callbacks.notifyCallbacks(this, 0, null);
     }
 
-    void onDestroyed() {
-        // Clear references to avoid potential memory leaks.
-        compositeDisposable.clear();
-    }
-
     private void showData(List<Recipe> recipes, boolean error) {
-       if(recipes!=null){
-           data.setValue(recipes);
-           isEmpty.setValue(recipes.size() == 0 && !error);
-       }
+        isLoading.setValue(false);
         isError.setValue(error);
 
+        if (recipes != null) {
+            data.setValue(recipes);
+            isEmpty.setValue(recipes.size() == 0 && !error);
+        }
+
         notifyChange();
+    }
+
+    void onDestroyed() {
+        compositeDisposable.clear();
     }
 
     void setCategory(String category) {
