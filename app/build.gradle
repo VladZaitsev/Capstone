@@ -64,4 +64,6 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
     //ExoPlayer
     implementation "com.google.android.exoplayer:exoplayer:$rootProject.exoPlayerVersion"
+
+    implementation project(path: ':prodconlib')
 }

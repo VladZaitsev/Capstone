@@ -51,7 +51,7 @@ public class RecipesBinding {
     }
 
     @SuppressWarnings("unchecked")
-    @BindingAdapter("app:stepTitles")
+    @BindingAdapter("app:steps")
     public static void setStepTitles(ViewPager pager, Recipe recipe) {
         RecipesStepsPagerAdapter adapter = (RecipesStepsPagerAdapter) pager.getAdapter();
         if (adapter != null) {

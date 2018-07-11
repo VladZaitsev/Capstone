@@ -16,8 +16,10 @@ public class BasketActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle(getString(R.string.title_activity_basket));
         LayoutInflater inflater = LayoutInflater.from(this);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.title_activity_basket));
+        }
         binding = DataBindingUtil.inflate(inflater, R.layout.activity_basket, frameLayout, true);
     }
 

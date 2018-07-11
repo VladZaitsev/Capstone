@@ -16,15 +16,11 @@ public class Ingredient implements Parcelable {
     @SerializedName("ingredient")
     @Expose
     private String ingredient;
-    @SerializedName("type")
-    @Expose
-    private String type;
 
-    public Ingredient(double quantity, String measure, String ingredient, String type) {
+    public Ingredient(double quantity, String measure, String ingredient) {
         this.quantity = quantity;
         this.measure = measure;
         this.ingredient = ingredient;
-        this.type = type;
     }
 
     protected Ingredient(Parcel in) {
@@ -67,9 +63,5 @@ public class Ingredient implements Parcelable {
 
     public String getIngredient() {
         return ingredient;
-    }
-
-    public String getType() {
-        return type;
     }
 }

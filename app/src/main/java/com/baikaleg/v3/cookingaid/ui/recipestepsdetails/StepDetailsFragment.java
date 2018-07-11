@@ -1,7 +1,5 @@
 package com.baikaleg.v3.cookingaid.ui.recipestepsdetails;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,10 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.model.Step;
 import com.baikaleg.v3.cookingaid.databinding.FragmentStepDetailsBinding;
-
 import com.baikaleg.v3.cookingaid.util.Constants;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
