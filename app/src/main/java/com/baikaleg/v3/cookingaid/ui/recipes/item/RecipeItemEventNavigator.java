@@ -5,5 +5,5 @@ package com.baikaleg.v3.cookingaid.ui.recipes.item;
  */
 public interface RecipeItemEventNavigator {
 
-    void collapseDetails(boolean isExtended);
+    void onStepClickListener(int position);
 }

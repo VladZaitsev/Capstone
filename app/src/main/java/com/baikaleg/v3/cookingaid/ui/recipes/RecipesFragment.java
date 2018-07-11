@@ -57,7 +57,7 @@ public class RecipesFragment extends DaggerFragment {
 
         binding.setViewmodel(recipesViewModel);
 
-        RecipesViewAdapter adapter = new RecipesViewAdapter();
+        RecipesViewAdapter adapter = new RecipesViewAdapter(getActivity());
         binding.recycler.setAdapter(adapter);
         binding.recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         return binding.getRoot();

@@ -9,8 +9,8 @@ import android.widget.LinearLayout;
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.ui.recipes.adapter.RecipesViewAdapter;
+import com.baikaleg.v3.cookingaid.ui.recipes.adapter.RecipesViewAdapter.RecipesStepsPagerAdapter;
 import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeIngredientView;
-import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeStepPagerAdapter;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class RecipesBinding {
     @BindingAdapter("app:recipes")
     public static void setRecipes(RecyclerView recyclerView, List<Recipe> recipes) {
         RecipesViewAdapter adapter = (RecipesViewAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
+        if (adapter != null && recipes!=null) {
             adapter.refresh(recipes);
         }
     }
@@ -50,7 +50,7 @@ public class RecipesBinding {
     @SuppressWarnings("unchecked")
     @BindingAdapter("app:stepTitles")
     public static void setStepTitles(ViewPager pager, List<String> list) {
-        RecipeStepPagerAdapter adapter = (RecipeStepPagerAdapter) pager.getAdapter();
+        RecipesStepsPagerAdapter adapter = (RecipesStepsPagerAdapter) pager.getAdapter();
         if (adapter != null) {
             adapter.refresh(list);
         }

@@ -1,29 +1,46 @@
 package com.baikaleg.v3.cookingaid.ui.recipes.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.baikaleg.v3.cookingaid.R;
+import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.databinding.ItemRecipeBinding;
+import com.baikaleg.v3.cookingaid.databinding.ViewStepInItemRecipeBinding;
+import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeItemEventNavigator;
 import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeItemViewModel;
-import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeStepPagerAdapter;
+import com.baikaleg.v3.cookingaid.ui.recipestepsdetails.StepDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> {
+import javax.inject.Inject;
 
+public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> {
+    private static final String TAG = RecipesViewAdapter.class.getSimpleName();
     private List<Recipe> recipesList = new ArrayList<>();
-    private ItemRecipeBinding binding;
+
+    public Context context;
+
+    @Inject
+    public RecipesViewAdapter(Context context) {
+        this.context = context;
+    }
 
     @NonNull
     @Override
     public RecipesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = DataBindingUtil
+        ItemRecipeBinding binding = DataBindingUtil
                 .inflate(LayoutInflater.from(parent.getContext()), R.layout.item_recipe,
                         parent, false);
         return new RecipesViewHolder(binding);
@@ -33,11 +50,38 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
     public void onBindViewHolder(@NonNull RecipesViewHolder holder, int position) {
         final Recipe recipe = recipesList.get(position);
 
-        RecipeItemViewModel viewModel=new RecipeItemViewModel(recipe,null);
+        RecipeItemViewModel viewModel = new RecipeItemViewModel(recipe, null);
+        viewModel.setStepPosition(0);
+        viewModel.setNavigator(new RecipeItemEventNavigator() {
+            @Override
+            public void onStepClickListener(int position) {
+                Intent intent = new Intent(context, StepDetailsActivity.class);
+                intent.putExtra(StepDetailsActivity.EXTRA_STEP_POSITION, position);
+                intent.putExtra(StepDetailsActivity.EXTRA_RECIPE, recipe);
+                context.startActivity(intent);
+            }
+        });
         holder.recipeItemBinding.setViewmodel(viewModel);
 
-        RecipeStepPagerAdapter pagerAdapter=new RecipeStepPagerAdapter();
+        RecipesStepsPagerAdapter pagerAdapter = new RecipesStepsPagerAdapter();
+        holder.recipeItemBinding.dots.setupWithViewPager(holder.recipeItemBinding.stepsContent,true);
         holder.recipeItemBinding.stepsContent.setAdapter(pagerAdapter);
+        holder.recipeItemBinding.stepsContent.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                viewModel.setStepPosition(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -46,10 +90,48 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
     }
 
     public void refresh(@NonNull List<Recipe> list) {
-        if(list!=null){
-            this.recipesList.clear();
-            this.recipesList.addAll(list);
+        this.recipesList.clear();
+        this.recipesList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public class RecipesStepsPagerAdapter extends PagerAdapter {
+
+        private List<String> titles = new ArrayList<>();
+
+        @NonNull
+        @Override
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+            LayoutInflater inflater = LayoutInflater.from(container.getContext());
+            ViewStepInItemRecipeBinding binding = DataBindingUtil.inflate(inflater,
+                    R.layout.view_step_in_item_recipe, container, false);
+            binding.stepShortDescription.setText(titles.get(position));
+            container.addView(binding.getRoot());
+            return binding.getRoot();
+        }
+
+        public void refresh(List<String> list) {
+            this.titles = list;
             notifyDataSetChanged();
+        }
+
+        @Override
+        public int getCount() {
+            return titles.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+            return view == object;
+        }
+
+        @Override
+        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+            try {
+                container.removeView((View) object);
+            } catch (Exception e) {
+                Log.i(TAG, "failed to destroy step in recipe item");
+            }
         }
     }
 }

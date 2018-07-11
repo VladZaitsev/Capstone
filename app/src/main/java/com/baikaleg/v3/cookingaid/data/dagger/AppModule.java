@@ -5,10 +5,12 @@ import android.content.Context;
 
 import com.baikaleg.v3.cookingaid.data.dagger.modules.BasketModule;
 import com.baikaleg.v3.cookingaid.data.dagger.modules.RecipesModule;
+import com.baikaleg.v3.cookingaid.data.dagger.modules.StepDetailsModule;
 import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.ui.BaseActivity;
 import com.baikaleg.v3.cookingaid.ui.basket.BasketActivity;
 import com.baikaleg.v3.cookingaid.ui.recipes.RecipesActivity;
+import com.baikaleg.v3.cookingaid.ui.recipestepsdetails.StepDetailsActivity;
 
 import dagger.Binds;
 import dagger.Module;
@@ -27,6 +29,10 @@ public interface AppModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = BasketModule.class)
     BasketActivity basketActivityInjector();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = StepDetailsModule.class)
+    StepDetailsActivity stepDetailsActivityInjector();
 
     @ActivityScoped
     @ContributesAndroidInjector()

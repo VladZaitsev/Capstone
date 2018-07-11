@@ -16,6 +16,9 @@ public class Step implements Parcelable {
     @SerializedName("description")
     @Expose
     private String description;
+    @SerializedName("videoURL")
+    @Expose
+    private String videoURL = null;
     @SerializedName("thumbnailURL")
     @Expose
     private String thumbnailURL;
@@ -23,10 +26,11 @@ public class Step implements Parcelable {
     @Expose
     private int stepTime;
 
-    public Step(int id, String shortDescription, String description, String thumbnailURL, int stepTime) {
+    public Step(int id, String shortDescription, String description,String videoURL, String thumbnailURL, int stepTime) {
         this.id = id;
         this.shortDescription = shortDescription;
         this.description = description;
+        this.videoURL=videoURL;
         this.thumbnailURL = thumbnailURL;
         this.stepTime = stepTime;
     }
@@ -35,6 +39,7 @@ public class Step implements Parcelable {
         id = in.readInt();
         shortDescription = in.readString();
         description = in.readString();
+        videoURL=in.readString();
         thumbnailURL = in.readString();
         stepTime=in.readInt();
     }
@@ -61,6 +66,7 @@ public class Step implements Parcelable {
         dest.writeInt(id);
         dest.writeString(shortDescription);
         dest.writeString(description);
+        dest.writeString(videoURL);
         dest.writeString(thumbnailURL);
         dest.writeInt(stepTime);
     }
@@ -83,5 +89,9 @@ public class Step implements Parcelable {
 
     public int getStepTime() {
         return stepTime;
+    }
+
+    public String getVideoURL() {
+        return videoURL;
     }
 }

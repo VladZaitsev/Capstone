@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.baikaleg.v3.cookingaid.ui.recipestepsdetails.StepDetailsViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/step_details_container"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+            <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+                android:id="@+id/step_details_player"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/step_details_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/step_details_short_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/step_details_container"
+            android:layout_margin="@dimen/hor_margin"
+            android:scrollbars="vertical"
+            android:text="@{viewmodel.shortDescription}" />
+
+        <TextView
+            android:id="@+id/step_details_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/step_details_short_description"
+            android:layout_margin="@dimen/hor_margin"
+            android:scrollbars="vertical"
+            android:text="@{viewmodel.description}" />
+    </RelativeLayout>
+</layout>

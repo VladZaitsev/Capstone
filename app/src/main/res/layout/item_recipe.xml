@@ -1,5 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:local="http://schemas.android.com/tools">
 
     <data>
 
@@ -160,6 +161,7 @@
                 android:layout_margin="@dimen/ver_margin"
                 android:background="@drawable/background_view"
                 android:elevation="@dimen/view_elevation"
+                android:onClick="@{()->viewmodel.stepClicked()}"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -177,7 +179,17 @@
                     android:id="@+id/steps_content"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    app:stepTitles="@{viewmodel.stepsShortDescriptions}"/>
+                    app:stepTitles="@{viewmodel.stepsShortDescriptions}" />
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/dots"
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    local:tabBackground="@drawable/dot_selector"
+                    local:tabGravity="center"
+                    local:tabIndicatorHeight="0dp"
+                    local:tabPaddingStart="7dp"
+                    local:tabPaddingEnd="7dp"/>
             </LinearLayout>
 
             <android.support.constraint.Group
