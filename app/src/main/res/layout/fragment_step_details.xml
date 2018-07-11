@@ -1,49 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="android.view.View" />
 
         <variable
             name="viewmodel"
             type="com.baikaleg.v3.cookingaid.ui.recipestepsdetails.StepDetailsViewModel" />
     </data>
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/step_details_container"
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/step_details_player"
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="200dp"
+            android:layout_marginTop="2dp"
+            android:visibility="@{viewmodel.isVideo ? View.VISIBLE : View.GONE, default=gone}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-                android:id="@+id/step_details_player"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <ImageView
-                android:id="@+id/step_details_thumbnail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/step_details_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:visibility="@{viewmodel.isImage ? View.VISIBLE : View.GONE, default=gone}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/step_details_short_description"
+            style="@style/AppTheme.CommonMargin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/step_details_container"
-            android:layout_margin="@dimen/hor_margin"
-            android:scrollbars="vertical"
-            android:text="@{viewmodel.shortDescription}" />
+            android:text="@{viewmodel.shortDescription}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barrier" />
 
         <TextView
             android:id="@+id/step_details_description"
+            style="@style/AppTheme.CommonMargin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/step_details_short_description"
-            android:layout_margin="@dimen/hor_margin"
-            android:scrollbars="vertical"
-            android:text="@{viewmodel.description}" />
-    </RelativeLayout>
+            android:text="@{viewmodel.description}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/step_details_short_description" />
+
+        <android.support.constraint.Barrier
+            android:id="@+id/barrier"
+            app:barrierDirection="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="step_details_player,step_details_thumbnail" />
+    </android.support.constraint.ConstraintLayout>
 </layout>

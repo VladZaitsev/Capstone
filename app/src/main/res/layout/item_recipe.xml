@@ -130,65 +130,50 @@
                 android:id="@+id/ingredients_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/ver_margin"
                 android:background="@drawable/background_view"
                 android:elevation="@dimen/view_elevation"
                 android:orientation="vertical"
+                android:layout_marginTop="@dimen/ver_margin"
+                android:paddingBottom="@dimen/ver_margin"
+                android:paddingEnd="@dimen/ver_margin"
+                android:paddingStart="@dimen/ver_margin"
+                android:paddingTop="@dimen/ver_margin"
+                app:ingredients="@{viewmodel.ingredients}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recount_btn">
-
-                <TextView
-                    android:id="@+id/ingredients_txt"
-                    style="@style/AppTheme.CommonMargin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ingredients"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-                <LinearLayout
-                    android:id="@+id/ingredients_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:ingredients="@{viewmodel.ingredients}" />
-            </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@+id/recount_btn" />
 
             <LinearLayout
                 android:id="@+id/steps_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/ver_margin"
+                android:layout_marginTop="@dimen/ver_margin"
                 android:background="@drawable/background_view"
                 android:elevation="@dimen/view_elevation"
                 android:orientation="vertical"
+                android:paddingBottom="@dimen/ver_margin"
+                android:paddingEnd="@dimen/ver_margin"
+                android:paddingStart="@dimen/ver_margin"
+                android:paddingTop="@dimen/ver_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ingredients_container">
 
-                <TextView
-                    android:id="@+id/steps_txt"
-                    style="@style/AppTheme.CommonMargin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/steps"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
                 <android.support.v4.view.ViewPager
                     android:id="@+id/steps_content"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="120dp"
                     app:stepTitles="@{viewmodel.recipe}" />
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/dots"
                     android:layout_width="match_parent"
-                    android:layout_height="26dp"
+                    android:layout_height="10dp"
                     local:tabBackground="@drawable/dot_selector"
                     local:tabGravity="center"
                     local:tabIndicatorHeight="0dp"
-                    local:tabPaddingStart="7dp"
-                    local:tabPaddingEnd="7dp"/>
+                    local:tabPaddingEnd="7dp"
+                    local:tabPaddingStart="7dp" />
             </LinearLayout>
 
             <android.support.constraint.Group

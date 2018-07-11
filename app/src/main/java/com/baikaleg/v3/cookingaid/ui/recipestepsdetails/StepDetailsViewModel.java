@@ -1,24 +1,33 @@
 package com.baikaleg.v3.cookingaid.ui.recipestepsdetails;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
-import android.databinding.Observable;
-import android.databinding.PropertyChangeRegistry;
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
+import android.text.TextUtils;
 
 import com.baikaleg.v3.cookingaid.data.model.Step;
 
 public class StepDetailsViewModel extends BaseObservable {
+    public ObservableBoolean isVideo = new ObservableBoolean();
+    public ObservableBoolean isImage = new ObservableBoolean();
 
-    @Bindable
-    public MutableLiveData<String> description = new MutableLiveData<>();
-    @Bindable
-    public MutableLiveData<String> shortDescription = new MutableLiveData<>();
+    public ObservableField<String> description = new ObservableField<>();
+    public ObservableField<String> shortDescription = new ObservableField<>();
 
     public void setStep(Step step) {
-        description.setValue(step.getDescription());
-        shortDescription.setValue(step.getShortDescription());
+        if (TextUtils.isEmpty(step.getVideoURL())) {
+            isVideo.set(false);
+        } else {
+            isVideo.set(true);
+        }
+        if (TextUtils.isEmpty(step.getThumbnailURL())) {
+            isImage.set(false);
+        } else {
+            isImage.set(true);
+        }
+
+        description.set(step.getDescription());
+        shortDescription.set(step.getShortDescription());
         notifyChange();
     }
 

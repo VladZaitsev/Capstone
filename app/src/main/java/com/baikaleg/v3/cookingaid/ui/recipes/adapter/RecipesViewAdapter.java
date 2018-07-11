@@ -89,7 +89,8 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
             LayoutInflater inflater = LayoutInflater.from(container.getContext());
             ViewStepInItemRecipeBinding binding = DataBindingUtil.inflate(inflater,
                     R.layout.view_step_in_item_recipe, container, false);
-            binding.stepShortDescription.setText(steps.get(position).getDescription());
+            binding.stepShortDescription.setText("Step " + position + ": " + steps.get(position).getShortDescription());
+            binding.stepDescription.setText(steps.get(position).getDescription());
             container.addView(binding.getRoot());
 
             View page = binding.getRoot();

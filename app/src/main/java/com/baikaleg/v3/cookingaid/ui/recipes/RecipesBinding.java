@@ -40,6 +40,9 @@ public class RecipesBinding {
     @SuppressWarnings("unchecked")
     @BindingAdapter("app:ingredients")
     public static void setIngredients(LinearLayout layout, List<Ingredient> ingredients) {
+        if(layout.getChildCount() > 0){
+            layout.removeAllViews();
+        }
         for (int i = 0; i < ingredients.size(); i++) {
             RecipeIngredientView ingredientView = new RecipeIngredientView(layout.getContext());
             ingredientView.setIngredient(ingredients.get(i));

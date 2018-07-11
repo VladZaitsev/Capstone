@@ -81,18 +81,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
                              Bundle savedInstanceState) {
         binding = FragmentStepDetailsBinding.inflate(inflater, container, false);
         binding.setViewmodel(viewModel);
-
-       /* viewModel.getStep().observe(getActivity(), step -> {
-            this.step = step;
-
-            if (viewModel.getIsStepChanged()) {
-                playerPosition = 0;
-                playerReady = true;
-            }
-
-            releasePlayer();
-            initializePlayer();
-        });*/
         return binding.getRoot();
     }
 
@@ -104,34 +92,22 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
             DefaultTrackSelector trackSelector
                     = new DefaultTrackSelector(videoTrackSelectionFactory);
             LoadControl loadControl = new DefaultLoadControl();
-            exoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
-            binding.stepDetailsPlayer.requestFocus();
-            binding.stepDetailsPlayer.setPlayer(exoPlayer);
+            if (getActivity() != null) {
+                exoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
+                binding.stepDetailsPlayer.requestFocus();
+                binding.stepDetailsPlayer.setPlayer(exoPlayer);
 
-            exoPlayer.addListener(this);
+                exoPlayer.addListener(this);
 
-            // Prepare the MediaSource.
-            if (!TextUtils.isEmpty(step.getVideoURL())) {
-                String userAgent = Util.getUserAgent(getContext(), getContext().getPackageName());
-                MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(step.getVideoURL()),
-                        new DefaultDataSourceFactory(getContext(), userAgent),
-                        new DefaultExtractorsFactory(), null, null);
-                exoPlayer.prepare(mediaSource, false, true);
-                exoPlayer.setPlayWhenReady(playerReady);
-                exoPlayer.seekTo(playerPosition);
-
-                binding.stepDetailsPlayer.setVisibility(View.VISIBLE);
-                //binding.stepThumbnail.setVisibility(View.GONE);
-                if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
-                        !getActivity().getResources().getBoolean(R.bool.isTablet)) {
-                    binding.stepDetailsDescription.setVisibility(View.GONE);
-                }
-            } else {
-                // binding.stepThumbnail.setVisibility(View.VISIBLE);
-                binding.stepDetailsPlayer.setVisibility(View.GONE);
-                if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
-                        !getActivity().getResources().getBoolean(R.bool.isTablet)) {
-                    binding.stepDetailsDescription.setVisibility(View.VISIBLE);
+                // Prepare the MediaSource.
+                if (!TextUtils.isEmpty(step.getVideoURL())) {
+                    String userAgent = Util.getUserAgent(getActivity(), getActivity().getPackageName());
+                    MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(step.getVideoURL()),
+                            new DefaultDataSourceFactory(getActivity(), userAgent),
+                            new DefaultExtractorsFactory(), null, null);
+                    exoPlayer.prepare(mediaSource, false, true);
+               //     exoPlayer.setPlayWhenReady(playerReady);
+                    exoPlayer.seekTo(playerPosition);
                 }
             }
         }
