@@ -161,7 +161,6 @@
                 android:layout_margin="@dimen/ver_margin"
                 android:background="@drawable/background_view"
                 android:elevation="@dimen/view_elevation"
-                android:onClick="@{()->viewmodel.stepClicked()}"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -179,7 +178,7 @@
                     android:id="@+id/steps_content"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    app:stepTitles="@{viewmodel.stepsShortDescriptions}" />
+                    app:stepTitles="@{viewmodel.recipe}" />
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/dots"

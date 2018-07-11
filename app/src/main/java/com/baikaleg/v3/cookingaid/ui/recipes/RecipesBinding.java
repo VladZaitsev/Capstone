@@ -49,10 +49,10 @@ public class RecipesBinding {
 
     @SuppressWarnings("unchecked")
     @BindingAdapter("app:stepTitles")
-    public static void setStepTitles(ViewPager pager, List<String> list) {
+    public static void setStepTitles(ViewPager pager, Recipe recipe) {
         RecipesStepsPagerAdapter adapter = (RecipesStepsPagerAdapter) pager.getAdapter();
         if (adapter != null) {
-            adapter.refresh(list);
+            adapter.refresh(recipe);
         }
     }
 }

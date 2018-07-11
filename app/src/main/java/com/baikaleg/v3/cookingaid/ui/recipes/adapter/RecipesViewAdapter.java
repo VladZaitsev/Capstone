@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
+import com.baikaleg.v3.cookingaid.data.model.Step;
 import com.baikaleg.v3.cookingaid.databinding.ItemRecipeBinding;
 import com.baikaleg.v3.cookingaid.databinding.ViewStepInItemRecipeBinding;
 import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeItemEventNavigator;
@@ -51,8 +52,7 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
         final Recipe recipe = recipesList.get(position);
 
         RecipeItemViewModel viewModel = new RecipeItemViewModel(recipe, null);
-        viewModel.setStepPosition(0);
-        viewModel.setNavigator(new RecipeItemEventNavigator() {
+       /* viewModel.setNavigator(new RecipeItemEventNavigator() {
             @Override
             public void onStepClickListener(int position) {
                 Intent intent = new Intent(context, StepDetailsActivity.class);
@@ -60,28 +60,12 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
                 intent.putExtra(StepDetailsActivity.EXTRA_RECIPE, recipe);
                 context.startActivity(intent);
             }
-        });
+        });*/
         holder.recipeItemBinding.setViewmodel(viewModel);
 
         RecipesStepsPagerAdapter pagerAdapter = new RecipesStepsPagerAdapter();
-        holder.recipeItemBinding.dots.setupWithViewPager(holder.recipeItemBinding.stepsContent,true);
+        holder.recipeItemBinding.dots.setupWithViewPager(holder.recipeItemBinding.stepsContent, true);
         holder.recipeItemBinding.stepsContent.setAdapter(pagerAdapter);
-        holder.recipeItemBinding.stepsContent.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                viewModel.setStepPosition(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     @Override
@@ -96,8 +80,8 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
     }
 
     public class RecipesStepsPagerAdapter extends PagerAdapter {
-
-        private List<String> titles = new ArrayList<>();
+        private Recipe recipe;
+        private List<Step> steps = new ArrayList<>();
 
         @NonNull
         @Override
@@ -105,19 +89,29 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
             LayoutInflater inflater = LayoutInflater.from(container.getContext());
             ViewStepInItemRecipeBinding binding = DataBindingUtil.inflate(inflater,
                     R.layout.view_step_in_item_recipe, container, false);
-            binding.stepShortDescription.setText(titles.get(position));
+            binding.stepShortDescription.setText(steps.get(position).getDescription());
             container.addView(binding.getRoot());
+
+            View page = binding.getRoot();
+            page.setOnClickListener(view -> {
+                Intent intent = new Intent(context, StepDetailsActivity.class);
+                intent.putExtra(StepDetailsActivity.EXTRA_STEP_POSITION, position);
+                intent.putExtra(StepDetailsActivity.EXTRA_RECIPE, recipe);
+                context.startActivity(intent);
+            });
+
             return binding.getRoot();
         }
 
-        public void refresh(List<String> list) {
-            this.titles = list;
+        public void refresh(Recipe recipe) {
+            this.recipe = recipe;
+            steps = recipe.getSteps();
             notifyDataSetChanged();
         }
 
         @Override
         public int getCount() {
-            return titles.size();
+            return steps.size();
         }
 
         @Override

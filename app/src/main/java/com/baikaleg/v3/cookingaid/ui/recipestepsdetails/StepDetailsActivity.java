@@ -52,8 +52,8 @@ public class StepDetailsActivity extends DaggerAppCompatActivity {
         for (int i = 0; i < recipe.getSteps().size(); i++) {
             adapter.addFrag(StepDetailsFragment.newInstance(recipe.getSteps().get(i)));
         }
-        binding.pagerSteps.setCurrentItem(currentPosition);
         binding.pagerSteps.setAdapter(adapter);
+        binding.pagerSteps.setCurrentItem(currentPosition);
 
         binding.pagerSteps.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
