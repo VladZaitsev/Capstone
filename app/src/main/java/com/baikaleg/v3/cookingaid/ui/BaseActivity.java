@@ -14,6 +14,7 @@ import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.ui.basket.BasketActivity;
 import com.baikaleg.v3.cookingaid.ui.recipes.RecipesActivity;
+import com.baikaleg.v3.cookingaid.ui.storage.StorageActivity;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
@@ -53,7 +54,6 @@ public class BaseActivity extends DaggerAppCompatActivity
         }
     }
 
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -70,7 +70,7 @@ public class BaseActivity extends DaggerAppCompatActivity
         } else if (id == R.id.nav_basket) {
             startActivity(new Intent(getApplicationContext(), BasketActivity.class));
         } else if (id == R.id.nav_storage) {
-
+            startActivity(new Intent(getApplicationContext(), StorageActivity.class));
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

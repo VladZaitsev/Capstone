@@ -27,8 +27,6 @@ public class StepDetailsActivity extends DaggerAppCompatActivity {
     public static final String EXTRA_RECIPE = "RECIPE";
     public static final String EXTRA_STEP_POSITION = "POSITION";
 
-    private int prevPosition;
-
     @Inject
     Recipe recipe;
 
@@ -58,19 +56,16 @@ public class StepDetailsActivity extends DaggerAppCompatActivity {
         binding.pagerSteps.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.i("Adapter", "PageScrolled");
             }
 
             @Override
             public void onPageSelected(int position) {
-                Log.i("Adapter", "PageSelected");
                 currentPosition = position;
                 adapter.initializePlayer(position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.i("Adapter", "PageStateChanged: " + state);
                 if (state == SCROLL_STATE_SETTLING) {
                     adapter.releasePlayer(currentPosition);
                 }

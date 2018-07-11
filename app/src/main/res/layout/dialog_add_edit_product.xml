@@ -6,32 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/category"
-            style="@style/AppTheme.CommonMargin"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/mock_category"
-            android:inputType="text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintEnd_toStartOf="@+id/pallet_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/pallet_btn"
-            style="@style/AppTheme.CommonMargin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:layout_marginTop="0dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/cd_pallet"
-            app:layout_constraintBottom_toBottomOf="@+id/category"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/category"
-            app:srcCompat="@drawable/btn_palette" />
-
         <android.support.v7.widget.AppCompatAutoCompleteTextView
             android:id="@+id/title"
             style="@style/AppTheme.CommonMargin"
@@ -42,7 +16,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/category" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/quantity"
@@ -52,18 +26,45 @@
             android:hint="@string/quantity"
             android:inputType="number"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintEnd_toStartOf="@+id/unit"
+            app:layout_constraintEnd_toStartOf="@+id/measure"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <Spinner
-            android:id="@+id/unit"
+            android:id="@+id/measure"
             style="@style/AppTheme.CommonMargin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/quantity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/quantity" />
+
+        <EditText
+            android:id="@+id/unit_quantity"
+            style="@style/AppTheme.CommonMargin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/unit_quantity"
+            android:inputType="number"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintEnd_toStartOf="@+id/unit_measure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/quantity" />
+
+        <Spinner
+            android:id="@+id/unit_measure"
+            style="@style/AppTheme.CommonMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/unit_quantity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/unit_quantity" />
+
+        <android.support.constraint.Group
+            android:id="@+id/unit_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="unit_measure,unit_quantity" />
 
         <View
             android:id="@+id/divider"
@@ -73,7 +74,7 @@
             android:background="@color/colorBorder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quantity" />
+            app:layout_constraintTop_toBottomOf="@+id/unit_quantity" />
 
         <EditText
             android:id="@+id/price"
@@ -143,10 +144,10 @@
 
         <Button
             android:id="@+id/cancel_btn"
+            style="@style/AppTheme.CommonMargin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
-            style="@style/AppTheme.CommonMargin"
             app:layout_constraintEnd_toStartOf="@+id/save_btn"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -154,8 +155,8 @@
 
         <Button
             android:id="@+id/save_btn"
-            android:layout_width="0dp"
             style="@style/AppTheme.CommonMargin"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/save"
             app:layout_constraintEnd_toEndOf="parent"

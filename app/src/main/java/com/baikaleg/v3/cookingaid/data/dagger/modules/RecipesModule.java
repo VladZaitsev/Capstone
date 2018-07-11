@@ -12,6 +12,7 @@ import dagger.android.ContributesAndroidInjector;
 
 @Module
 public interface RecipesModule {
+
     @ActivityScoped
     @Provides
     static RecipesViewModelFactory provideRecipeListViewModelFactory(Repository repository) {
