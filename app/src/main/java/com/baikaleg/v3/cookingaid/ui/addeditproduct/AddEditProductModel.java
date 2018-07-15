@@ -7,7 +7,6 @@ import android.databinding.Observable;
 import android.databinding.PropertyChangeRegistry;
 
 import com.baikaleg.v3.cookingaid.data.Repository;
-import com.baikaleg.v3.cookingaid.data.model.Product;
 
 public class AddEditProductModel extends ViewModel implements Observable {
     private static final String TAG = AddEditProductModel.class.getSimpleName();
@@ -19,12 +18,12 @@ public class AddEditProductModel extends ViewModel implements Observable {
         //this.navigator=navigator;
     }
 
-    @Bindable
+   /* @Bindable
     public MutableLiveData<Product> product = new MutableLiveData<>();
 
     public void saveProduct(Product newProduct) {
 
-    }
+    }*/
 
     public void loadProduct(String uuid) {
         notifyChange();
