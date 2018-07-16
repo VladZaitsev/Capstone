@@ -1,0 +1,130 @@
+[
+	{
+		"ingredient": "flour",
+		"density": 0.64,
+		"expiration": 180,
+		"calories": 364,
+		"unit_measure": "",
+		"unit_weight": 0
+	},
+	{
+		"ingredient": "baking powder",
+		"density": 0.72,
+		"expiration": 180,
+		"calories": 79,
+		"unit_measure": "",
+		"unit_weight": 0
+	},
+	{
+		"ingredient": "chocolate",
+		"density": 1.27,
+		"expiration": 300,
+		"calories": 539,
+		"unit_measure": "",
+		"unit_weight": 0
+	},
+	{
+		"ingredient": "cocoa powder",
+		"density": 0.65,
+		"expiration": 180,
+		"calories": 228,
+		"unit_measure": "",
+		"unit_weight": 0
+	},
+	{
+		"ingredient": "cream cheese",
+		"density": 1.01,
+		"expiration": 10,
+		"calories": 295,
+		"unit_measure": "",
+		"unit_weight": 0
+	},
+	{
+		"ingredient": "egg",
+		"density": 1.028,
+		"expiration": 25,
+		"calories": 160,
+		"unit_measure": "G",
+		"unit_weight": 50
+	},
+	{
+		"ingredient": "Graham Cracker crumbs",
+		"density": 1.01,
+		"expiration": 180,
+		"calories": 504,
+		"unit_measure": "",
+		"unit_weight": 0
+	},
+	{
+		"ingredient": "sugar",
+		"density": 0.8,
+		"expiration": 180,
+		"calories": 387,
+		"unit_measure": "",
+		"unit_weight": 0
+	},
+	{
+		"ingredient": "heavy cream",
+		"density": 1.01,
+		"expiration": 10,
+		"calories": 295,
+		"unit_measure": "",
+		"unit_weight": 0
+	},
+	{
+		"ingredient": "light brown sugar",
+		"density": 0.8,
+		"expiration": 180,
+		"calories": 387,
+		"unit_measure": "",
+		"unit_weight": 0
+	},
+	{
+		"ingredient": "Mascapone Cheese",
+		"density": 1.01,
+		"expiration": 10,
+		"calories": 295,
+		"unit_measure": "",
+		"unit_weight": 0
+	},
+	{
+		"ingredient": "Nutella ",
+		"density": 1.2,
+		"expiration": 180,
+		"calories": 530,
+		"unit_measure": "",
+		"unit_weight": 0
+	},
+	{
+		"ingredient": "salt",
+		"density": 1.2,
+		"expiration": 180,
+		"calories": 0,
+		"unit_measure": "",
+		"unit_weight": 0
+	},
+	{
+		"ingredient": "butter",
+		"density": 0.911,
+		"expiration": 180,
+		"calories": 717,
+		"unit_measure": "",
+		"unit_weight": 0
+	},
+	{
+		"ingredient": "vanilla",
+		"density": 1.056,
+		"expiration": 180,
+		"calories": 228,
+		"unit_measure": "",
+		"unit_weight": 0
+	},
+	{
+		"ingredient": "milk",
+		"density": 1.02,
+		"expiration": 180,
+		"calories": 52,
+		"unit_measure": "",
+        "unit_weight": 0
+	}
+]

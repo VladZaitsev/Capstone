@@ -2,11 +2,11 @@ package com.baikaleg.v3.cookingaid.data.database.entity.product;
 
 public interface Product {
 
-    float getPrice();
+    float getTotalPrice();
 
-    float getCalories();
+    float getTotalCalories();
 
-    float getWeight();
+    float getTotalWeight();
 
-    float getQuantity(String measure);
+    float getTransformedQuantity(String measure);
 }

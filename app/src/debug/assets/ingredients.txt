@@ -1,0 +1,122 @@
+[
+	{
+		"quantity": 140,
+		"measure": "G",
+		"ingredient": "all purpose flour"
+	},
+	{
+		"quantity": 4,
+		"measure": "TSP",
+		"ingredient": "baking powder"
+	},
+	{
+		"quantity": 350,
+		"measure": "G",
+		"ingredient": "Bittersweet chocolate (60-70% cacao)"
+	},
+	{
+		"quantity": 40,
+		"measure": "G",
+		"ingredient": "cocoa powder"
+	},
+	{
+		"quantity": 4,
+		"measure": "OZ",
+		"ingredient": "cream cheese(softened)"
+	},
+	{
+		"quantity": 6,
+		"measure": "UNIT",
+		"ingredient": "egg whites"
+	},
+	{
+		"quantity": 8,
+		"measure": "UNIT",
+		"ingredient": "egg yolks"
+	},
+	{
+		"quantity": 2,
+		"measure": "CUP",
+		"ingredient": "Graham Cracker crumbs"
+	},
+	{
+		"quantity": 0.5,
+		"measure": "CUP",
+		"ingredient": "granulated sugar"
+	},
+	{
+		"quantity": 250,
+		"measure": "G",
+		"ingredient": "heavy cream"
+	},
+	{
+		"quantity": 2,
+		"measure": "UNIT",
+		"ingredient": "large egg yolks"
+	},
+	{
+		"quantity": 5,
+		"measure": "UNIT",
+		"ingredient": "large eggs"
+	},
+	{
+		"quantity": 3,
+		"measure": "UNIT",
+		"ingredient": "large whole eggs"
+	},
+	{
+		"quantity": 100,
+		"measure": "G",
+		"ingredient": "light brown sugar"
+	},
+	{
+		"quantity": 500,
+		"measure": "G",
+		"ingredient": "Mascapone Cheese(room temperature)"
+	},
+	{
+		"quantity": 283,
+		"measure": "G",
+		"ingredient": "melted and cooled bittersweet or semisweet chocolate"
+	},
+	{
+		"quantity": 1,
+		"measure": "K",
+		"ingredient": "Nutella or other chocolate-hazelnut spread"
+	},
+	{
+		"quantity": 1.5,
+		"measure": "TSP",
+		"ingredient": "salt"
+	},
+	{
+		"quantity": 350,
+		"measure": "G",
+		"ingredient": "semisweet chocolate chips"
+	},
+	{
+		"quantity": 400,
+		"measure": "G",
+		"ingredient": "sifted cake flour"
+	},
+	{
+		"quantity": 226,
+		"measure": "G",
+		"ingredient": "unsalted butter"
+	},
+	{
+		"quantity": 5,
+		"measure": "TSP",
+		"ingredient": "vanilla"
+	},
+	{
+		"quantity": 1,
+		"measure": "TBLSP",
+		"ingredient": "vanilla extract"
+	},
+	{
+		"quantity": 323,
+		"measure": "G",
+		"ingredient": "whole milk"
+	}
+]

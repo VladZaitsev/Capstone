@@ -10,7 +10,7 @@ public class ProductEntity extends CatalogEntity {
     private String shoppingListName;
     private float initialQuantity;
 
-    public ProductEntity(double quantity, String measure, String ingredient) {
+    public ProductEntity(float quantity, String measure, String ingredient) {
         super(quantity, measure, ingredient);
     }
 

@@ -6,12 +6,10 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Objects;
-
 public class Ingredient implements Parcelable {
     @SerializedName("quantity")
     @Expose
-    private double quantity;
+    private float quantity;
     @SerializedName("measure")
     @Expose
     private String measure;
@@ -19,14 +17,14 @@ public class Ingredient implements Parcelable {
     @Expose
     private String ingredient;
 
-    public Ingredient(double quantity, String measure, String ingredient) {
+    public Ingredient(float quantity, String measure, String ingredient) {
         this.quantity = quantity;
         this.measure = measure;
         this.ingredient = ingredient;
     }
 
     protected Ingredient(Parcel in) {
-        quantity = in.readDouble();
+        quantity = in.readFloat();
         measure = in.readString();
         ingredient = in.readString();
     }
@@ -55,7 +53,7 @@ public class Ingredient implements Parcelable {
         dest.writeString(ingredient);
     }
 
-    public double getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
