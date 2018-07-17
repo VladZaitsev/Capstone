@@ -83,7 +83,11 @@ public class CatalogEntity extends Ingredient implements Product {
      */
     @Override
     public float getTotalCalories() {
-        return (100 * convertToGrams(getMeasure(), getQuantity(), density)) / calories;
+        if (getMeasure().equals("UNIT")) {
+            float gramsInUnit = convertToGrams(unitMeasure, unitQuantity, density);
+            return gramsInUnit * getQuantity() * (calories / 100);
+        }
+        return convertToGrams(getMeasure(), getQuantity(), density) * (calories / 100);
     }
 
     /**

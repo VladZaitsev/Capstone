@@ -64,4 +64,12 @@ public class Ingredient implements Parcelable {
     public String getIngredient() {
         return ingredient;
     }
+
+    public void setQuantity(float quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setMeasure(String measure) {
+        this.measure = measure;
+    }
 }

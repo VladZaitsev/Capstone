@@ -67,5 +67,6 @@ dependencies {
     //Room
     implementation  "android.arch.persistence.room:runtime:$rootProject.lifecycle_version"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.lifecycle_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.lifecycle_version"
     implementation project(path: ':prodconlib')
 }

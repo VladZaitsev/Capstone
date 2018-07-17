@@ -7,9 +7,8 @@ import java.util.List;
 public class ProductList extends CatalogEntity {
     private List<Product> children = new ArrayList<>();
 
-    public ProductList(Product... components) {
+    public ProductList() {
         super(0, null, null);
-        add(components);
     }
 
     public void add(Product component) {
