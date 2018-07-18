@@ -9,6 +9,7 @@ public class ProductEntity extends CatalogEntity {
     private Date purchaseDate;
     private String shoppingListName;
     private float initialQuantity;
+    private int state;//0 - not bought, not selected; 1 - selected; 2 - bought.
 
     public ProductEntity(float quantity, String measure, String ingredient) {
         super(quantity, measure, ingredient);
@@ -36,5 +37,13 @@ public class ProductEntity extends CatalogEntity {
 
     public void setInitialQuantity(float initialQuantity) {
         this.initialQuantity = initialQuantity;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 }

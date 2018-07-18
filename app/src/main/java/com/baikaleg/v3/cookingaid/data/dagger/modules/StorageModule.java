@@ -8,6 +8,8 @@ import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductEventNavigator
 import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductModelFactory;
 import com.baikaleg.v3.cookingaid.ui.storage.StorageActivity;
 
+import javax.inject.Named;
+
 import dagger.Module;
 import dagger.Provides;
 import dagger.android.ContributesAndroidInjector;
@@ -16,13 +18,15 @@ import dagger.android.ContributesAndroidInjector;
 public interface StorageModule {
 
     @Provides
-    static String provideProductUUID(StorageActivity activity) {
-        return activity.getSelectedUUID();
+    @Named("productId")
+    static int provideProductID(StorageActivity activity) {
+        return 0;
     }
 
     @Provides
-    static int provideDialogUUID(StorageActivity activity) {
-        return 8;
+    @Named("dialogId")
+    static int provideDialogID(StorageActivity activity) {
+        return 0;
     }
 
     @FragmentScoped

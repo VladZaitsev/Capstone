@@ -41,7 +41,7 @@
     <string name="quantity">Quantity</string>
     <string name="price">Price</string>
     <string name="calories">Calories</string>
-    <string name="expiration">Expiration</string>
+    <string name="expiration">Expiry days</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
 
@@ -59,5 +59,8 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="unit_quantity">Unit quantity</string>
+    <string name="price_example">Example: 2$</string>
+    <string name="expiration_example">Example: 10 days</string>
+    <string name="calories_example">Example: 220 kcal for 100 grams</string>
 
 </resources>

@@ -2,17 +2,28 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="entity"
+            type="com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity" />
+    </data>
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatAutoCompleteTextView
+        <AutoCompleteTextView
             android:id="@+id/title"
             style="@style/AppTheme.CommonMargin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:dropDownHeight="200dp"
             android:hint="@string/mock_title"
+            android:imeOptions="actionDone"
+            android:inputType="text|textAutoComplete"
+            android:scrollbars="vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,33 +50,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/quantity" />
 
-        <EditText
-            android:id="@+id/unit_quantity"
-            style="@style/AppTheme.CommonMargin"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/unit_quantity"
-            android:inputType="number"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintEnd_toStartOf="@+id/unit_measure"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quantity" />
-
-        <Spinner
-            android:id="@+id/unit_measure"
-            style="@style/AppTheme.CommonMargin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/unit_quantity"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/unit_quantity" />
-
-        <android.support.constraint.Group
-            android:id="@+id/unit_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="unit_measure,unit_quantity" />
-
         <View
             android:id="@+id/divider"
             style="@style/AppTheme.CommonMargin"
@@ -74,73 +58,85 @@
             android:background="@color/colorBorder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/unit_quantity" />
+            app:layout_constraintTop_toBottomOf="@+id/quantity" />
+
+        <TextView
+            android:id="@+id/price_txt"
+            style="@style/AppTheme.CommonMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/price"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintBottom_toBottomOf="@+id/price_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/price_field" />
+
+        <TextView
+            android:id="@+id/calories_txt"
+            style="@style/AppTheme.CommonMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/calories"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintBottom_toBottomOf="@+id/calories_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/calories_field" />
+
+        <TextView
+            android:id="@+id/expiration_txt"
+            style="@style/AppTheme.CommonMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/expiration"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintBottom_toBottomOf="@+id/expiration_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/expiration_field" />
+
+        <android.support.constraint.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="right"
+            app:constraint_referenced_ids="price_txt,calories_txt,expiration_txt" />
 
         <EditText
-            android:id="@+id/price"
+            android:id="@+id/price_field"
             style="@style/AppTheme.CommonMargin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:hint="@string/price"
+            android:hint="@string/price_example"
+            android:text="@{entity.getIngredient()}"
             android:inputType="text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintEnd_toStartOf="@+id/price_switch"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/barrier"
             app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/price_switch"
-            style="@style/AppTheme.CommonMargin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/price"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/price" />
-
         <EditText
-            android:id="@+id/calories"
+            android:id="@+id/calories_field"
             style="@style/AppTheme.CommonMargin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:hint="@string/calories"
+            android:hint="@string/calories_example"
             android:inputType="text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintEnd_toStartOf="@+id/calories_switch"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/price" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/calories_switch"
-            style="@style/AppTheme.CommonMargin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/calories"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/calories" />
+            app:layout_constraintStart_toEndOf="@+id/barrier"
+            app:layout_constraintTop_toBottomOf="@+id/price_field" />
 
         <EditText
-            android:id="@+id/expiration"
+            android:id="@+id/expiration_field"
             style="@style/AppTheme.CommonMargin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:hint="@string/expiration"
+            android:hint="@string/expiration_example"
             android:inputType="text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintEnd_toStartOf="@+id/expiration_switch"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/calories" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/expiration_switch"
-            style="@style/AppTheme.CommonMargin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/expiration"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/expiration" />
+            app:layout_constraintStart_toEndOf="@+id/barrier"
+            app:layout_constraintTop_toBottomOf="@+id/calories_field" />
 
         <Button
             android:id="@+id/cancel_btn"
@@ -151,7 +147,7 @@
             app:layout_constraintEnd_toStartOf="@+id/save_btn"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/expiration" />
+            app:layout_constraintTop_toBottomOf="@+id/expiration_field" />
 
         <Button
             android:id="@+id/save_btn"
@@ -162,6 +158,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/cancel_btn"
-            app:layout_constraintTop_toBottomOf="@+id/expiration" />
+            app:layout_constraintTop_toBottomOf="@+id/expiration_field" />
+
     </android.support.constraint.ConstraintLayout>
 </layout>

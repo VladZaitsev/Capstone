@@ -1,53 +1,53 @@
 package com.baikaleg.v3.cookingaid.ui.addeditproduct;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.databinding.Bindable;
-import android.databinding.Observable;
-import android.databinding.PropertyChangeRegistry;
 
 import com.baikaleg.v3.cookingaid.data.Repository;
+import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
+import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 
-public class AddEditProductModel extends ViewModel implements Observable {
+import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+
+public class AddEditProductModel extends ViewModel {
+
     private static final String TAG = AddEditProductModel.class.getSimpleName();
     private final Repository repository;
     private AddEditProductEventNavigator navigator;
 
-    public AddEditProductModel(Repository repository) {
+    private CompositeDisposable compositeDisposable;
+
+
+    MutableLiveData<List<String>> catalogEntityNames = new MutableLiveData<>();
+
+    MutableLiveData<CatalogEntity> entity = new MutableLiveData<>();
+
+    AddEditProductModel(Repository repository) {
         this.repository = repository;
-        //this.navigator=navigator;
+        compositeDisposable = new CompositeDisposable();
+        loadCatalogProduct();
     }
 
-   /* @Bindable
-    public MutableLiveData<Product> product = new MutableLiveData<>();
-
-    public void saveProduct(Product newProduct) {
-
-    }*/
-
-    public void loadProduct(String uuid) {
-        notifyChange();
+    private void loadCatalogProduct() {
+        compositeDisposable.add(repository.loadAllCatalogEntities()
+                .flatMap(Observable::fromIterable)
+                .map(Ingredient::getIngredient)
+                .toList()
+                .toObservable()
+                .subscribe(list -> catalogEntityNames.postValue(list)));
+    }
+    public void updateCatalogName(String name) {
+        entity.setValue(repository.loadProductByName(name));
     }
 
-    //region observable
-    private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
-
-    @Override
-    public void addOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
-        callbacks.add(callback);
+    void onDestroyed() {
+        compositeDisposable.clear();
     }
-
-    @Override
-    public void removeOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
-        callbacks.remove(callback);
-    }
-
-    private void notifyChange() {
-        callbacks.notifyCallbacks(this, 0, null);
-    }
-
-    private void notifyPropertyChanged(int fieldId) {
-        callbacks.notifyCallbacks(this, fieldId, null);
-    }
-    //endregion
 }
