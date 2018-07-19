@@ -18,7 +18,6 @@ public class CatalogEntity extends Ingredient implements Product {
     private float price;
     //Number of days to the expiry date
     private int expiration;
-    private String currency;
 
     //This block of information is valid if measure of ingredient is "UNIT"
     private float unitQuantity;
@@ -161,14 +160,6 @@ public class CatalogEntity extends Ingredient implements Product {
 
     public void setPrice(float price) {
         this.price = price;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     public int getExpiration() {

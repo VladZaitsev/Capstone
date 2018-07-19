@@ -4,7 +4,6 @@ import com.baikaleg.v3.cookingaid.data.Repository;
 import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.data.dagger.scopes.FragmentScoped;
 import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductDialog;
-import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductEventNavigator;
 import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductModelFactory;
 import com.baikaleg.v3.cookingaid.ui.storage.StorageActivity;
 

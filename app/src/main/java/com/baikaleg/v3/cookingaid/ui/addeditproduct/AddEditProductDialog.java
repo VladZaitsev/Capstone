@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.Toast;
 
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.databinding.DialogAddEditProductBinding;
+
+import java.util.Timer;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,8 +28,7 @@ import dagger.android.support.DaggerAppCompatDialogFragment;
  */
 
 @ActivityScoped
-public class AddEditProductDialog extends DaggerAppCompatDialogFragment implements AddEditProductEventNavigator {
-    private static final String TAG = AddEditProductDialog.class.getSimpleName();
+public class AddEditProductDialog extends DaggerAppCompatDialogFragment implements AddEditProductNavigator {
 
     @Inject
     @Named("dialogId")
@@ -38,7 +41,6 @@ public class AddEditProductDialog extends DaggerAppCompatDialogFragment implemen
 
     private DialogAddEditProductBinding binding;
 
-
     @Inject
     public AddEditProductModelFactory viewModelFactory;
 
@@ -50,6 +52,7 @@ public class AddEditProductDialog extends DaggerAppCompatDialogFragment implemen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(AddEditProductModel.class);
+        viewModel.setNavigator(this);
     }
 
     @NonNull
@@ -60,6 +63,9 @@ public class AddEditProductDialog extends DaggerAppCompatDialogFragment implemen
             AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
             LayoutInflater inflater = getActivity().getLayoutInflater();
             binding = DataBindingUtil.inflate(inflater, R.layout.dialog_add_edit_product, null, false);
+            binding.setLifecycleOwner(this);
+            binding.setModel(viewModel);
+
             dialog.setView(binding.getRoot());
 
             initializeScreen();
@@ -69,25 +75,41 @@ public class AddEditProductDialog extends DaggerAppCompatDialogFragment implemen
     }
 
     private void initializeScreen() {
-        viewModel.catalogEntityNames.observe(this, list -> {
-            if (list != null) {
-                if (getActivity() != null) {
-                    binding.title.setAdapter(new ArrayAdapter<>(getActivity(),
-                            android.R.layout.simple_dropdown_item_1line, list));
-                }
-            }
-        });
-        viewModel.entity.observe(this, entity -> {
-            binding.setEntity(entity);
-        });
-        binding.title.setOnItemClickListener((parent, view, i, l) ->
-                viewModel.updateCatalogName(parent.getItemAtPosition(i).toString()));
 
+        binding.cancelBtn.setOnClickListener(view -> getDialog().cancel());
+        binding.saveBtn.setOnClickListener(saveBtnClickListener);
     }
 
+    private View.OnClickListener saveBtnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (TextUtils.isEmpty(binding.title.getText().toString()) ||
+                    TextUtils.isEmpty(binding.quantity.getText().toString()) ||
+                    TextUtils.isEmpty(binding.priceField.getText().toString()) ||
+                    TextUtils.isEmpty(binding.expirationField.getText().toString()) ||
+                    TextUtils.isEmpty(binding.caloriesField.getText().toString()) ) {
+                Toast.makeText(getActivity(), "Fill all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            //TODO Change density adding
+            //TODO Send realization to ViewModel
+            float density = 1f;
+            String ingredient = binding.title.getText().toString();
+            float quantity = Float.valueOf(binding.quantity.getText().toString());
+            float price = Float.valueOf(binding.priceField.getText().toString());
+            int expiration = Integer.valueOf(binding.expirationField.getText().toString());
+            float calories = Float.valueOf(binding.caloriesField.getText().toString());
+            float unitQuantity = Float.valueOf(binding.singleUnitField.getText().toString());
+            if (price == 0 || expiration == 0 || calories == 0 || quantity == 0) {
+                Toast.makeText(getActivity(), "Fields cannot be null", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            viewModel.onSaveBtnClicked(ingredient, quantity, unitQuantity, price, calories, expiration, density);
+        }
+    };
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        viewModel.onDestroyed();
+    public void onCancel() {
+        getDialog().cancel();
     }
 }

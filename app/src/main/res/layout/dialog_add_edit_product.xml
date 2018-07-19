@@ -4,9 +4,11 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
-            name="entity"
-            type="com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity" />
+            name="model"
+            type="com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -25,6 +27,8 @@
             android:inputType="text|textAutoComplete"
             android:scrollbars="vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:entitiesNames="@{model.catalogEntityNames}"
+            app:entitiesNamesSelected="@{model.listener}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,9 +37,10 @@
             android:id="@+id/quantity"
             style="@style/AppTheme.CommonMargin"
             android:layout_width="0dp"
+            android:text="@{String.valueOf(model.catalogEntity.quantity),default=null}"
             android:layout_height="wrap_content"
             android:hint="@string/quantity"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toStartOf="@+id/measure"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,9 +51,52 @@
             style="@style/AppTheme.CommonMargin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:entries="@array/measures"
+            android:onItemSelected="@{(parent,view,pos,id)->model.onMeasureSelectItem(parent,view,pos,id)}"
             app:layout_constraintBottom_toBottomOf="@+id/quantity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/quantity" />
+
+        <TextView
+            android:id="@+id/single_unit_txt"
+            style="@style/AppTheme.CommonMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 unit = "
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintBottom_toBottomOf="@+id/single_unit_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/single_unit_field" />
+
+        <EditText
+            android:id="@+id/single_unit_field"
+            style="@style/AppTheme.CommonMargin"
+            android:layout_width="0dp"
+            android:text="@{String.valueOf(model.catalogEntity.unitQuantity),default=null}"
+            android:layout_height="wrap_content"
+            android:hint="@string/quantity"
+            android:inputType="number"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintEnd_toStartOf="@+id/single_unit_measure"
+            app:layout_constraintStart_toEndOf="@+id/single_unit_txt"
+            app:layout_constraintTop_toBottomOf="@+id/quantity" />
+
+        <Spinner
+            android:id="@+id/single_unit_measure"
+            style="@style/AppTheme.CommonMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onItemSelected="@{(parent,view,pos,id)->model.onUnitMeasureSelectItem(parent,view,pos,id)}"
+            app:layout_constraintBottom_toBottomOf="@+id/single_unit_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/single_unit_field" />
+
+        <android.support.constraint.Group
+            android:id="@+id/unit_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{model.isUnitMeasure? View.VISIBLE:View.GONE}"
+            app:constraint_referenced_ids="single_unit_measure,single_unit_field,single_unit_txt" />
 
         <View
             android:id="@+id/divider"
@@ -58,7 +106,7 @@
             android:background="@color/colorBorder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quantity" />
+            app:layout_constraintTop_toBottomOf="@+id/single_unit_field" />
 
         <TextView
             android:id="@+id/price_txt"
@@ -66,6 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:inputType="number"
             android:text="@string/price"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toBottomOf="@+id/price_field"
@@ -88,6 +137,7 @@
             style="@style/AppTheme.CommonMargin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:inputType="number"
             android:text="@string/expiration"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toBottomOf="@+id/expiration_field"
@@ -107,9 +157,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/price_example"
-            android:text="@{entity.getIngredient()}"
-            android:inputType="text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:inputType="numberDecimal"
+            android:text="@{String.valueOf(model.catalogEntity.price),default=null}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/barrier"
             app:layout_constraintTop_toBottomOf="@+id/divider" />
@@ -120,8 +170,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/calories_example"
-            android:inputType="text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:inputType="numberDecimal"
+            android:text="@{String.valueOf(model.catalogEntity.calories),default=null}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/barrier"
             app:layout_constraintTop_toBottomOf="@+id/price_field" />
@@ -132,8 +183,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/expiration_example"
-            android:inputType="text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:inputType="numberDecimal"
+            android:text="@{String.valueOf(model.catalogEntity.expiration),default=null}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/barrier"
             app:layout_constraintTop_toBottomOf="@+id/calories_field" />

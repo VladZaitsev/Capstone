@@ -24,4 +24,12 @@
         <item>@drawable/ic_salad</item>
         <item>@drawable/ic_drink</item>
     </integer-array>
+
+    <string-array name="measures">
+        <item>@string/kg_measure</item>
+        <item>@string/g_measure</item>
+        <item>@string/oz_measure</item>
+        <item>@string/cup_measure</item>
+        <item>@string/unit_measure</item>
+    </string-array>
 </resources>

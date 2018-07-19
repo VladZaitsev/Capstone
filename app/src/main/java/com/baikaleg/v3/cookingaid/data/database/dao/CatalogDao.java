@@ -1,7 +1,5 @@
 package com.baikaleg.v3.cookingaid.data.database.dao;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.db.SupportSQLiteQuery;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -15,10 +13,13 @@ import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+
 @Dao
 public interface CatalogDao {
     @Query("SELECT * FROM catalog")
-    List<CatalogEntity> loadAllProducts();
+    Single<List<CatalogEntity>> loadAllProducts();
 
     @Insert
     void insertProduct(CatalogEntity productEntry);
@@ -30,10 +31,10 @@ public interface CatalogDao {
     void deleteProduct(CatalogEntity productEntry);
 
     @Query("SELECT * FROM catalog WHERE id = :id")
-    CatalogEntity loadProductById(int id);
+    Flowable<CatalogEntity> loadProductById(int id);
 
     @Query("SELECT * FROM catalog WHERE ingredient = :name")
-    CatalogEntity loadProductByName(String name);
+    Single<CatalogEntity> loadProductByName(String name);
 
     @RawQuery(observedEntities = CatalogEntity.class)
     List<CatalogEntity> loadProductsByQuery(SupportSQLiteQuery query);

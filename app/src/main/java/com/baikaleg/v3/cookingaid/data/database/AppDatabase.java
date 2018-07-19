@@ -37,25 +37,21 @@ public abstract class AppDatabase extends RoomDatabase {
                             @Override
                             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                 super.onCreate(db);
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            List<CatalogEntity> catalogList = AppUtils.createCatalogEntityList(context);
-                                            if (catalogList != null) {
-                                                for (CatalogEntity entity :
-                                                        catalogList) {
-                                                    getInstance(context).catalogDao().insertProduct(entity);
-                                                }
+                                new Thread(() -> {
+                                    try {
+                                        List<CatalogEntity> catalogList = AppUtils.createCatalogEntityList(context);
+                                        if (catalogList != null) {
+                                            for (CatalogEntity entity :
+                                                    catalogList) {
+                                                getInstance(context).catalogDao().insertProduct(entity);
                                             }
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
                                         }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
                                 }).start();
                             }
                         })
-                        .allowMainThreadQueries()
                         .build();
             }
         }

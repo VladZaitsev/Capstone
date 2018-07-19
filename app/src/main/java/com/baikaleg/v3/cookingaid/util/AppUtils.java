@@ -58,9 +58,29 @@ public class AppUtils {
             entity.setDensity((float) object.getDouble("density"));
             entity.setUnitMeasure(object.getString("unit_measure"));
             entity.setUnitQuantity((float) object.getDouble("unit_weight"));
+            entity.setExpiration(object.getInt("expiration"));
             list.add(entity);
         }
 
         return list;
+    }
+
+    public static float convertToGrams(String from, float value, float density) {
+        switch (from) {
+            case "G":
+                return value;
+            case "K":
+                return 1000 * value;
+            case "TSP":
+                return 5f * density * value;
+            case "TBLSP":
+                return 15f * density * value;
+            case "CUP":
+                return 236.588f * density * value;
+            case "OZ":
+                return 29.5735f * density * value;
+            default:
+                return 0;
+        }
     }
 }

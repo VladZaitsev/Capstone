@@ -8,9 +8,12 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
+import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
 
 @Dao
 public interface ProductDao {
@@ -28,5 +31,6 @@ public interface ProductDao {
     void deleteProduct(ProductEntity productEntry);
 
     @Query("SELECT * FROM product WHERE id = :id")
-    LiveData<ProductEntity> loadProductById(int id);
+    Flowable<ProductEntity> loadProductById(int id);
+
 }
