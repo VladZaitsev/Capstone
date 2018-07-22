@@ -21,13 +21,13 @@ public interface StorageModule {
     @Provides
     @Named("productId")
     static int provideProductID(StorageActivity activity) {
-        return 0;
+        return activity.getSelectedID();
     }
 
     @Provides
     @Named("dialogId")
     static int provideDialogID(StorageActivity activity) {
-        return 0;
+        return 3;
     }
 
     @FragmentScoped

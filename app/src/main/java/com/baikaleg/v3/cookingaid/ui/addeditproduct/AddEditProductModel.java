@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.DatabaseCallback;
 import com.baikaleg.v3.cookingaid.data.Repository;
+import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
@@ -29,6 +30,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
+@ActivityScoped
 public class AddEditProductModel extends AndroidViewModel implements DatabaseCallback {
 
     private AddEditProductNavigator navigator;
@@ -59,6 +61,10 @@ public class AddEditProductModel extends AndroidViewModel implements DatabaseCal
     public int dialogId;
 
     @Inject
+    @Named("productId")
+    public int productId;
+
+    @Inject
     AddEditProductModel(Repository repository, Application application) {
         super(application);
         this.repository = repository;
@@ -66,14 +72,15 @@ public class AddEditProductModel extends AndroidViewModel implements DatabaseCal
         compositeDisposable = new CompositeDisposable();
 
         ProductEntity entity = new ProductEntity(0, resources.getString(R.string.kg_measure), null);
+        entity.setState(dialogId);
         productEntity.setValue(entity);
         measure.setValue(resources.getString(R.string.kg_measure));
 
-        if (dialogId == 0) {
+        if (productId == 0) {
             repository.loadAllCatalogEntities(this);
             isEditable = true;
         } else {
-            repository.loadProductEntityById(dialogId, this);
+            repository.loadProductEntityById(productId, this);
             isEditable = false;
         }
     }

@@ -13,6 +13,8 @@ public interface DataSource {
 
     Observable<List<Recipe>> getRecipes();
 
+    Flowable<List<ProductEntity>> loadAllStorageEntities(int state);
+
     void loadAllCatalogEntities(DatabaseCallback callback);
 
     void loadCatalogEntityByName(String name, DatabaseCallback callback);

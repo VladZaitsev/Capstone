@@ -15,6 +15,7 @@ import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -47,6 +48,17 @@ public class Repository implements DataSource {
     }
 
     @Override
+    public Flowable<List<ProductEntity>> loadAllStorageEntities(int state) {
+        return db.productDao().loadAllProducts()
+              /*  .flatMap(Flowable::fromIterable)
+                .filter(productEntity -> productEntity.getState()==state)
+                .toList()*
+                .toFlowable()*/
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
     public void loadAllCatalogEntities(DatabaseCallback callback) {
         compositeDisposable.add(db.catalogDao()
                 .loadAllProducts()
@@ -54,6 +66,8 @@ public class Repository implements DataSource {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onAllCatalogEntitiesLoaded));
     }
+
+
 
     @Override
     public void loadCatalogEntityByName(String name, DatabaseCallback callback) {

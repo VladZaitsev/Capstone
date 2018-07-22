@@ -9,7 +9,7 @@ public class ProductEntity extends CatalogEntity {
     private Date purchaseDate;
     private String shoppingListName;
     private float initialQuantity;
-    private int state;//0 - not bought, not selected; 1 - selected; 2 - bought.
+    private int state;//1 - not bought, not selected; 2 - selected; 3 - bought.
 
     public ProductEntity(float quantity, String measure, String ingredient) {
         super(quantity, measure, ingredient);

@@ -12,6 +12,7 @@ import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 
 import java.util.List;
+import java.util.Observable;
 
 import io.reactivex.Flowable;
 
@@ -19,7 +20,7 @@ import io.reactivex.Flowable;
 public interface ProductDao {
 
     @Query("SELECT * FROM product")
-    List<ProductEntity> loadAllProducts();
+    Flowable<List<ProductEntity>> loadAllProducts();
 
     @Insert
     void insertProduct(ProductEntity productEntry);
