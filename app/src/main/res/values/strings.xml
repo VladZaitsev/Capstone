@@ -69,4 +69,5 @@
     <string name="price_example">Example: 2</string>
     <string name="expiration_example">Example: 10</string>
     <string name="calories_example">Example: 220 </string>
+    <string name="badNumber">error</string>
 </resources>

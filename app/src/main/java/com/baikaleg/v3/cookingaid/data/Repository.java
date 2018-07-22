@@ -69,59 +69,55 @@ public class Repository implements DataSource {
         compositeDisposable.add(db.productDao().loadProductById(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(callback::onCatalogEntityByNameLoaded));
+                .subscribe(callback::onProductEntityByIdLoaded));
     }
 
     @Override
-    public void saveProductEntity(ProductEntity entity, DatabaseCallback callback) {
-        compositeDisposable.add(db.productDao()
-                .loadProductById(entity.getId())
+    public void saveProductEntity(ProductEntity entity) {
+        Completable.fromAction(() -> db.productDao().insertProduct(entity))
                 .subscribeOn(Schedulers.io())
-                .subscribe(productEntity -> {
-                    if (productEntity == null) {
-                        Completable.fromAction(() -> db.productDao().insertProduct(entity))
-                                .subscribeOn(Schedulers.io())
-                                .subscribe(new CompletableObserver() {
-                                    @Override
-                                    public void onSubscribe(Disposable d) {
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-                                    }
-
-                                    @Override
-                                    public void onComplete() {
-                                        callback.onEntitiesSaved();
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-
-                                    }
-                                });
-                    } else {
-                        Completable.fromAction(() -> db.productDao().updateProduct(entity))
-                                .subscribeOn(Schedulers.io())
-                                .subscribe(new CompletableObserver() {
-                                    @Override
-                                    public void onSubscribe(Disposable d) {
-
-                                    }
-
-                                    @Override
-                                    public void onComplete() {
-                                        callback.onEntitiesSaved();
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-
-                                    }
-                                });
                     }
-                }));
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
     }
 
     @Override
-    public void saveCatalogEntity(CatalogEntity entity, DatabaseCallback callback) {
+    public void updateProductEntity(ProductEntity entity) {
+        Completable.fromAction(() -> db.productDao().updateProduct(entity))
+                .subscribeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+    }
+
+    @Override
+    public void saveCatalogEntity(CatalogEntity entity) {
         Completable.fromAction(() -> db.catalogDao().insertProduct(entity))
                 .subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
@@ -132,7 +128,7 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onComplete() {
-                        callback.onEntitiesSaved();
+
                     }
 
                     @Override
@@ -142,7 +138,7 @@ public class Repository implements DataSource {
                 });
     }
     @Override
-    public void updateCatalogEntity(CatalogEntity entity, DatabaseCallback callback) {
+    public void updateCatalogEntity(CatalogEntity entity) {
         Completable.fromAction(() -> db.catalogDao().updateProduct(entity))
                 .subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
@@ -153,7 +149,6 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onComplete() {
-                        callback.onEntitiesSaved();
                     }
 
                     @Override

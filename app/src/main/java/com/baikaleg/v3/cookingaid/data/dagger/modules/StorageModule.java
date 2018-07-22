@@ -1,5 +1,7 @@
 package com.baikaleg.v3.cookingaid.data.dagger.modules;
 
+import android.app.Application;
+
 import com.baikaleg.v3.cookingaid.data.Repository;
 import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.data.dagger.scopes.FragmentScoped;
@@ -34,7 +36,7 @@ public interface StorageModule {
 
     @ActivityScoped
     @Provides
-    static AddEditProductModelFactory provideRecipeListViewModelFactory(Repository repository) {
-        return new AddEditProductModelFactory(repository);
+    static AddEditProductModelFactory provideRecipeListViewModelFactory(Repository repository, Application application) {
+        return new AddEditProductModelFactory(repository, application);
     }
 }

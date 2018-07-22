@@ -19,10 +19,11 @@ public interface DataSource {
 
     void loadProductEntityById(int id, DatabaseCallback callback);
 
-    void updateCatalogEntity(CatalogEntity entity, DatabaseCallback callback);
+    void saveCatalogEntity(CatalogEntity entity);
 
-    void saveProductEntity(ProductEntity entity, DatabaseCallback callback);
+    void updateCatalogEntity(CatalogEntity entity);
 
-    void saveCatalogEntity(CatalogEntity entity, DatabaseCallback callback);
+    void saveProductEntity(ProductEntity entity);
 
+    void updateProductEntity(ProductEntity entity);
 }

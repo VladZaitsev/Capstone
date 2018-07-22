@@ -11,6 +11,4 @@ public interface DatabaseCallback {
     void onCatalogEntityByNameLoaded(CatalogEntity entity);
 
     void onProductEntityByIdLoaded(ProductEntity entity);
-
-    void onEntitiesSaved();
 }

@@ -72,4 +72,8 @@ public class Ingredient implements Parcelable {
     public void setMeasure(String measure) {
         this.measure = measure;
     }
+
+    public void setIngredient(String ingredient) {
+        this.ingredient = ingredient;
+    }
 }
