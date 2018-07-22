@@ -1,13 +1,13 @@
 package com.baikaleg.v3.cookingaid.ui.recipestepsdetails;
 
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.baikaleg.v3.cookingaid.R;
@@ -17,21 +17,13 @@ import com.baikaleg.v3.cookingaid.databinding.ActivityStepDetailsBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import dagger.android.support.DaggerAppCompatActivity;
-
 import static android.support.v4.view.ViewPager.SCROLL_STATE_SETTLING;
 
-public class StepDetailsActivity extends DaggerAppCompatActivity {
+public class StepDetailsActivity extends AppCompatActivity {
     public static final String EXTRA_RECIPE = "RECIPE";
     public static final String EXTRA_STEP_POSITION = "POSITION";
 
-    @Inject
-    Recipe recipe;
-
-    @Inject
-    Integer currentPosition;
+    private int currentPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +34,9 @@ public class StepDetailsActivity extends DaggerAppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
+
+        currentPosition = getIntent().getIntExtra(EXTRA_STEP_POSITION, 0);
+        Recipe recipe = getIntent().getParcelableExtra(EXTRA_RECIPE);
 
         ActivityStepDetailsBinding binding =
                 DataBindingUtil.setContentView(this, R.layout.activity_step_details);

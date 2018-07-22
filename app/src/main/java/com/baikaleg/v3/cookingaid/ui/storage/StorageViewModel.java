@@ -1,25 +1,21 @@
 package com.baikaleg.v3.cookingaid.ui.storage;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 import android.databinding.Observable;
 import android.databinding.PropertyChangeRegistry;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.baikaleg.v3.cookingaid.data.Repository;
-import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
-import io.reactivex.Flowable;
 import io.reactivex.disposables.CompositeDisposable;
 
-@ActivityScoped
-public class StorageViewModel extends ViewModel implements Observable {
+public class StorageViewModel extends AndroidViewModel implements Observable {
 
     private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
 
@@ -29,16 +25,15 @@ public class StorageViewModel extends ViewModel implements Observable {
 
     private CompositeDisposable compositeDisposable;
 
-    @Inject
-    public StorageViewModel(Repository repository) {
-        this.repository = repository;
-        compositeDisposable = new CompositeDisposable();
-
+    StorageViewModel(@NonNull Application application) {
+        super(application);
+        this.repository = Repository.getInstance(application);
+        this.compositeDisposable = new CompositeDisposable();
         loadData();
     }
 
     private void loadData() {
-        compositeDisposable.add(repository.loadAllStorageEntities(3)
+        compositeDisposable.add(repository.loadAllStorageEntities()
                 /*.flatMap(Flowable::fromIterable)
                 .filter(productEntity -> productEntity.getState()==3)
                 .toList()
@@ -52,6 +47,7 @@ public class StorageViewModel extends ViewModel implements Observable {
 
     public void onDestroy() {
         compositeDisposable.clear();
+        repository.onDestroyed();
     }
 
     @Override

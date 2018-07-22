@@ -1,7 +1,8 @@
 package com.baikaleg.v3.cookingaid.ui.recipes;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 import android.databinding.Bindable;
 import android.databinding.Observable;
 import android.databinding.PropertyChangeRegistry;
@@ -9,20 +10,16 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.baikaleg.v3.cookingaid.data.Repository;
-import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-@ActivityScoped
-public class RecipesViewModel extends ViewModel implements Observable {
+public class RecipesViewModel extends AndroidViewModel implements Observable {
 
     private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
 
@@ -45,9 +42,9 @@ public class RecipesViewModel extends ViewModel implements Observable {
     @Bindable
     public final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
-    @Inject
-    public RecipesViewModel(Repository repository) {
-        this.repository = repository;
+    RecipesViewModel(@NonNull Application application) {
+        super(application);
+        this.repository = Repository.getInstance(application);
         this.compositeDisposable = new CompositeDisposable();
 
         load();
@@ -62,9 +59,7 @@ public class RecipesViewModel extends ViewModel implements Observable {
                 .toList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(recipes -> {
-                    showData(recipes, false);
-                }, throwable -> {
+                .subscribe(recipes -> showData(recipes, false), throwable -> {
                     Log.i("Recipes download error", throwable.getMessage());
                     showData(null, true);
                 });
@@ -99,6 +94,7 @@ public class RecipesViewModel extends ViewModel implements Observable {
 
     void onDestroyed() {
         compositeDisposable.clear();
+        repository.onDestroyed();
     }
 
     void setCategory(String category) {

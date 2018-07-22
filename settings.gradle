@@ -1,1 +1,1 @@
-include ':app', ':prodconlib'
+include ':app'

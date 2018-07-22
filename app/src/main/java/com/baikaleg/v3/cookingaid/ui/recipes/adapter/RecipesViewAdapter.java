@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,19 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.baikaleg.v3.cookingaid.R;
-import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.data.model.Step;
 import com.baikaleg.v3.cookingaid.databinding.ItemRecipeBinding;
 import com.baikaleg.v3.cookingaid.databinding.ViewStepInItemRecipeBinding;
-import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeItemEventNavigator;
 import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeItemViewModel;
 import com.baikaleg.v3.cookingaid.ui.recipestepsdetails.StepDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> {
     private static final String TAG = RecipesViewAdapter.class.getSimpleName();
@@ -33,7 +28,6 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
 
     public Context context;
 
-    @Inject
     public RecipesViewAdapter(Context context) {
         this.context = context;
     }
@@ -52,15 +46,6 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
         final Recipe recipe = recipesList.get(position);
 
         RecipeItemViewModel viewModel = new RecipeItemViewModel(recipe, null);
-       /* viewModel.setNavigator(new RecipeItemEventNavigator() {
-            @Override
-            public void onStepClickListener(int position) {
-                Intent intent = new Intent(context, StepDetailsActivity.class);
-                intent.putExtra(StepDetailsActivity.EXTRA_STEP_POSITION, position);
-                intent.putExtra(StepDetailsActivity.EXTRA_RECIPE, recipe);
-                context.startActivity(intent);
-            }
-        });*/
         holder.recipeItemBinding.setViewmodel(viewModel);
 
         RecipesStepsPagerAdapter pagerAdapter = new RecipesStepsPagerAdapter();

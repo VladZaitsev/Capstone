@@ -54,20 +54,12 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
     //picasso
     implementation "com.squareup.picasso:picasso:$rootProject.picassoVersion"
+     //ExoPlayer
+    implementation "com.google.android.exoplayer:exoplayer:$rootProject.exoPlayerVersion"
     //Android Components
     implementation "android.arch.lifecycle:extensions:$rootProject.lifecycle_version"
-    //Dagger
-    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
-    implementation "com.google.dagger:dagger-android:$rootProject.daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
-    //ExoPlayer
-    implementation "com.google.android.exoplayer:exoplayer:$rootProject.exoPlayerVersion"
-    //Room
     implementation  "android.arch.persistence.room:runtime:$rootProject.lifecycle_version"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.lifecycle_version"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.lifecycle_version"
     implementation "android.arch.persistence.room:rxjava2:$rootProject.lifecycle_version"
-    implementation project(path: ':prodconlib')
 }

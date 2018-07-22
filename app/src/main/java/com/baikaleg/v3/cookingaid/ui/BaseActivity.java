@@ -2,24 +2,22 @@ package com.baikaleg.v3.cookingaid.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.baikaleg.v3.cookingaid.R;
-import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.ui.basket.BasketActivity;
 import com.baikaleg.v3.cookingaid.ui.recipes.RecipesActivity;
 import com.baikaleg.v3.cookingaid.ui.storage.StorageActivity;
 
-import dagger.android.support.DaggerAppCompatActivity;
-
-@ActivityScoped
-public class BaseActivity extends DaggerAppCompatActivity
+public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
@@ -56,7 +54,7 @@ public class BaseActivity extends DaggerAppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 

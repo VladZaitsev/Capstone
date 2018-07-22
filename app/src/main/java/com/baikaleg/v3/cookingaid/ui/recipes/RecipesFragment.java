@@ -4,32 +4,19 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.baikaleg.v3.cookingaid.R;
-import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.databinding.FragmentRecipeBinding;
 import com.baikaleg.v3.cookingaid.ui.recipes.adapter.RecipesViewAdapter;
 
-import javax.inject.Inject;
-
-import dagger.android.support.DaggerFragment;
-
-@ActivityScoped
-public class RecipesFragment extends DaggerFragment {
+public class RecipesFragment extends Fragment {
     private static final String arg_cat="argCategory";
 
     private RecipesViewModel recipesViewModel;
-
-    @Inject
-    public RecipesViewModelFactory viewModelFactory;
-
-    @Inject
-    public RecipesFragment() {
-    }
 
     public static RecipesFragment newInstance(String category){
         RecipesFragment fragment = new RecipesFragment();
@@ -45,7 +32,7 @@ public class RecipesFragment extends DaggerFragment {
         if(getArguments()!=null){
             String category=getArguments().getString(arg_cat);
 
-            recipesViewModel = ViewModelProviders.of(this, viewModelFactory).get(RecipesViewModel.class);
+            recipesViewModel = ViewModelProviders.of(this).get(RecipesViewModel.class);
             recipesViewModel.setCategory(category);
         }
     }

@@ -5,26 +5,16 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
-import android.view.View;
 
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.databinding.ActivityStorageBinding;
 import com.baikaleg.v3.cookingaid.ui.BaseActivity;
 import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductDialog;
-import com.baikaleg.v3.cookingaid.ui.recipes.RecipesViewModel;
-
-import javax.inject.Inject;
 
 public class StorageActivity extends BaseActivity implements StorageItemNavigator {
 
-    private int id;
-
     private StorageViewModel viewModel;
 
-    @Inject
-    public StorageViewModelFactory viewModelFactory;
-
-    @Inject
     public AddEditProductDialog dialog;
 
     @Override
@@ -34,7 +24,8 @@ public class StorageActivity extends BaseActivity implements StorageItemNavigato
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getString(R.string.title_activity_storage));
         }
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(StorageViewModel.class);
+
+        viewModel = ViewModelProviders.of(this).get(StorageViewModel.class);
 
         ActivityStorageBinding binding = DataBindingUtil
                 .inflate(inflater, R.layout.activity_storage, frameLayout, true);
@@ -44,7 +35,10 @@ public class StorageActivity extends BaseActivity implements StorageItemNavigato
         binding.productsContent.setAdapter(adapter);
         binding.productsContent.setLayoutManager(new LinearLayoutManager(this));
 
-        binding.fab.setOnClickListener(view -> dialog.show(getSupportFragmentManager(), "dialog"));
+        binding.fab.setOnClickListener(view -> {
+            dialog = AddEditProductDialog.newInstance(3, 0);
+            dialog.show(getSupportFragmentManager(), "dialog");
+        });
     }
 
     @Override
@@ -61,11 +55,7 @@ public class StorageActivity extends BaseActivity implements StorageItemNavigato
 
     @Override
     public void onItemClicked(int id) {
-        this.id = id;
+        dialog = AddEditProductDialog.newInstance(3, id);
         dialog.show(getSupportFragmentManager(), "dialog");
-    }
-
-    public int getSelectedID() {
-        return id;
     }
 }

@@ -1,18 +1,17 @@
 package com.baikaleg.v3.cookingaid.ui.addeditproduct;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 import android.content.res.Resources;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.AdapterView;
 
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.DatabaseCallback;
 import com.baikaleg.v3.cookingaid.data.Repository;
-import com.baikaleg.v3.cookingaid.data.dagger.scopes.ActivityScoped;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
@@ -21,17 +20,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-@ActivityScoped
-public class AddEditProductModel extends AndroidViewModel implements DatabaseCallback {
+public class AddEditProductModel extends ViewModel implements DatabaseCallback {
 
     private AddEditProductNavigator navigator;
 
@@ -51,24 +46,13 @@ public class AddEditProductModel extends AndroidViewModel implements DatabaseCal
 
     private String oldIngredient;
 
-    @Inject
-    public Repository repository;
+    private Repository repository;
 
     private Resources resources;
 
-    @Inject
-    @Named("dialogId")
-    public int dialogId;
-
-    @Inject
-    @Named("productId")
-    public int productId;
-
-    @Inject
-    AddEditProductModel(Repository repository, Application application) {
-        super(application);
-        this.repository = repository;
-        resources = application.getResources();
+    AddEditProductModel(Context context, int dialogId, int productId) {
+        this.repository = Repository.getInstance(context);
+        this.resources = context.getResources();
         compositeDisposable = new CompositeDisposable();
 
         ProductEntity entity = new ProductEntity(0, resources.getString(R.string.kg_measure), null);
@@ -105,6 +89,10 @@ public class AddEditProductModel extends AndroidViewModel implements DatabaseCal
         return price;
     }
 
+    public boolean isEditable() {
+        return isEditable;
+    }
+
     @Override
     public void onAllCatalogEntitiesLoaded(List<CatalogEntity> catalogEntities) {
         compositeDisposable.add(Flowable.fromIterable(catalogEntities)
@@ -123,12 +111,12 @@ public class AddEditProductModel extends AndroidViewModel implements DatabaseCal
                 entity.setDensity(data.getDensity());
                 entity.setPrice(data.getPrice());
                 entity.setExpiration(data.getExpiration());
-                if(!TextUtils.isEmpty(data.getUnitMeasure())){
+                if (!TextUtils.isEmpty(data.getUnitMeasure())) {
                     entity.setUnitMeasure(data.getUnitMeasure());
                     entity.setUnitQuantity(data.getUnitQuantity());
                     entity.setMeasure(resources.getString(R.string.unit_measure));
                     measure.setValue(resources.getString(R.string.unit_measure));
-                }else {
+                } else {
                     measure.setValue(resources.getString(R.string.kg_measure));
                 }
                 productEntity.setValue(entity);

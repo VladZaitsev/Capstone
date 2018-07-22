@@ -1,31 +1,26 @@
 package com.baikaleg.v3.cookingaid.ui.addeditproduct;
 
-import android.app.Application;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
+import android.content.Context;
 import android.support.annotation.NonNull;
-
-import com.baikaleg.v3.cookingaid.data.Repository;
-import com.baikaleg.v3.cookingaid.ui.recipes.RecipesViewModel;
-
-import javax.inject.Inject;
 
 public class AddEditProductModelFactory implements ViewModelProvider.Factory {
 
-    private final Repository repository;
-    private Application application;
+    private Context context;
+    private int dialogID, productID;
 
-    @Inject
-    public AddEditProductModelFactory(Repository repository, Application application) {
-        this.repository = repository;
-        this.application = application;
+    AddEditProductModelFactory(Context context, int dialogID, int productID) {
+        this.context = context;
+        this.dialogID = dialogID;
+        this.productID = productID;
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(AddEditProductModel.class)) {
-            return (T) new AddEditProductModel(repository, application);
+            return (T) new AddEditProductModel(context,dialogID,productID);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

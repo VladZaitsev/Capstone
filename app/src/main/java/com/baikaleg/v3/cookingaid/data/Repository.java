@@ -10,9 +10,6 @@ import com.baikaleg.v3.cookingaid.data.network.RecipeApi;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Flowable;
@@ -23,15 +20,23 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 @SuppressWarnings("WeakerAccess")
-@Singleton
+
 public class Repository implements DataSource {
 
     private final RecipeApi recipeApi;
     private AppDatabase db;
     private CompositeDisposable compositeDisposable;
 
-    @Inject
-    public Repository(Context context) {
+    private static Repository instance;
+
+    public static Repository getInstance(Context context) {
+        if (instance == null) {
+            instance = new Repository(context);
+        }
+        return instance;
+    }
+
+    private Repository(Context context) {
         recipeApi = new RecipeApi(context);
         db = AppDatabase.getInstance(context);
         compositeDisposable = new CompositeDisposable();
@@ -48,12 +53,8 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public Flowable<List<ProductEntity>> loadAllStorageEntities(int state) {
+    public Flowable<List<ProductEntity>> loadAllStorageEntities() {
         return db.productDao().loadAllProducts()
-              /*  .flatMap(Flowable::fromIterable)
-                .filter(productEntity -> productEntity.getState()==state)
-                .toList()*
-                .toFlowable()*/
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -66,7 +67,6 @@ public class Repository implements DataSource {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback::onAllCatalogEntitiesLoaded));
     }
-
 
 
     @Override
@@ -151,6 +151,7 @@ public class Repository implements DataSource {
                     }
                 });
     }
+
     @Override
     public void updateCatalogEntity(CatalogEntity entity) {
         Completable.fromAction(() -> db.catalogDao().updateProduct(entity))
@@ -173,6 +174,7 @@ public class Repository implements DataSource {
     }
 
     public void onDestroyed() {
+        db.close();
         compositeDisposable.clear();
     }
 }

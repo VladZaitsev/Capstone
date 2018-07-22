@@ -14,8 +14,6 @@ import com.baikaleg.v3.cookingaid.databinding.ItemStorageBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 public class StorageViewAdapter extends RecyclerView.Adapter<StorageViewAdapter.StorageViewHolder> {
     private List<ProductEntity> products = new ArrayList<>();
 
@@ -23,8 +21,8 @@ public class StorageViewAdapter extends RecyclerView.Adapter<StorageViewAdapter.
     public Context context;
     private StorageItemNavigator navigator;
 
-    @Inject
-    public StorageViewAdapter(Context context, StorageItemNavigator navigator) {
+
+    StorageViewAdapter(Context context, StorageItemNavigator navigator) {
         this.context = context;
         this.navigator = navigator;
     }
