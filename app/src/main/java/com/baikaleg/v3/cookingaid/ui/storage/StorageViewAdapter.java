@@ -55,6 +55,11 @@ public class StorageViewAdapter extends RecyclerView.Adapter<StorageViewAdapter.
         notifyDataSetChanged();
     }
 
+    public void remove(int position) {
+        navigator.onItemRemoved(products.get(position));
+        notifyItemRemoved(position);
+    }
+
     class StorageViewHolder extends RecyclerView.ViewHolder {
 
         ItemStorageBinding binding;

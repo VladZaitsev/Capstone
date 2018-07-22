@@ -45,6 +45,10 @@ public class StorageViewModel extends AndroidViewModel implements Observable {
                         , throwable -> Log.i("ds", throwable.getMessage())));
     }
 
+    public void remove(ProductEntity entity) {
+        repository.removeProductEntity(entity);
+    }
+
     public void onDestroy() {
         compositeDisposable.clear();
         repository.onDestroyed();

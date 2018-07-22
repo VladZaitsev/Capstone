@@ -4,12 +4,16 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 
 import com.baikaleg.v3.cookingaid.R;
+import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 import com.baikaleg.v3.cookingaid.databinding.ActivityStorageBinding;
 import com.baikaleg.v3.cookingaid.ui.BaseActivity;
 import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductDialog;
+import com.baikaleg.v3.cookingaid.ui.SwipeToDeleteCallback;
 
 public class StorageActivity extends BaseActivity implements StorageItemNavigator {
 
@@ -34,6 +38,15 @@ public class StorageActivity extends BaseActivity implements StorageItemNavigato
         StorageViewAdapter adapter = new StorageViewAdapter(this, this);
         binding.productsContent.setAdapter(adapter);
         binding.productsContent.setLayoutManager(new LinearLayoutManager(this));
+        SwipeToDeleteCallback swipe = new SwipeToDeleteCallback(this) {
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.remove(viewHolder.getLayoutPosition());
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipe);
+        itemTouchHelper.attachToRecyclerView(binding.productsContent);
+
 
         binding.fab.setOnClickListener(view -> {
             dialog = AddEditProductDialog.newInstance(3, 0);
@@ -57,5 +70,10 @@ public class StorageActivity extends BaseActivity implements StorageItemNavigato
     public void onItemClicked(int id) {
         dialog = AddEditProductDialog.newInstance(3, id);
         dialog.show(getSupportFragmentManager(), "dialog");
+    }
+
+    @Override
+    public void onItemRemoved(ProductEntity entity) {
+        viewModel.remove(entity);
     }
 }

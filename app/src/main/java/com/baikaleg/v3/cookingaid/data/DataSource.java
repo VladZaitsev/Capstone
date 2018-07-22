@@ -29,4 +29,6 @@ public interface DataSource {
     void saveProductEntity(ProductEntity entity, DatabaseCallback callback);
 
     void updateProductEntity(ProductEntity entity, DatabaseCallback callback);
+
+    void removeProductEntity(ProductEntity entity);
 }

@@ -69,7 +69,6 @@ public class Repository implements DataSource {
                 .subscribe(callback::onAllCatalogEntitiesLoaded));
     }
 
-
     @Override
     public void loadCatalogEntityByName(String name, DatabaseCallback callback) {
         compositeDisposable.add(db.catalogDao()
@@ -166,6 +165,27 @@ public class Repository implements DataSource {
                     @Override
                     public void onComplete() {
                         callback.onCatalogEntitySaved();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+    }
+
+    @Override
+    public void removeProductEntity(ProductEntity entity) {
+        Completable.fromAction(() -> db.productDao().deleteProduct(entity))
+                .subscribeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
                     }
 
                     @Override
