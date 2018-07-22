@@ -7,6 +7,7 @@ import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.data.network.RecipeApi;
+import com.baikaleg.v3.cookingaid.ui.addeditproduct.DatabaseCallback;
 
 import java.util.List;
 
@@ -87,7 +88,7 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public void saveProductEntity(ProductEntity entity) {
+    public void saveProductEntity(ProductEntity entity, DatabaseCallback callback) {
         Completable.fromAction(() -> db.productDao().insertProduct(entity))
                 .subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
@@ -98,7 +99,7 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onComplete() {
-
+                        callback.onProductEntitySaved();
                     }
 
                     @Override
@@ -109,7 +110,7 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public void updateProductEntity(ProductEntity entity) {
+    public void updateProductEntity(ProductEntity entity, DatabaseCallback callback) {
         Completable.fromAction(() -> db.productDao().updateProduct(entity))
                 .subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
@@ -120,7 +121,7 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onComplete() {
-
+                        callback.onProductEntitySaved();
                     }
 
                     @Override
@@ -131,7 +132,7 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public void saveCatalogEntity(CatalogEntity entity) {
+    public void saveCatalogEntity(CatalogEntity entity, DatabaseCallback callback) {
         Completable.fromAction(() -> db.catalogDao().insertProduct(entity))
                 .subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
@@ -142,7 +143,7 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onComplete() {
-
+                        callback.onCatalogEntitySaved();
                     }
 
                     @Override
@@ -153,7 +154,7 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public void updateCatalogEntity(CatalogEntity entity) {
+    public void updateCatalogEntity(CatalogEntity entity, DatabaseCallback callback) {
         Completable.fromAction(() -> db.catalogDao().updateProduct(entity))
                 .subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
@@ -164,6 +165,7 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onComplete() {
+                        callback.onCatalogEntitySaved();
                     }
 
                     @Override

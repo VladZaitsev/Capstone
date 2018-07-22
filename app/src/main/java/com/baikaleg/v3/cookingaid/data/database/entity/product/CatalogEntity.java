@@ -67,7 +67,7 @@ public class CatalogEntity extends Ingredient implements Product {
 
     @Override
     public float getTotalPrice() {
-        if (getMeasure() != null && getMeasure().equals("UNIT") && unitMeasure != null) {
+        if (getMeasure().equals("UNIT")) {
             float gramsInUnit = convertToGrams(unitMeasure, unitQuantity, density);
             return price * gramsInUnit * getQuantity();
         } else {

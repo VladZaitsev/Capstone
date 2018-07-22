@@ -1,4 +1,4 @@
-package com.baikaleg.v3.cookingaid.data;
+package com.baikaleg.v3.cookingaid.ui.addeditproduct;
 
 import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
@@ -11,4 +11,8 @@ public interface DatabaseCallback {
     void onCatalogEntityByNameLoaded(CatalogEntity entity);
 
     void onProductEntityByIdLoaded(ProductEntity entity);
+
+    void onProductEntitySaved();
+
+    void onCatalogEntitySaved();
 }

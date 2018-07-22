@@ -18,10 +18,13 @@
         <AutoCompleteTextView
             android:id="@+id/title"
             style="@style/AppTheme.CommonMargin"
+            catalogList="@{model.catalogEntityNames}"
+            catalogValue="@={model.productEntity.ingredient}"
+            isEditable="@{model.isEditable?true:false}"
+            onCatalogEntitySelected="@{model.catalogSelectedListener}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:afterTextChanged="@{(s)->model.ingredientTextChangedListener(s)}"
             android:dropDownHeight="200dp"
             android:enabled="@{model.isEditable?true:false}"
             android:hint="@string/mock_title"
@@ -29,8 +32,6 @@
             android:inputType="text|textAutoComplete"
             android:scrollbars="vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:entitiesNames="@{model.catalogEntityNames}"
-            app:entitiesNamesSelected="@{model.ingredientItemClickListener}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,11 +54,12 @@
             style="@style/AppTheme.CommonMargin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            onMeasureSelected="@{model.measureSelectedListener}"
             android:entries="@array/measures"
             app:layout_constraintBottom_toBottomOf="@+id/quantity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/quantity"
-            app:selectedValue="@={model.measure}" />
+            app:selectedValue="@={model.productEntity.measure}" />
 
         <TextView
             android:id="@+id/single_unit_txt"
@@ -98,7 +100,7 @@
             android:id="@+id/unit_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{model.measure.equals(@string/unit_measure)? View.VISIBLE:View.GONE}"
+            android:visibility="@{model.isUnitMeasure? View.VISIBLE:View.GONE}"
             app:constraint_referenced_ids="single_unit_measure,single_unit_field,single_unit_txt" />
 
         <View
