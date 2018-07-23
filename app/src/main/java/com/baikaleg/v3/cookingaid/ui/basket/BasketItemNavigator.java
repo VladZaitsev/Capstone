@@ -8,5 +8,5 @@ public interface BasketItemNavigator {
 
     void onItemRemoved(ProductEntity entity);
 
-    void onSelected(ProductEntity entity);
+    void onItemSelected(ProductEntity entity);
 }

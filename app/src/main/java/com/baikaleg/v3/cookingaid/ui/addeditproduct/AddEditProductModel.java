@@ -45,7 +45,7 @@ public class AddEditProductModel extends ViewModel {
     private OnCatalogEntitySaveListener catalogSaveListener = new OnCatalogEntitySaveListener() {
         @Override
         public void onCatalogEntitySaved() {
-            navigator.onCancel();
+            onDestroy();
         }
     };
 
@@ -74,7 +74,7 @@ public class AddEditProductModel extends ViewModel {
 
         @Override
         public void onAllCatalogIngredientsLoaded(List<String> list) {
-           catalogEntityNames.postValue(list);
+            catalogEntityNames.postValue(list);
         }
 
         @Override
@@ -171,15 +171,11 @@ public class AddEditProductModel extends ViewModel {
     }
 
     public void onCancelBtnClicked() {
-        navigator.onCancel();
+        onDestroy();
     }
 
-    public void onDestroy() {
-        productSaveListener = null;
-        catalogSaveListener = null;
-        catalogLoadedListener = null;
-        productLoadedListener = null;
-
+    private void onDestroy() {
+        navigator.onCancel();
     }
 
     public AdapterView.OnItemClickListener catalogSelectedListener = new AdapterView.OnItemClickListener() {

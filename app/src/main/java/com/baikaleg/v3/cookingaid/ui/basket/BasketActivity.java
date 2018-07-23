@@ -52,7 +52,7 @@ public class BasketActivity extends BaseActivity implements BasketItemNavigator 
         itemTouchHelper.attachToRecyclerView(binding.productsContent);
 
         binding.fab.setOnClickListener(view -> {
-            dialog = AddEditProductDialog.newInstance(DIALOG_ID , 0);
+            dialog = AddEditProductDialog.newInstance(DIALOG_ID, 0);
             dialog.show(getSupportFragmentManager(), "dialog");
         });
     }
@@ -71,7 +71,7 @@ public class BasketActivity extends BaseActivity implements BasketItemNavigator 
 
     @Override
     public void onItemClicked(int id) {
-        dialog = AddEditProductDialog.newInstance(DIALOG_ID , id);
+        dialog = AddEditProductDialog.newInstance(DIALOG_ID, id);
         dialog.show(getSupportFragmentManager(), "dialog");
     }
 
@@ -81,8 +81,8 @@ public class BasketActivity extends BaseActivity implements BasketItemNavigator 
     }
 
     @Override
-    public void onSelected(ProductEntity entity) {
-
+    public void onItemSelected(ProductEntity entity) {
+        viewModel.bought(entity);
     }
 
     @SuppressWarnings("unchecked")

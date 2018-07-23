@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
@@ -41,6 +42,12 @@ public class BasketViewAdapter extends RecyclerView.Adapter<BasketViewAdapter.Ba
         holder.binding.setProduct(entity);
         holder.binding.setDetails(String.valueOf(entity.getTotalPrice()));
         holder.binding.getRoot().setOnClickListener(view -> navigator.onItemClicked(entity.getId()));
+        holder.binding.check.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                navigator.onItemSelected(products.get(position));
+                notifyItemRemoved(position);
+            }
+        });
     }
 
     @Override
