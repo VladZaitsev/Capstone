@@ -11,20 +11,28 @@ import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 import com.baikaleg.v3.cookingaid.databinding.ItemStorageBinding;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class StorageViewAdapter extends RecyclerView.Adapter<StorageViewAdapter.StorageViewHolder> {
     private List<ProductEntity> products = new ArrayList<>();
 
-
     public Context context;
     private StorageItemNavigator navigator;
-
+    private long current_time;
+    private DateFormat dateFormat;
 
     StorageViewAdapter(Context context, StorageItemNavigator navigator) {
         this.context = context;
         this.navigator = navigator;
+        Calendar calendar = Calendar.getInstance();
+        current_time = calendar.getTime().getTime();
+        dateFormat = new SimpleDateFormat(context.getString(R.string.format_of_date), Locale.getDefault());
     }
 
     @NonNull
@@ -39,8 +47,21 @@ public class StorageViewAdapter extends RecyclerView.Adapter<StorageViewAdapter.
     @Override
     public void onBindViewHolder(@NonNull StorageViewHolder holder, int position) {
         ProductEntity entity = products.get(position);
+        String details;
+        long bought_time = entity.getPurchaseDate().getTime();
+        long days = TimeUnit.DAYS.convert(current_time - bought_time, TimeUnit.MILLISECONDS);
+        long diff = entity.getExpiration() - days;
+        if (diff < 0) {
+            details = context.getString(R.string.msg_product_has_expired);
+        } else {
+            if (diff < 5) {
+                details = context.getString(R.string.msg_days_to_expire, diff);
+            } else {
+                details = context.getString(R.string.msg_bought_date, dateFormat.format(entity.getPurchaseDate()));
+            }
+        }
         holder.binding.setProduct(entity);
-        holder.binding.setDetails(String.valueOf(entity.getExpiration()));
+        holder.binding.setDetails(details);
         holder.binding.getRoot().setOnClickListener(view -> navigator.onItemClicked(entity.getId()));
     }
 

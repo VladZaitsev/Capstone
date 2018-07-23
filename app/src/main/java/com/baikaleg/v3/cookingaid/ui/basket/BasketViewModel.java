@@ -12,6 +12,7 @@ import com.baikaleg.v3.cookingaid.data.callback.OnProductEntitySaveListener;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductList;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,7 +24,7 @@ public class BasketViewModel extends AndroidViewModel {
     private final MutableLiveData<List<ProductEntity>> data = new MutableLiveData<>();
     private final MutableLiveData<String> totalPrice = new MutableLiveData<>();
     private final MutableLiveData<String> totalWeight = new MutableLiveData<>();
-
+    private final MutableLiveData<Boolean> isEmpty = new MutableLiveData<>();
 
     private OnProductEntityLoadedListener loadedListener = new OnProductEntityLoadedListener() {
         @Override
@@ -33,8 +34,14 @@ public class BasketViewModel extends AndroidViewModel {
             for (ProductEntity e : list) {
                 productList.add(e);
             }
-            totalPrice.setValue(String.format(Locale.getDefault(),"%.2f",productList.getTotalPrice()));
-            totalWeight.setValue(String.format(Locale.getDefault(),"%.2f",productList.getTotalWeight()));
+            totalPrice.setValue(String.format(Locale.getDefault(), "%.2f", productList.getTotalPrice()));
+            totalWeight.setValue(String.format(Locale.getDefault(), "%.2f", productList.getTotalWeight()));
+
+            if (list.size() != 0) {
+                isEmpty.setValue(false);
+            } else {
+                isEmpty.setValue(true);
+            }
         }
 
         @Override
@@ -66,6 +73,10 @@ public class BasketViewModel extends AndroidViewModel {
         return totalWeight;
     }
 
+    public MutableLiveData<Boolean> getIsEmpty() {
+        return isEmpty;
+    }
+
     private void loadData() {
         repository.loadAllProductEntities(loadedListener, STATE);
     }
@@ -75,7 +86,9 @@ public class BasketViewModel extends AndroidViewModel {
     }
 
     public void bought(ProductEntity entity) {
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
         entity.setState(3);
+        entity.setPurchaseDate(calendar.getTime());
         repository.updateProductEntity(entity, saveListener);
     }
 

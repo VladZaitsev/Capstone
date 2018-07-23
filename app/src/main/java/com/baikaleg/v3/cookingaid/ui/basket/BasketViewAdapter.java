@@ -14,6 +14,7 @@ import com.baikaleg.v3.cookingaid.databinding.ItemBasketBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class BasketViewAdapter extends RecyclerView.Adapter<BasketViewAdapter.BasketViewHolder> {
 
@@ -40,7 +41,7 @@ public class BasketViewAdapter extends RecyclerView.Adapter<BasketViewAdapter.Ba
     public void onBindViewHolder(@NonNull BasketViewHolder holder, int position) {
         ProductEntity entity = products.get(position);
         holder.binding.setProduct(entity);
-        holder.binding.setDetails(String.valueOf(entity.getTotalPrice()));
+        holder.binding.setDetails(String.format(Locale.getDefault(), "%.2f", entity.getTotalPrice()));
         holder.binding.getRoot().setOnClickListener(view -> navigator.onItemClicked(entity.getId()));
         holder.binding.check.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b) {

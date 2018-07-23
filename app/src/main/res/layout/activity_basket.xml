@@ -3,6 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="model"
             type="com.baikaleg.v3.cookingaid.ui.basket.BasketViewModel" />
@@ -22,6 +25,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/empty"
+            style="@style/AppTheme.CommonMargin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/msg_no_storage_items"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:visibility="@{model.isEmpty?View.VISIBLE : View.GONE, default=visible}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <LinearLayout
             android:id="@+id/footer"
             android:background="@drawable/background_view"
@@ -31,6 +48,8 @@
             android:weightSum="2"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent">
+
+
             <TextView
                 android:id="@+id/total"
                 style="@style/AppTheme.CommonMargin"

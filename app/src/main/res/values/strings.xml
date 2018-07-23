@@ -55,10 +55,14 @@
     <!-- messages-->
     <string name="msg_no_recipes">Sorry, no recipes</string>
     <string name="msg_no_internet">Sorry, no internet</string>
+    <string name="msg_no_storage_items">You haven`t added any product yet</string>
+    <string name="msg_product_has_expired">Expiration date has expired</string>
+    <string name="msg_days_to_expire">Days to expire: %1$s</string>
+    <string name="msg_bought_date">Bought: %1$s</string>
 
     <string name="total_price">Total: %1$s $</string>
     <string name="total_weight">Weight: %1$s kg</string>
-
+    <string name="format_of_date">dd.MM.yy.</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -71,4 +75,5 @@
     <string name="expiration_example">Example: 10</string>
     <string name="calories_example">Example: 220 </string>
     <string name="badNumber">error</string>
+
 </resources>

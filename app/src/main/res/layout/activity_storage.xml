@@ -2,6 +2,7 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="model"
@@ -17,6 +18,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:storageProducts="@{model.data}" />
+
+        <TextView
+            android:id="@+id/empty"
+            style="@style/AppTheme.CommonMargin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/msg_no_storage_items"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:visibility="@{model.isEmpty?View.VISIBLE : View.GONE, default=visible}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

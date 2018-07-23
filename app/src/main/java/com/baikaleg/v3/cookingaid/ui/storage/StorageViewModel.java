@@ -14,11 +14,17 @@ import java.util.List;
 public class StorageViewModel extends AndroidViewModel {
     private final static int STATE = 3;
     private final Repository repository;
+    private final MutableLiveData<Boolean> isEmpty = new MutableLiveData<>();
 
     private OnProductEntityLoadedListener loadedListener = new OnProductEntityLoadedListener() {
         @Override
         public void onAllProductEntitiesLoaded(List<ProductEntity> list) {
             data.setValue(list);
+            if (list.size() != 0) {
+                isEmpty.setValue(list.size() != 0 ? false : true);
+            } else {
+                isEmpty.setValue(true);
+            }
         }
 
         @Override
@@ -33,6 +39,10 @@ public class StorageViewModel extends AndroidViewModel {
         super(application);
         this.repository = Repository.getInstance(application);
         loadData();
+    }
+
+    public MutableLiveData<Boolean> getIsEmpty() {
+        return isEmpty;
     }
 
     private void loadData() {
