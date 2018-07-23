@@ -66,4 +66,10 @@ public class AddEditProductDialog extends DialogFragment implements AddEditProdu
     public void onCancel() {
         getDialog().cancel();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        viewModel.onDestroy();
+    }
 }

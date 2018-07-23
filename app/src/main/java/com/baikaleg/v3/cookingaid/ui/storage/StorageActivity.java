@@ -1,6 +1,7 @@
 package com.baikaleg.v3.cookingaid.ui.storage;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,8 +16,10 @@ import com.baikaleg.v3.cookingaid.ui.BaseActivity;
 import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductDialog;
 import com.baikaleg.v3.cookingaid.ui.SwipeToDeleteCallback;
 
-public class StorageActivity extends BaseActivity implements StorageItemNavigator {
+import java.util.List;
 
+public class StorageActivity extends BaseActivity implements StorageItemNavigator {
+    private static final int DIALOG_ID = 3;
     private StorageViewModel viewModel;
 
     public AddEditProductDialog dialog;
@@ -33,6 +36,7 @@ public class StorageActivity extends BaseActivity implements StorageItemNavigato
 
         ActivityStorageBinding binding = DataBindingUtil
                 .inflate(inflater, R.layout.activity_storage, frameLayout, true);
+        binding.setLifecycleOwner(this);
         binding.setModel(viewModel);
 
         StorageViewAdapter adapter = new StorageViewAdapter(this, this);
@@ -49,7 +53,7 @@ public class StorageActivity extends BaseActivity implements StorageItemNavigato
 
 
         binding.fab.setOnClickListener(view -> {
-            dialog = AddEditProductDialog.newInstance(3, 0);
+            dialog = AddEditProductDialog.newInstance(DIALOG_ID , 0);
             dialog.show(getSupportFragmentManager(), "dialog");
         });
     }
@@ -68,12 +72,21 @@ public class StorageActivity extends BaseActivity implements StorageItemNavigato
 
     @Override
     public void onItemClicked(int id) {
-        dialog = AddEditProductDialog.newInstance(3, id);
+        dialog = AddEditProductDialog.newInstance(DIALOG_ID , id);
         dialog.show(getSupportFragmentManager(), "dialog");
     }
 
     @Override
     public void onItemRemoved(ProductEntity entity) {
         viewModel.remove(entity);
+    }
+
+    @SuppressWarnings("unchecked")
+    @BindingAdapter("app:storageProducts")
+    public static void setStorageProducts(RecyclerView recyclerView, List<ProductEntity> entities) {
+        StorageViewAdapter adapter = (StorageViewAdapter) recyclerView.getAdapter();
+        if (adapter != null && entities != null) {
+            adapter.refresh(entities);
+        }
     }
 }

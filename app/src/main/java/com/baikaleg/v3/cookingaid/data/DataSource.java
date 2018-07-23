@@ -1,9 +1,12 @@
 package com.baikaleg.v3.cookingaid.data;
 
+import com.baikaleg.v3.cookingaid.data.callback.OnCatalogEntityLoadedListener;
+import com.baikaleg.v3.cookingaid.data.callback.OnCatalogEntitySaveListener;
+import com.baikaleg.v3.cookingaid.data.callback.OnProductEntityLoadedListener;
+import com.baikaleg.v3.cookingaid.data.callback.OnProductEntitySaveListener;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
-import com.baikaleg.v3.cookingaid.ui.addeditproduct.DatabaseCallback;
 
 import java.util.List;
 
@@ -14,21 +17,21 @@ public interface DataSource {
 
     Observable<List<Recipe>> getRecipes();
 
-    Flowable<List<ProductEntity>> loadAllStorageEntities();
+    void loadAllProductEntities(OnProductEntityLoadedListener listener, int state);
 
-    void loadAllCatalogEntities(DatabaseCallback callback);
+    void loadAllCatalogEntities(OnCatalogEntityLoadedListener listener);
 
-    void loadCatalogEntityByName(String name, DatabaseCallback callback);
+    void loadProductEntityById(int id, OnProductEntityLoadedListener listener);
 
-    void loadProductEntityById(int id, DatabaseCallback callback);
+    void loadCatalogEntityByName(String name, OnCatalogEntityLoadedListener listener);
 
-    void saveCatalogEntity(CatalogEntity entity, DatabaseCallback callback);
+    void saveCatalogEntity(CatalogEntity entity, OnCatalogEntitySaveListener listener);
 
-    void updateCatalogEntity(CatalogEntity entity, DatabaseCallback callback);
+    void updateCatalogEntity(CatalogEntity entity, OnCatalogEntitySaveListener listener);
 
-    void saveProductEntity(ProductEntity entity, DatabaseCallback callback);
+    void saveProductEntity(ProductEntity entity, OnProductEntitySaveListener listener);
 
-    void updateProductEntity(ProductEntity entity, DatabaseCallback callback);
+    void updateProductEntity(ProductEntity entity, OnProductEntitySaveListener listener);
 
     void removeProductEntity(ProductEntity entity);
 }

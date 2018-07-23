@@ -10,21 +10,19 @@ import android.widget.AdapterView;
 
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.Repository;
+import com.baikaleg.v3.cookingaid.data.callback.OnCatalogEntityLoadedListener;
+import com.baikaleg.v3.cookingaid.data.callback.OnCatalogEntitySaveListener;
+import com.baikaleg.v3.cookingaid.data.callback.OnProductEntityLoadedListener;
+import com.baikaleg.v3.cookingaid.data.callback.OnProductEntitySaveListener;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
-import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 
 import java.util.List;
 import java.util.Objects;
 
-import io.reactivex.Flowable;
-import io.reactivex.disposables.CompositeDisposable;
-
-public class AddEditProductModel extends ViewModel implements DatabaseCallback {
+public class AddEditProductModel extends ViewModel {
 
     private AddEditProductNavigator navigator;
-
-    private CompositeDisposable compositeDisposable;
 
     private MutableLiveData<List<String>> catalogEntityNames = new MutableLiveData<>();
 
@@ -44,21 +42,94 @@ public class AddEditProductModel extends ViewModel implements DatabaseCallback {
 
     private Resources resources;
 
+    private OnCatalogEntitySaveListener catalogSaveListener = new OnCatalogEntitySaveListener() {
+        @Override
+        public void onCatalogEntitySaved() {
+            navigator.onCancel();
+        }
+    };
+
+    private OnProductEntitySaveListener productSaveListener = new OnProductEntitySaveListener() {
+        @Override
+        public void onProductEntitySaved() {
+            if (productEntity.getValue() != null) {
+                productEntity.getValue().setMeasure(null);
+                productEntity.getValue().setQuantity(0);
+                if (isEditable) {
+                    if (!productEntity.getValue().getIngredient().equals(oldIngredient)) {
+                        repository.saveCatalogEntity(productEntity.getValue(), catalogSaveListener);
+                    } else {
+                        productEntity.getValue().setId(oldCatalogId);
+                        repository.updateCatalogEntity(productEntity.getValue(), catalogSaveListener);
+                    }
+                } else {
+                    productEntity.getValue().setId(oldCatalogId);
+                    repository.updateCatalogEntity(productEntity.getValue(), catalogSaveListener);
+                }
+            }
+        }
+    };
+
+    private OnCatalogEntityLoadedListener catalogLoadedListener = new OnCatalogEntityLoadedListener() {
+
+        @Override
+        public void onAllCatalogIngredientsLoaded(List<String> list) {
+           catalogEntityNames.postValue(list);
+        }
+
+        @Override
+        public void onCatalogEntityByNameLoaded(CatalogEntity data) {
+            if (productEntity.getValue() != null) {
+                if (isEditable) {
+                    ProductEntity entity = new ProductEntity(0, resources.getString(R.string.kg_measure), data.getIngredient());
+                    entity.setState(dialogId);
+                    entity.setCalories(data.getCalories());
+                    entity.setDensity(data.getDensity());
+                    entity.setPrice(data.getPrice());
+                    entity.setExpiration(data.getExpiration());
+                    if (!TextUtils.isEmpty(data.getUnitMeasure())) {
+                        entity.setUnitMeasure(data.getUnitMeasure());
+                        entity.setUnitQuantity(data.getUnitQuantity());
+                        entity.setMeasure(resources.getString(R.string.unit_measure));
+                    }
+                    productEntity.setValue(entity);
+
+                    oldIngredient = data.getIngredient();
+                    price.postValue(data.getPrice());
+                }
+                oldCatalogId = data.getId();
+            }
+        }
+    };
+
+    private OnProductEntityLoadedListener productLoadedListener = new OnProductEntityLoadedListener() {
+        @Override
+        public void onAllProductEntitiesLoaded(List<ProductEntity> list) {
+
+        }
+
+        @Override
+        public void onProductEntityByIdLoaded(ProductEntity entity) {
+            productEntity.setValue(entity);
+            price.setValue(entity.getTotalPrice());
+            repository.loadCatalogEntityByName(entity.getIngredient(), catalogLoadedListener);
+        }
+    };
+
     AddEditProductModel(Context context, int dialogId, int productId) {
         this.repository = Repository.getInstance(context);
         this.resources = context.getResources();
         this.dialogId = dialogId;
-        compositeDisposable = new CompositeDisposable();
 
         ProductEntity entity = new ProductEntity(0, resources.getString(R.string.kg_measure), null);
         entity.setState(dialogId);
         productEntity.setValue(entity);
 
         if (productId == 0) {
-            repository.loadAllCatalogEntities(this);
+            repository.loadAllCatalogEntities(catalogLoadedListener);
             isEditable = true;
         } else {
-            repository.loadProductEntityById(productId, this);
+            repository.loadProductEntityById(productId, productLoadedListener);
             isEditable = false;
         }
     }
@@ -87,79 +158,14 @@ public class AddEditProductModel extends ViewModel implements DatabaseCallback {
         return isEditable;
     }
 
-    @Override
-    public void onAllCatalogEntitiesLoaded(List<CatalogEntity> catalogEntities) {
-        compositeDisposable.add(Flowable.fromIterable(catalogEntities)
-                .flatMap(Flowable::fromArray)
-                .map(Ingredient::getIngredient)
-                .toList()
-                .subscribe(list -> catalogEntityNames.postValue(list)));
-    }
-
-    @Override
-    public void onCatalogEntityByNameLoaded(CatalogEntity data) {
-        if (productEntity.getValue() != null) {
-            if (isEditable) {
-                ProductEntity entity = new ProductEntity(0, resources.getString(R.string.kg_measure), data.getIngredient());
-                entity.setState(dialogId);
-                entity.setCalories(data.getCalories());
-                entity.setDensity(data.getDensity());
-                entity.setPrice(data.getPrice());
-                entity.setExpiration(data.getExpiration());
-                if (!TextUtils.isEmpty(data.getUnitMeasure())) {
-                    entity.setUnitMeasure(data.getUnitMeasure());
-                    entity.setUnitQuantity(data.getUnitQuantity());
-                    entity.setMeasure(resources.getString(R.string.unit_measure));
-                }
-                productEntity.setValue(entity);
-
-                oldIngredient = data.getIngredient();
-                price.postValue(data.getPrice());
-            }
-            oldCatalogId = data.getId();
-        }
-    }
-
-    @Override
-    public void onProductEntityByIdLoaded(ProductEntity entity) {
-        productEntity.setValue(entity);
-        price.setValue(entity.getTotalPrice());
-        repository.loadCatalogEntityByName(entity.getIngredient(), this);
-    }
-
-    @Override
-    public void onProductEntitySaved() {
-       if(productEntity.getValue()!=null){
-           productEntity.getValue().setMeasure(null);
-           productEntity.getValue().setQuantity(0);
-           if (isEditable) {
-               if (!productEntity.getValue().getIngredient().equals(oldIngredient)) {
-                   repository.saveCatalogEntity(productEntity.getValue(),this);
-               } else {
-                   productEntity.getValue().setId(oldCatalogId);
-                   repository.updateCatalogEntity(productEntity.getValue(),this);
-               }
-           }else {
-               productEntity.getValue().setId(oldCatalogId);
-               repository.updateCatalogEntity( productEntity.getValue(),this);
-           }
-       }
-    }
-
-    @Override
-    public void onCatalogEntitySaved() {
-        navigator.onCancel();
-    }
-
     public void onSaveBtnClicked() {
-        compositeDisposable.clear();
         if (productEntity.getValue() != null) {
             productEntity.getValue().fromTotalPrice(price.getValue());
             if (isEditable) {
                 productEntity.getValue().setId(0);
-                repository.saveProductEntity(productEntity.getValue(),this);
+                repository.saveProductEntity(productEntity.getValue(), productSaveListener);
             } else {
-                repository.updateProductEntity(productEntity.getValue(),this);
+                repository.updateProductEntity(productEntity.getValue(), productSaveListener);
             }
         }
     }
@@ -168,11 +174,19 @@ public class AddEditProductModel extends ViewModel implements DatabaseCallback {
         navigator.onCancel();
     }
 
+    public void onDestroy() {
+        productSaveListener = null;
+        catalogSaveListener = null;
+        catalogLoadedListener = null;
+        productLoadedListener = null;
+
+    }
+
     public AdapterView.OnItemClickListener catalogSelectedListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             String temp = adapterView.getItemAtPosition(i).toString();
-            repository.loadCatalogEntityByName(temp, AddEditProductModel.this);
+            repository.loadCatalogEntityByName(temp, catalogLoadedListener);
         }
     };
 

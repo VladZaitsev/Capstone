@@ -1,4 +1,4 @@
-package com.baikaleg.v3.cookingaid.ui.storage;
+package com.baikaleg.v3.cookingaid.ui.basket;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -11,9 +11,11 @@ import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 
 import java.util.List;
 
-public class StorageViewModel extends AndroidViewModel {
-    private final static int STATE = 3;
+public class BasketViewModel extends AndroidViewModel {
+    private final static int STATE = 2;
     private final Repository repository;
+
+    public final MutableLiveData<List<ProductEntity>> data = new MutableLiveData<>();
 
     private OnProductEntityLoadedListener loadedListener = new OnProductEntityLoadedListener() {
         @Override
@@ -27,9 +29,7 @@ public class StorageViewModel extends AndroidViewModel {
         }
     };
 
-    public final MutableLiveData<List<ProductEntity>> data = new MutableLiveData<>();
-
-    StorageViewModel(@NonNull Application application) {
+    public BasketViewModel(@NonNull Application application) {
         super(application);
         this.repository = Repository.getInstance(application);
         loadData();
@@ -43,8 +43,13 @@ public class StorageViewModel extends AndroidViewModel {
         repository.removeProductEntity(entity);
     }
 
+    public void bought(ProductEntity entity) {
+        entity.setState(3);
+        repository.updateProductEntity(entity, null);
+    }
+
     public void onDestroy() {
-        repository.onDestroyed();
         loadedListener = null;
+        repository.onDestroyed();
     }
 }

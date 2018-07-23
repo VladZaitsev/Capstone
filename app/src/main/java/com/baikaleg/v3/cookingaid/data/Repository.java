@@ -2,12 +2,16 @@ package com.baikaleg.v3.cookingaid.data;
 
 import android.content.Context;
 
+import com.baikaleg.v3.cookingaid.data.callback.OnCatalogEntityLoadedListener;
+import com.baikaleg.v3.cookingaid.data.callback.OnCatalogEntitySaveListener;
+import com.baikaleg.v3.cookingaid.data.callback.OnProductEntityLoadedListener;
+import com.baikaleg.v3.cookingaid.data.callback.OnProductEntitySaveListener;
 import com.baikaleg.v3.cookingaid.data.database.AppDatabase;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
+import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.data.network.RecipeApi;
-import com.baikaleg.v3.cookingaid.ui.addeditproduct.DatabaseCallback;
 
 import java.util.List;
 
@@ -19,8 +23,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-
-@SuppressWarnings("WeakerAccess")
 
 public class Repository implements DataSource {
 
@@ -54,40 +56,49 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public Flowable<List<ProductEntity>> loadAllStorageEntities() {
-        return db.productDao().loadAllProducts()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    @Override
-    public void loadAllCatalogEntities(DatabaseCallback callback) {
-        compositeDisposable.add(db.catalogDao()
+    public void loadAllProductEntities(OnProductEntityLoadedListener listener, int state) {
+        compositeDisposable.add(db.productDao()
                 .loadAllProducts()
+                .flatMap(productEntities -> Flowable.fromIterable(productEntities)
+                        .filter(productEntity -> productEntity.getState() == state)
+                        .toList()
+                        .toFlowable())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(callback::onAllCatalogEntitiesLoaded));
+                .subscribe(listener::onAllProductEntitiesLoaded));
     }
 
     @Override
-    public void loadCatalogEntityByName(String name, DatabaseCallback callback) {
+    public void loadAllCatalogEntities(OnCatalogEntityLoadedListener listener) {
+        compositeDisposable.add(db.catalogDao()
+                .loadAllProducts()
+                .flatMap(catalogEntities -> Flowable.fromIterable(catalogEntities)
+                        .map(Ingredient::getIngredient)
+                        .toList())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(listener::onAllCatalogIngredientsLoaded));
+    }
+
+    @Override
+    public void loadCatalogEntityByName(String name, OnCatalogEntityLoadedListener listener) {
         compositeDisposable.add(db.catalogDao()
                 .loadProductByName(name)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(callback::onCatalogEntityByNameLoaded));
+                .subscribe(listener::onCatalogEntityByNameLoaded));
     }
 
     @Override
-    public void loadProductEntityById(int id, DatabaseCallback callback) {
+    public void loadProductEntityById(int id, OnProductEntityLoadedListener listener) {
         compositeDisposable.add(db.productDao().loadProductById(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(callback::onProductEntityByIdLoaded));
+                .subscribe(listener::onProductEntityByIdLoaded));
     }
 
     @Override
-    public void saveProductEntity(ProductEntity entity, DatabaseCallback callback) {
+    public void saveProductEntity(ProductEntity entity, OnProductEntitySaveListener listener) {
         Completable.fromAction(() -> db.productDao().insertProduct(entity))
                 .subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
@@ -98,7 +109,7 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onComplete() {
-                        callback.onProductEntitySaved();
+                        listener.onProductEntitySaved();
                     }
 
                     @Override
@@ -109,7 +120,7 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public void updateProductEntity(ProductEntity entity, DatabaseCallback callback) {
+    public void updateProductEntity(ProductEntity entity, OnProductEntitySaveListener listener) {
         Completable.fromAction(() -> db.productDao().updateProduct(entity))
                 .subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
@@ -120,7 +131,7 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onComplete() {
-                        callback.onProductEntitySaved();
+                        listener.onProductEntitySaved();
                     }
 
                     @Override
@@ -131,7 +142,7 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public void saveCatalogEntity(CatalogEntity entity, DatabaseCallback callback) {
+    public void saveCatalogEntity(CatalogEntity entity, OnCatalogEntitySaveListener listener) {
         Completable.fromAction(() -> db.catalogDao().insertProduct(entity))
                 .subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
@@ -142,7 +153,7 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onComplete() {
-                        callback.onCatalogEntitySaved();
+                        listener.onCatalogEntitySaved();
                     }
 
                     @Override
@@ -153,7 +164,7 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public void updateCatalogEntity(CatalogEntity entity, DatabaseCallback callback) {
+    public void updateCatalogEntity(CatalogEntity entity, OnCatalogEntitySaveListener listener) {
         Completable.fromAction(() -> db.catalogDao().updateProduct(entity))
                 .subscribeOn(Schedulers.io())
                 .subscribe(new CompletableObserver() {
@@ -164,7 +175,7 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onComplete() {
-                        callback.onCatalogEntitySaved();
+                        listener.onCatalogEntitySaved();
                     }
 
                     @Override

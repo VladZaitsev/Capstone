@@ -1,54 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="details"
+            type="String" />
+
+        <variable
+            name="product"
+            type="com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity" />
+    </data>
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/card_view_margin"
-        android:background="@color/colorImageBackground"
         app:cardElevation="@dimen/card_view_elevation">
+
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <CheckBox
                 android:id="@+id/check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ver_margin"
-                android:layout_marginEnd="@dimen/hor_margin"
-                android:layout_marginLeft="@dimen/hor_margin"
-                android:layout_marginRight="@dimen/hor_margin"
-                android:layout_marginStart="@dimen/hor_margin"
-                android:layout_marginTop="@dimen/ver_margin"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
-                android:id="@+id/check_border"
+                android:id="@+id/left_border"
                 android:layout_width="1dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/ver_margin"
-                android:layout_marginLeft="@dimen/hor_margin"
-                android:layout_marginStart="@dimen/hor_margin"
-                android:layout_marginTop="@dimen/ver_margin"
+                android:layout_marginStart="@dimen/ver_margin"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="@color/colorBorder"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/check"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <FrameLayout
+            <View
+                android:id="@+id/right_border"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorBorder"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/check_border">
+                style="@style/AppTheme.CommonMargin"
+                android:text="tilte"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintEnd_toStartOf="@+id/right_border"
+                app:layout_constraintStart_toEndOf="@+id/left_border" />
 
-                <include layout="@layout/include_item_storage_content" />
-            </FrameLayout>
+            <TextView
+                android:id="@+id/details"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ver_margin"
+                android:text="details"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/title"
+                app:layout_constraintStart_toStartOf="@+id/title"
+                app:layout_constraintTop_toBottomOf="@+id/title" />
+
+            <TextView
+                android:id="@+id/quantity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/hor_margin"
+                android:layout_marginStart="@dimen/hor_margin"
+                android:text="temp"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/right_border"
+                app:layout_constraintTop_toTopOf="@+id/title" />
+
+            <TextView
+                android:id="@+id/measure"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/hor_margin"
+                android:layout_marginStart="@dimen/hor_margin"
+                android:text="m"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintBottom_toBottomOf="@+id/details"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/right_border"
+                app:layout_constraintTop_toBottomOf="@+id/quantity" />
         </android.support.constraint.ConstraintLayout>
+
     </android.support.v7.widget.CardView>
 </layout>
