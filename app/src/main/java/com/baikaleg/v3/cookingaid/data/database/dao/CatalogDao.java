@@ -37,5 +37,5 @@ public interface CatalogDao {
     Single<CatalogEntity> loadProductByName(String name);
 
     @RawQuery(observedEntities = CatalogEntity.class)
-    Single<List<CatalogEntity>> loadProductsByQuery(SupportSQLiteQuery query);
+    Flowable<List<CatalogEntity>> loadProductsByQuery(SupportSQLiteQuery query);
 }

@@ -84,7 +84,7 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public Single<List<CatalogEntity>> loadCatalogEntitiesByQuery(String ingredient) {
+    public Flowable<List<CatalogEntity>> loadCatalogEntitiesByQuery(String ingredient) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
                 AppUtils.productLoadQuery("catalog", "ingredient", ingredient));
         return db.catalogDao()
@@ -106,6 +106,7 @@ public class Repository implements DataSource {
     public Single<List<ProductEntity>> loadProductEntitiesByQuery(String ingredient) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
                 AppUtils.productLoadQuery("product", "ingredient", ingredient));
+        //TODO Select state
         return db.productDao()
                 .loadProductsByQuery(query)
                 .subscribeOn(Schedulers.io())

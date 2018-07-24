@@ -5,13 +5,13 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import com.baikaleg.v3.cookingaid.data.database.AppDatabase;
 import com.baikaleg.v3.cookingaid.data.database.dao.CatalogDao;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductList;
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
+import com.baikaleg.v3.cookingaid.util.AppUtils;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,11 +19,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import io.reactivex.Maybe;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class CatalogEntityWriteReadTest {
@@ -53,8 +55,8 @@ public class CatalogEntityWriteReadTest {
 
     @Test
     public void writeCatalogItemsAndReadInListTest() {
-       /* List<CatalogEntity> catalogEntities = catalogDao.loadAllProducts();
-        assertEquals(16, catalogEntities.size());*/
+        catalogDao.loadAllProducts().subscribeOn(Schedulers.io())
+                .test().assertNoErrors();
     }
 
     @Test
@@ -89,7 +91,7 @@ public class CatalogEntityWriteReadTest {
         List<CatalogEntity> catalogEntities = new ArrayList<>();
         for (Ingredient ingredient :
                 ingredients) {
-            CatalogEntity entity = loadCatalogEntity(ingredient);
+            CatalogEntity entity = loadCatalogEntity(ingredient).blockingGet();
             if (entity != null) {
                 entity.setQuantity(ingredient.getQuantity());
                 entity.setMeasure(ingredient.getMeasure());
@@ -116,58 +118,19 @@ public class CatalogEntityWriteReadTest {
     }
 
     public CatalogEntity createEntity(Ingredient ingredient) {
-        CatalogEntity entity = loadCatalogEntity(ingredient);
+        CatalogEntity entity = loadCatalogEntity(ingredient).blockingGet();
         entity.setMeasure(ingredient.getMeasure());
         entity.setQuantity(ingredient.getQuantity());
         return entity;
     }
 
     //This implementation of searching is very raw because of not structured names of ingredients
-    public CatalogEntity loadCatalogEntity(Ingredient ingredient) {
+    public Maybe<CatalogEntity> loadCatalogEntity(Ingredient ingredient) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
-                generateQuery("catalog", "ingredient", ingredient.getIngredient()));
-        /*List<CatalogEntity> entities = catalogDao.loadProductsByQuery(query);
-        if (entities == null) {
-            return null;
-        }
-        for (int i = 0; i < entities.size(); i++) {
-            if (ingredient.getIngredient().contains(entities.get(i).getIngredient())) {
-                return entities.get(i);
-            }
-        }*/
-        return null;
-    }
-
-    public String generateQuery(String table, String column, String ingredient) {
-        String temp = ingredient;
-        if (temp.contains("(") || temp.contains(")")) {
-            int first = temp.indexOf("(");
-            int last = temp.indexOf(")");
-            temp = temp.replace(temp.substring(first, last), "");
-        }
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("SELECT * FROM ").append(table).append(" WHERE ");
-        List<String> parts = Arrays.asList(temp.split(" "));
-        for (int i = 0; i < parts.size(); i++) {
-            String request = parts.get(i);
-            char c = request.charAt(parts.get(i).length() - 1);
-            if (c == 's') {
-                request = request.substring(0, request.length() - 1);
-            }
-            builder.append(column);
-            builder.append(" LIKE ");
-            builder.append("'%");
-            builder.append(request);
-            builder.append("%'");
-            if (i != parts.size() - 1) {
-                builder.append(" OR ");
-            } else {
-                builder.append(" ORDER BY LENGTH(");
-                builder.append(column);
-                builder.append(") DESC");
-            }
-        }
-        return builder.toString();
+                AppUtils.productLoadQuery("catalog", "ingredient", ingredient.getIngredient()));
+        return catalogDao.loadProductsByQuery(query)
+                .flatMapIterable((Function<List<CatalogEntity>, Iterable<CatalogEntity>>) entities -> entities)
+                .filter((entity -> ingredient.getIngredient().contains(entity.getIngredient())))
+                .firstElement();
     }
 }

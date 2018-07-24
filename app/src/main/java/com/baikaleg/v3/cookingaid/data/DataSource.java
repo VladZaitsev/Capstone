@@ -20,7 +20,7 @@ public interface DataSource {
 
     void loadAllCatalogIngredients(OnCatalogEntityLoadedListener listener);
 
-    Single<List<CatalogEntity>> loadCatalogEntitiesByQuery(String ingredient);
+    Flowable<List<CatalogEntity>> loadCatalogEntitiesByQuery(String ingredient);
 
     void loadCatalogEntityByName(String name, OnCatalogEntityLoadedListener listener);
 
