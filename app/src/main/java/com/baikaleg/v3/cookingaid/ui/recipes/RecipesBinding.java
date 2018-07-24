@@ -26,7 +26,7 @@ public class RecipesBinding {
     @BindingAdapter("app:recipes")
     public static void setRecipes(RecyclerView recyclerView, List<Recipe> recipes) {
         RecipesViewAdapter adapter = (RecipesViewAdapter) recyclerView.getAdapter();
-        if (adapter != null && recipes!=null) {
+        if (adapter != null && recipes != null) {
             adapter.refresh(recipes);
         }
     }

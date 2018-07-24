@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AppUtils {
@@ -65,22 +66,36 @@ public class AppUtils {
         return list;
     }
 
-    public static float convertToGrams(String from, float value, float density) {
-        switch (from) {
-            case "G":
-                return value;
-            case "K":
-                return 1000 * value;
-            case "TSP":
-                return 5f * density * value;
-            case "TBLSP":
-                return 15f * density * value;
-            case "CUP":
-                return 236.588f * density * value;
-            case "OZ":
-                return 29.5735f * density * value;
-            default:
-                return 0;
+    public static String productLoadQuery(String table, String column, String ingredient) {
+        String temp = ingredient;
+        if (temp.contains("(") || temp.contains(")")) {
+            int first = temp.indexOf("(");
+            int last = temp.indexOf(")");
+            temp = temp.replace(temp.substring(first, last), "");
         }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT * FROM ").append(table).append(" WHERE ");
+        List<String> parts = Arrays.asList(temp.split(" "));
+        for (int i = 0; i < parts.size(); i++) {
+            String request = parts.get(i);
+            char c = request.charAt(parts.get(i).length() - 1);
+            if (c == 's') {
+                request = request.substring(0, request.length() - 1);
+            }
+            builder.append(column);
+            builder.append(" LIKE ");
+            builder.append("'%");
+            builder.append(request);
+            builder.append("%'");
+            if (i != parts.size() - 1) {
+                builder.append(" OR ");
+            } else {
+                builder.append(" ORDER BY LENGTH(");
+                builder.append(column);
+                builder.append(") DESC");
+            }
+        }
+        return builder.toString();
     }
 }

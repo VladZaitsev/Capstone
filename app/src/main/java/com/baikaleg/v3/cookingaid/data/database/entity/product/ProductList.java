@@ -15,8 +15,8 @@ public class ProductList extends CatalogEntity {
         children.add(component);
     }
 
-    public void add(Product... components) {
-        children.addAll(Arrays.asList(components));
+    public void addAll(List<ProductEntity> list) {
+        children.addAll(list);
     }
 
     public void remove(Product child) {

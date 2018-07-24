@@ -118,7 +118,7 @@ public class CatalogEntity extends Ingredient implements Product {
         if (measure.equals("UNIT")) {
             return getQuantity();
         } else {
-            float quantityInGrams = convertToGrams(measure, getQuantity(), getDensity());
+            float quantityInGrams = convertToGrams(getMeasure(), getQuantity(), getDensity());
             return convertFromGrams(measure, quantityInGrams, getDensity());
         }
     }

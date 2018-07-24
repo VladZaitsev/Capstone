@@ -126,7 +126,7 @@ public class CatalogEntityWriteReadTest {
     public CatalogEntity loadCatalogEntity(Ingredient ingredient) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
                 generateQuery("catalog", "ingredient", ingredient.getIngredient()));
-        List<CatalogEntity> entities = catalogDao.loadProductsByQuery(query);
+        /*List<CatalogEntity> entities = catalogDao.loadProductsByQuery(query);
         if (entities == null) {
             return null;
         }
@@ -134,7 +134,7 @@ public class CatalogEntityWriteReadTest {
             if (ingredient.getIngredient().contains(entities.get(i).getIngredient())) {
                 return entities.get(i);
             }
-        }
+        }*/
         return null;
     }
 

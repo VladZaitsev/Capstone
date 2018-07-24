@@ -3,9 +3,6 @@ package com.baikaleg.v3.cookingaid.ui.recipes;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
-import android.databinding.Bindable;
-import android.databinding.Observable;
-import android.databinding.PropertyChangeRegistry;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -19,9 +16,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class RecipesViewModel extends AndroidViewModel implements Observable {
-
-    private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
+public class RecipesViewModel extends AndroidViewModel{
 
     private final Repository repository;
 
@@ -30,16 +25,12 @@ public class RecipesViewModel extends AndroidViewModel implements Observable {
     @NonNull
     private final CompositeDisposable compositeDisposable;
 
-    @Bindable
     public final MutableLiveData<List<Recipe>> data = new MutableLiveData<>();
 
-    @Bindable
     public final MutableLiveData<Boolean> isError = new MutableLiveData<>();
 
-    @Bindable
     public final MutableLiveData<Boolean> isEmpty = new MutableLiveData<>();
 
-    @Bindable
     public final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     RecipesViewModel(@NonNull Application application) {
@@ -66,20 +57,6 @@ public class RecipesViewModel extends AndroidViewModel implements Observable {
         compositeDisposable.add(disposable);
     }
 
-    @Override
-    public void addOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
-        callbacks.add(callback);
-    }
-
-    @Override
-    public void removeOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
-        callbacks.remove(callback);
-    }
-
-    private void notifyChange() {
-        callbacks.notifyCallbacks(this, 0, null);
-    }
-
     private void showData(List<Recipe> recipes, boolean error) {
         isLoading.setValue(false);
         isError.setValue(error);
@@ -88,8 +65,6 @@ public class RecipesViewModel extends AndroidViewModel implements Observable {
             data.setValue(recipes);
             isEmpty.setValue(recipes.size() == 0 && !error);
         }
-
-        notifyChange();
     }
 
     void onDestroyed() {

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.baikaleg.v3.cookingaid.R;
+import com.baikaleg.v3.cookingaid.data.Repository;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.data.model.Step;
 import com.baikaleg.v3.cookingaid.databinding.ItemRecipeBinding;
@@ -26,10 +27,12 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
     private static final String TAG = RecipesViewAdapter.class.getSimpleName();
     private List<Recipe> recipesList = new ArrayList<>();
 
-    public Context context;
+    private Context context;
+    private  Repository repository;
 
-    public RecipesViewAdapter(Context context) {
+    public RecipesViewAdapter(Context context, Repository repository) {
         this.context = context;
+        this.repository=repository;
     }
 
     @NonNull
@@ -45,7 +48,7 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
     public void onBindViewHolder(@NonNull RecipesViewHolder holder, int position) {
         final Recipe recipe = recipesList.get(position);
 
-        RecipeItemViewModel viewModel = new RecipeItemViewModel(recipe, null);
+        RecipeItemViewModel viewModel = new RecipeItemViewModel(recipe, repository,null);
         holder.recipeItemBinding.setViewmodel(viewModel);
 
         RecipesStepsPagerAdapter pagerAdapter = new RecipesStepsPagerAdapter();

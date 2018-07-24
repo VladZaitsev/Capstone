@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:weightSum="6">
+    android:weightSum="10">
 
     <TextView
         android:id="@+id/ingredient_txt"
         style="@style/AppTheme.SubviewMargin"
         android:layout_width="0dp"
-        android:gravity="center_vertical"
-        android:layout_weight="4"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="6"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/quantity_txt"
         style="@style/AppTheme.SubviewMargin"
         android:layout_width="0dp"
-        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:layout_height="wrap_content" />
 
@@ -26,7 +27,16 @@
         android:id="@+id/measure_txt"
         style="@style/AppTheme.SubviewMargin"
         android:layout_width="0dp"
-        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:layout_height="wrap_content" />
+
+    <ImageButton
+        android:id="@+id/available_img"
+        android:layout_width="0dp"
+        android:background="@android:color/transparent"
+        style="@style/AppTheme.SubviewMargin"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:layout_height="wrap_content" />
 </LinearLayout>

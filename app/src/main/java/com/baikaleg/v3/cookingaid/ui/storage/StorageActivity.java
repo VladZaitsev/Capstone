@@ -15,11 +15,11 @@ import com.baikaleg.v3.cookingaid.databinding.ActivityStorageBinding;
 import com.baikaleg.v3.cookingaid.ui.BaseActivity;
 import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductDialog;
 import com.baikaleg.v3.cookingaid.ui.SwipeToDeleteCallback;
+import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductModel;
 
 import java.util.List;
 
 public class StorageActivity extends BaseActivity implements StorageItemNavigator {
-    private static final int DIALOG_ID = 3;
     private StorageViewModel viewModel;
 
     public AddEditProductDialog dialog;
@@ -53,7 +53,7 @@ public class StorageActivity extends BaseActivity implements StorageItemNavigato
 
 
         binding.fab.setOnClickListener(view -> {
-            dialog = AddEditProductDialog.newInstance(DIALOG_ID , 0);
+            dialog = AddEditProductDialog.newInstance(AddEditProductModel.DIALOG_STORAGE_ID, 0);
             dialog.show(getSupportFragmentManager(), "dialog");
         });
     }
@@ -72,7 +72,7 @@ public class StorageActivity extends BaseActivity implements StorageItemNavigato
 
     @Override
     public void onItemClicked(int id) {
-        dialog = AddEditProductDialog.newInstance(DIALOG_ID , id);
+        dialog = AddEditProductDialog.newInstance(AddEditProductModel.DIALOG_STORAGE_ID, id);
         dialog.show(getSupportFragmentManager(), "dialog");
     }
 

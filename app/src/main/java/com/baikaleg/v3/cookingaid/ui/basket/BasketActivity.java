@@ -15,12 +15,13 @@ import com.baikaleg.v3.cookingaid.databinding.ActivityBasketBinding;
 import com.baikaleg.v3.cookingaid.ui.BaseActivity;
 import com.baikaleg.v3.cookingaid.ui.SwipeToDeleteCallback;
 import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductDialog;
+import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductModel;
 import com.baikaleg.v3.cookingaid.ui.storage.StorageViewModel;
 
 import java.util.List;
 
 public class BasketActivity extends BaseActivity implements BasketItemNavigator {
-    private static final int DIALOG_ID = 2;
+
     private BasketViewModel viewModel;
 
     public AddEditProductDialog dialog;
@@ -52,7 +53,7 @@ public class BasketActivity extends BaseActivity implements BasketItemNavigator 
         itemTouchHelper.attachToRecyclerView(binding.productsContent);
 
         binding.fab.setOnClickListener(view -> {
-            dialog = AddEditProductDialog.newInstance(DIALOG_ID, 0);
+            dialog = AddEditProductDialog.newInstance(AddEditProductModel.DIALOG_BASKET_ID, 0);
             dialog.show(getSupportFragmentManager(), "dialog");
         });
     }
@@ -71,7 +72,7 @@ public class BasketActivity extends BaseActivity implements BasketItemNavigator 
 
     @Override
     public void onItemClicked(int id) {
-        dialog = AddEditProductDialog.newInstance(DIALOG_ID, id);
+        dialog = AddEditProductDialog.newInstance(AddEditProductModel.DIALOG_BASKET_ID, id);
         dialog.show(getSupportFragmentManager(), "dialog");
     }
 

@@ -17,10 +17,13 @@ import com.baikaleg.v3.cookingaid.data.callback.OnProductEntitySaveListener;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
 public class AddEditProductModel extends ViewModel {
+    public static final int DIALOG_BASKET_ID = 2;
+    public static final int DIALOG_STORAGE_ID = 3;
 
     private AddEditProductNavigator navigator;
 
@@ -82,7 +85,7 @@ public class AddEditProductModel extends ViewModel {
             if (productEntity.getValue() != null) {
                 if (isEditable) {
                     ProductEntity entity = new ProductEntity(0, resources.getString(R.string.kg_measure), data.getIngredient());
-                    entity.setState(dialogId);
+                    entity.setProductState(dialogId);
                     entity.setCalories(data.getCalories());
                     entity.setDensity(data.getDensity());
                     entity.setPrice(data.getPrice());
@@ -122,11 +125,11 @@ public class AddEditProductModel extends ViewModel {
         this.dialogId = dialogId;
 
         ProductEntity entity = new ProductEntity(0, resources.getString(R.string.kg_measure), null);
-        entity.setState(dialogId);
+        entity.setProductState(dialogId);
         productEntity.setValue(entity);
 
         if (productId == 0) {
-            repository.loadAllCatalogEntities(catalogLoadedListener);
+            repository.loadAllCatalogIngredients(catalogLoadedListener);
             isEditable = true;
         } else {
             repository.loadProductEntityById(productId, productLoadedListener);
@@ -162,6 +165,10 @@ public class AddEditProductModel extends ViewModel {
         if (productEntity.getValue() != null) {
             productEntity.getValue().fromTotalPrice(price.getValue());
             if (isEditable) {
+                if (dialogId == DIALOG_STORAGE_ID) {
+                    Calendar calendar = Calendar.getInstance();
+                    productEntity.getValue().setPurchaseDate(calendar.getTime());
+                }
                 productEntity.getValue().setId(0);
                 repository.saveProductEntity(productEntity.getValue(), productSaveListener);
             } else {

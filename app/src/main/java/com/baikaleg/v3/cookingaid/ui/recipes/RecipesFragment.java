@@ -10,15 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baikaleg.v3.cookingaid.data.Repository;
 import com.baikaleg.v3.cookingaid.databinding.FragmentRecipeBinding;
 import com.baikaleg.v3.cookingaid.ui.recipes.adapter.RecipesViewAdapter;
 
 public class RecipesFragment extends Fragment {
-    private static final String arg_cat="argCategory";
+    private static final String arg_cat = "argCategory";
 
     private RecipesViewModel recipesViewModel;
+    private Repository repository;
 
-    public static RecipesFragment newInstance(String category){
+    public static RecipesFragment newInstance(String category) {
         RecipesFragment fragment = new RecipesFragment();
         Bundle bundle = new Bundle();
         bundle.putString(arg_cat, category);
@@ -29,8 +31,10 @@ public class RecipesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getArguments()!=null){
-            String category=getArguments().getString(arg_cat);
+        if (getArguments() != null) {
+            repository = Repository.getInstance(getActivity());
+
+            String category = getArguments().getString(arg_cat);
 
             recipesViewModel = ViewModelProviders.of(this).get(RecipesViewModel.class);
             recipesViewModel.setCategory(category);
@@ -43,8 +47,9 @@ public class RecipesFragment extends Fragment {
         FragmentRecipeBinding binding = FragmentRecipeBinding.inflate(inflater, container, false);
 
         binding.setViewmodel(recipesViewModel);
+        binding.setLifecycleOwner(this);
 
-        RecipesViewAdapter adapter = new RecipesViewAdapter(getActivity());
+        RecipesViewAdapter adapter = new RecipesViewAdapter(getActivity(), repository);
         binding.recycler.setAdapter(adapter);
         binding.recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         return binding.getRoot();
@@ -54,5 +59,6 @@ public class RecipesFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         recipesViewModel.onDestroyed();
+        repository.onDestroyed();
     }
 }

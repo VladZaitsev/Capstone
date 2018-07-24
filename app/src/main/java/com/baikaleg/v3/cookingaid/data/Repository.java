@@ -1,5 +1,6 @@
 package com.baikaleg.v3.cookingaid.data;
 
+import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.content.Context;
 
 import com.baikaleg.v3.cookingaid.data.callback.OnCatalogEntityLoadedListener;
@@ -12,6 +13,7 @@ import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.data.network.RecipeApi;
+import com.baikaleg.v3.cookingaid.util.AppUtils;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -60,7 +63,7 @@ public class Repository implements DataSource {
         compositeDisposable.add(db.productDao()
                 .loadAllProducts()
                 .flatMap(productEntities -> Flowable.fromIterable(productEntities)
-                        .filter(productEntity -> productEntity.getState() == state)
+                        .filter(productEntity -> productEntity.getProductState() == state)
                         .toList()
                         .toFlowable())
                 .subscribeOn(Schedulers.io())
@@ -69,7 +72,7 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public void loadAllCatalogEntities(OnCatalogEntityLoadedListener listener) {
+    public void loadAllCatalogIngredients(OnCatalogEntityLoadedListener listener) {
         compositeDisposable.add(db.catalogDao()
                 .loadAllProducts()
                 .flatMap(catalogEntities -> Flowable.fromIterable(catalogEntities)
@@ -81,12 +84,32 @@ public class Repository implements DataSource {
     }
 
     @Override
+    public Single<List<CatalogEntity>> loadCatalogEntitiesByQuery(String ingredient) {
+        SimpleSQLiteQuery query = new SimpleSQLiteQuery(
+                AppUtils.productLoadQuery("catalog", "ingredient", ingredient));
+        return db.catalogDao()
+                .loadProductsByQuery(query)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
     public void loadCatalogEntityByName(String name, OnCatalogEntityLoadedListener listener) {
         compositeDisposable.add(db.catalogDao()
                 .loadProductByName(name)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listener::onCatalogEntityByNameLoaded));
+    }
+
+    @Override
+    public Single<List<ProductEntity>> loadProductEntitiesByQuery(String ingredient) {
+        SimpleSQLiteQuery query = new SimpleSQLiteQuery(
+                AppUtils.productLoadQuery("product", "ingredient", ingredient));
+        return db.productDao()
+                .loadProductsByQuery(query)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override

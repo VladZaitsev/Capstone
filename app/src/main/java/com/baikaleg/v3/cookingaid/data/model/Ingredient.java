@@ -17,6 +17,8 @@ public class Ingredient implements Parcelable {
     @Expose
     private String ingredient;
 
+   private int ingredientState;
+
     public Ingredient(float quantity, String measure, String ingredient) {
         this.quantity = quantity;
         this.measure = measure;
@@ -75,5 +77,13 @@ public class Ingredient implements Parcelable {
 
     public void setIngredient(String ingredient) {
         this.ingredient = ingredient;
+    }
+
+    public int getIngredientState() {
+        return ingredientState;
+    }
+
+    public void setIngredientState(int productState) {
+        this.ingredientState = productState;
     }
 }

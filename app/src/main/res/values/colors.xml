@@ -13,6 +13,6 @@
     <color name="colorBorder">#666666</color>
     <color name="ingredient_not_enough">#fcdb21</color>
     <color name="ingredient_is_not_available">#ec6060</color>
-
+    <color name="ingredient_is_available">#4ddc3d</color>
 
 </resources>

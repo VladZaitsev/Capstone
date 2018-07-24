@@ -12,18 +12,23 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public interface DataSource {
 
     Observable<List<Recipe>> getRecipes();
 
-    void loadAllProductEntities(OnProductEntityLoadedListener listener, int state);
+    void loadAllCatalogIngredients(OnCatalogEntityLoadedListener listener);
 
-    void loadAllCatalogEntities(OnCatalogEntityLoadedListener listener);
-
-    void loadProductEntityById(int id, OnProductEntityLoadedListener listener);
+    Single<List<CatalogEntity>> loadCatalogEntitiesByQuery(String ingredient);
 
     void loadCatalogEntityByName(String name, OnCatalogEntityLoadedListener listener);
+
+    void loadAllProductEntities(OnProductEntityLoadedListener listener, int state);
+
+    Single<List<ProductEntity>> loadProductEntitiesByQuery(String ingredient);
+
+    void loadProductEntityById(int id, OnProductEntityLoadedListener listener);
 
     void saveCatalogEntity(CatalogEntity entity, OnCatalogEntitySaveListener listener);
 
