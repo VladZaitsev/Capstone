@@ -1,4 +1,4 @@
-package com.baikaleg.v3.cookingaid.ui.recipes.adapter;
+package com.baikaleg.v3.cookingaid.ui.recipes;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,16 +23,16 @@ import com.baikaleg.v3.cookingaid.ui.recipestepsdetails.StepDetailsActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> {
+public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewAdapter.RecipesViewHolder> {
     private static final String TAG = RecipesViewAdapter.class.getSimpleName();
     private List<Recipe> recipesList = new ArrayList<>();
 
     private Context context;
-    private  Repository repository;
+    private Repository repository;
 
     public RecipesViewAdapter(Context context, Repository repository) {
         this.context = context;
-        this.repository=repository;
+        this.repository = repository;
     }
 
     @NonNull
@@ -48,7 +48,7 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
     public void onBindViewHolder(@NonNull RecipesViewHolder holder, int position) {
         final Recipe recipe = recipesList.get(position);
 
-        RecipeItemViewModel viewModel = new RecipeItemViewModel(recipe, repository,null);
+        RecipeItemViewModel viewModel = new RecipeItemViewModel(recipe, repository, null);
         holder.recipeItemBinding.setViewmodel(viewModel);
 
         RecipesStepsPagerAdapter pagerAdapter = new RecipesStepsPagerAdapter();
@@ -77,7 +77,7 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
             LayoutInflater inflater = LayoutInflater.from(container.getContext());
             ViewStepInItemRecipeBinding binding = DataBindingUtil.inflate(inflater,
                     R.layout.view_step_in_item_recipe, container, false);
-            binding.stepShortDescription.setText("Step " + position + ": " + steps.get(position).getShortDescription());
+            binding.stepShortDescription.setText(context.getString(R.string.step_desc, position, steps.get(position).getShortDescription()));
             binding.stepDescription.setText(steps.get(position).getDescription());
             container.addView(binding.getRoot());
 
@@ -115,6 +115,15 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewHolder> 
             } catch (Exception e) {
                 Log.i(TAG, "failed to destroy step in recipe item");
             }
+        }
+    }
+
+    class RecipesViewHolder extends RecyclerView.ViewHolder {
+        ItemRecipeBinding recipeItemBinding;
+
+        RecipesViewHolder(ItemRecipeBinding binding) {
+            super(binding.getRoot());
+            recipeItemBinding = binding;
         }
     }
 }

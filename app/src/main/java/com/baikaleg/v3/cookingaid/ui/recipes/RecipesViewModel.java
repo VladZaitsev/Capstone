@@ -33,7 +33,7 @@ public class RecipesViewModel extends AndroidViewModel{
 
     public final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
-    RecipesViewModel(@NonNull Application application) {
+    public RecipesViewModel(@NonNull Application application) {
         super(application);
         this.repository = Repository.getInstance(application);
         this.compositeDisposable = new CompositeDisposable();

@@ -63,7 +63,7 @@
                 style="@style/AppTheme.CommonMargin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/calories(viewmodel.calories)}"
+                android:text="@{@string/calories_recipe_item(viewmodel.calories)}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/quantity_txt" />
@@ -73,7 +73,7 @@
                 style="@style/AppTheme.CommonMargin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/mock_price"
+                android:text="@{@string/price_recipe_item(viewmodel.price)}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/calories_txt" />

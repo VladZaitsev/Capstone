@@ -46,6 +46,7 @@ public class BasketViewAdapter extends RecyclerView.Adapter<BasketViewAdapter.Ba
         holder.binding.check.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b) {
                 navigator.onItemSelected(products.get(position));
+                products.remove(position);
                 notifyItemRemoved(position);
             }
         });
@@ -64,6 +65,7 @@ public class BasketViewAdapter extends RecyclerView.Adapter<BasketViewAdapter.Ba
 
     public void remove(int position) {
         navigator.onItemRemoved(products.get(position));
+        products.remove(position);
         notifyItemRemoved(position);
     }
 

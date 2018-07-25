@@ -109,6 +109,9 @@ public class Repository implements DataSource {
         //TODO Select state
         return db.productDao()
                 .loadProductsByQuery(query)
+                .flatMap(productEntities -> Flowable.fromIterable(productEntities)
+                        .filter(productEntity -> productEntity.getProductState() == 3)
+                        .toList())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

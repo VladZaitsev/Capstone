@@ -35,7 +35,7 @@ public class StorageViewModel extends AndroidViewModel {
 
     public final MutableLiveData<List<ProductEntity>> data = new MutableLiveData<>();
 
-    StorageViewModel(@NonNull Application application) {
+    public StorageViewModel(@NonNull Application application) {
         super(application);
         this.repository = Repository.getInstance(application);
         loadData();

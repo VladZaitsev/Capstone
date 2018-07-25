@@ -61,7 +61,9 @@
 
     <string name="total_price">Total: %1$s $</string>
     <string name="total_weight">Weight: %1$s kg</string>
-    <string name="calories">%1$s kkal</string>
+    <string name="calories_recipe_item">%1$.1f kkal</string>
+    <string name="price_recipe_item">%1$.3f $</string>
+    <string name="step_desc">Step %1$d: %2$s</string>
 
 
     <string name="format_of_date">dd.MM.yy.</string>

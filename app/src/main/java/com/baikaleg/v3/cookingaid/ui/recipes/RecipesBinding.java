@@ -8,8 +8,7 @@ import android.widget.LinearLayout;
 
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
-import com.baikaleg.v3.cookingaid.ui.recipes.adapter.RecipesViewAdapter;
-import com.baikaleg.v3.cookingaid.ui.recipes.adapter.RecipesViewAdapter.RecipesStepsPagerAdapter;
+import com.baikaleg.v3.cookingaid.ui.recipes.RecipesViewAdapter.RecipesStepsPagerAdapter;
 import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeIngredientView;
 
 import java.util.List;

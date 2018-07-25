@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.baikaleg.v3.cookingaid.data.Repository;
 import com.baikaleg.v3.cookingaid.databinding.FragmentRecipeBinding;
-import com.baikaleg.v3.cookingaid.ui.recipes.adapter.RecipesViewAdapter;
 
 public class RecipesFragment extends Fragment {
     private static final String arg_cat = "argCategory";

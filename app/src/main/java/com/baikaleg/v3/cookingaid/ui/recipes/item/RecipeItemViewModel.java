@@ -84,8 +84,12 @@ public class RecipeItemViewModel extends BaseObservable {
                     .firstElement().subscribe(catalogEntity -> {
                         catalogEntity.setMeasure(ingredientsList.get(finalI).getMeasure());
                         catalogEntity.setQuantity(ingredientsList.get(finalI).getQuantity());
+
                         calories.set(calories.get() + catalogEntity.getTotalCalories());
+                        price.set(price.get() + catalogEntity.getTotalPrice());
+
                         notifyPropertyChanged(BR.calories);
+                        notifyPropertyChanged(BR.price);
                     }, throwable -> Log.i("calculateCalories", throwable.toString())));
         }
     }
