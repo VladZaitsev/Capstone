@@ -6,6 +6,7 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableFloat;
+import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 import android.util.Log;
 
@@ -32,61 +33,53 @@ public class RecipeItemViewModel extends BaseObservable {
     public final ObservableList<Ingredient> ingredients = new ObservableArrayList<>();
 
     @Bindable
-    public final ObservableFloat calories = new ObservableFloat();
+    public final ObservableFloat calories = new ObservableFloat(0);
 
     @Bindable
-    public final ObservableFloat price = new ObservableFloat();
+    public final ObservableFloat price = new ObservableFloat(0);
+
+    @Bindable
+    public final ObservableInt servings = new ObservableInt(0);
+
+    @Bindable
+    public final ObservableFloat ratio = new ObservableFloat();
 
     private Repository repository;
 
     private CompositeDisposable compositeDisposable;
 
-    public RecipeItemViewModel(Recipe data, Repository repository, RecipeItemEventNavigator navigator) {
+    public RecipeItemViewModel(Recipe recipe, float ratio, Repository repository) {
         this.repository = repository;
         this.compositeDisposable = new CompositeDisposable();
 
-        recipe.set(data);
-        calculateCalories(data.getIngredients());
+        if (ratio != 1) {
+            isExpanded.set(true);
+        }
+
+        this.ratio.set(ratio);
+        this.recipe.set(recipe);
+        this.servings.set((int) (recipe.getServings() * ratio));
+        calculateCalories(recipe.getIngredients());
+
 
         ingredients.clear();
-        ingredients.addAll(data.getIngredients());
+        ingredients.addAll(recipe.getIngredients());
         notifyChange();
     }
 
     private void calculateCalories(List<Ingredient> ingredientsList) {
-       /* for (int i = 0; i < ingredientsList.size(); i++) {
-            String ingredient = ingredientsList.get(i).getIngredient();
-            int finalI = i;
-            compositeDisposable.add(repository.loadCatalogEntitiesByQuery(ingredient)
-                    .subscribe(list -> {
-                        CatalogEntity entity = null;
-                        for (int j = 0; j < list.size(); j++) {
-                            if (ingredient.contains(list.get(j).getIngredient())) {
-                                entity = list.get(j);
-                                break;
-                            }
-                        }
-                        if (entity != null) {
-                            entity.setMeasure(ingredientsList.get(finalI).getMeasure());
-                            entity.setQuantity(ingredientsList.get(finalI).getQuantity());
-                            calories.set(calories.get() + entity.getTotalCalories());
-                            notifyPropertyChanged(BR.calories);
-                        }
-                    }));
-        }*/
-
         for (int i = 0; i < ingredientsList.size(); i++) {
             String ingredient = ingredientsList.get(i).getIngredient();
             int finalI = i;
             compositeDisposable.add(repository.loadCatalogEntitiesByQuery(ingredient)
-                    .flatMapIterable((Function<List<CatalogEntity>, Iterable<CatalogEntity>>) entities -> entities)
+                    .flatMapIterable(entities -> entities)
                     .filter((entity -> ingredient.contains(entity.getIngredient())))
                     .firstElement().subscribe(catalogEntity -> {
                         catalogEntity.setMeasure(ingredientsList.get(finalI).getMeasure());
                         catalogEntity.setQuantity(ingredientsList.get(finalI).getQuantity());
 
-                        calories.set(calories.get() + catalogEntity.getTotalCalories());
-                        price.set(price.get() + catalogEntity.getTotalPrice());
+                        calories.set(calories.get() + catalogEntity.getTotalCalories() * ratio.get());
+                        price.set(price.get() + catalogEntity.getTotalPrice() * ratio.get());
 
                         notifyPropertyChanged(BR.calories);
                         notifyPropertyChanged(BR.price);

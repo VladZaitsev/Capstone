@@ -17,6 +17,7 @@ import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.data.model.Step;
 import com.baikaleg.v3.cookingaid.databinding.ItemRecipeBinding;
 import com.baikaleg.v3.cookingaid.databinding.ViewStepInItemRecipeBinding;
+import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeItemEventNavigator;
 import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeItemViewModel;
 import com.baikaleg.v3.cookingaid.ui.recipestepsdetails.StepDetailsActivity;
 
@@ -29,10 +30,13 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewAdapter.
 
     private Context context;
     private Repository repository;
+    private float ratio = 1;
+    private RecipeItemEventNavigator navigator;
 
-    public RecipesViewAdapter(Context context, Repository repository) {
+    RecipesViewAdapter(Context context, Repository repository, RecipeItemEventNavigator navigator) {
         this.context = context;
         this.repository = repository;
+        this.navigator = navigator;
     }
 
     @NonNull
@@ -48,8 +52,12 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewAdapter.
     public void onBindViewHolder(@NonNull RecipesViewHolder holder, int position) {
         final Recipe recipe = recipesList.get(position);
 
-        RecipeItemViewModel viewModel = new RecipeItemViewModel(recipe, repository, null);
+        RecipeItemViewModel viewModel = new RecipeItemViewModel(recipe, ratio, repository);
         holder.recipeItemBinding.setViewmodel(viewModel);
+
+        holder.recipeItemBinding.recountBtn.setOnClickListener(v -> {
+            navigator.onClickRecountBtn(position);
+        });
 
         RecipesStepsPagerAdapter pagerAdapter = new RecipesStepsPagerAdapter();
         holder.recipeItemBinding.dots.setupWithViewPager(holder.recipeItemBinding.stepsContent, true);
@@ -61,10 +69,16 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewAdapter.
         return this.recipesList.size();
     }
 
-    public void refresh(@NonNull List<Recipe> list) {
+    void refresh(@NonNull List<Recipe> list) {
         this.recipesList.clear();
         this.recipesList.addAll(list);
         notifyDataSetChanged();
+    }
+
+    void recount(int position, int persons) {
+        float oldValue = recipesList.get(position).getServings();
+        this.ratio = persons / oldValue;
+        notifyItemChanged(position);
     }
 
     public class RecipesStepsPagerAdapter extends PagerAdapter {

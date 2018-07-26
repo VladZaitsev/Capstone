@@ -5,5 +5,7 @@ package com.baikaleg.v3.cookingaid.ui.recipes.item;
  */
 public interface RecipeItemEventNavigator {
 
-    void onStepClickListener(int position);
+    void onClickRecountBtn(int position);
+
+    void onClickSandBtn(int position);
 }

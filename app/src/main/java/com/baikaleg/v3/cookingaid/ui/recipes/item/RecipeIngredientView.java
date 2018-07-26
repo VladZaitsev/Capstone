@@ -32,9 +32,9 @@ public class RecipeIngredientView extends RelativeLayout {
         img = findViewById(R.id.available_img);
     }
 
-    public void setIngredient(Ingredient ingredient) {
+    public void setIngredient(Ingredient ingredient, float ratio) {
         ingredientTxt.setText(ingredient.getIngredient());
-        quantityTxt.setText(String.valueOf(ingredient.getQuantity()));
+        quantityTxt.setText(String.valueOf(ingredient.getQuantity() * ratio));
         measureTxt.setText(ingredient.getMeasure());
 
         switch (ingredient.getIngredientState()) {

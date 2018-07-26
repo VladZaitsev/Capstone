@@ -9,7 +9,6 @@
     <!-- mocks-->
     <string name="mock_title">Title</string>
     <string name="mock_description">description</string>
-    <string name="mock_persons">6 pers.</string>
     <string name="mock_price"> 2$</string>
     <string name="mock_time">01:00</string>
     <string name="mock_quantity">2 kg</string>
@@ -58,13 +57,15 @@
     <string name="msg_product_has_expired">Expiration date has expired</string>
     <string name="msg_days_to_expire">Days to expire: %1$s</string>
     <string name="msg_bought_date">Bought: %1$s</string>
+    <string name="msg_fill_field">Please, fill the field</string>
+    <string name="msg_cannot_be_null">Value cannot be 0</string>
 
     <string name="total_price">Total: %1$s $</string>
     <string name="total_weight">Weight: %1$s kg</string>
     <string name="calories_recipe_item">%1$.1f kkal</string>
     <string name="price_recipe_item">%1$.3f $</string>
     <string name="step_desc">Step %1$d: %2$s</string>
-
+    <string name="persons">%1$d pers.</string>
 
     <string name="format_of_date">dd.MM.yy.</string>
 
