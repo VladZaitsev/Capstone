@@ -17,6 +17,7 @@ import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductList;
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Maybe;
@@ -25,9 +26,8 @@ import io.reactivex.functions.Function;
 
 public class RecipeItemViewModel extends BaseObservable {
 
-    public ObservableField<Recipe> recipe = new ObservableField<>();
-
-    public ObservableBoolean isExpanded = new ObservableBoolean(false);
+    @Bindable
+    public final ObservableBoolean isExpanded = new ObservableBoolean(false);
 
     @Bindable
     public final ObservableList<Ingredient> ingredients = new ObservableArrayList<>();
@@ -41,12 +41,13 @@ public class RecipeItemViewModel extends BaseObservable {
     @Bindable
     public final ObservableInt servings = new ObservableInt(0);
 
-    @Bindable
-    public final ObservableFloat ratio = new ObservableFloat();
-
     private Repository repository;
 
     private CompositeDisposable compositeDisposable;
+
+    private ObservableField<Recipe> recipe = new ObservableField<>();
+
+    private final ObservableFloat ratio = new ObservableFloat();
 
     public RecipeItemViewModel(Recipe recipe, float ratio, Repository repository) {
         this.repository = repository;
@@ -113,6 +114,13 @@ public class RecipeItemViewModel extends BaseObservable {
         } else {
             compositeDisposable.clear();
         }
+    }
 
+    public ObservableField<Recipe> getRecipe() {
+        return recipe;
+    }
+
+    public ObservableFloat getRatio() {
+        return ratio;
     }
 }

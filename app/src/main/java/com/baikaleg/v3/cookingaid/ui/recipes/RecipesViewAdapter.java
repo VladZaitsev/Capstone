@@ -55,9 +55,10 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewAdapter.
         RecipeItemViewModel viewModel = new RecipeItemViewModel(recipe, ratio, repository);
         holder.recipeItemBinding.setViewmodel(viewModel);
 
-        holder.recipeItemBinding.recountBtn.setOnClickListener(v -> {
-            navigator.onClickRecountBtn(position);
-        });
+        holder.recipeItemBinding.recountBtn.setOnClickListener(v -> navigator.onClickRecountBtn(position));
+        holder.recipeItemBinding.basketBtn.setOnClickListener(v -> navigator.onClickSendBtn(
+                viewModel.getRecipe().get(),
+                viewModel.getRatio().get()));
 
         RecipesStepsPagerAdapter pagerAdapter = new RecipesStepsPagerAdapter();
         holder.recipeItemBinding.dots.setupWithViewPager(holder.recipeItemBinding.stepsContent, true);

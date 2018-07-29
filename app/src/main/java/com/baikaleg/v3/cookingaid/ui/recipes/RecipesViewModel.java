@@ -7,7 +7,10 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.baikaleg.v3.cookingaid.data.Repository;
+import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
+import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
+import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductModel;
 
 import java.util.List;
 
@@ -16,7 +19,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class RecipesViewModel extends AndroidViewModel{
+public class RecipesViewModel extends AndroidViewModel {
 
     private final Repository repository;
 
@@ -64,6 +67,27 @@ public class RecipesViewModel extends AndroidViewModel{
         if (recipes != null) {
             data.setValue(recipes);
             isEmpty.setValue(recipes.size() == 0 && !error);
+        }
+    }
+
+    void sendToBasket(Recipe recipe, float ratio) {
+        for (int i = 0; i < recipe.getIngredients().size(); i++) {
+            Ingredient ingredient = recipe.getIngredients().get(i);
+            compositeDisposable.add(repository.loadCatalogEntitiesByQuery(ingredient.getIngredient())
+                    .flatMapIterable(entities -> entities)
+                    .filter((entity -> ingredient.getIngredient().contains(entity.getIngredient())))
+                    .firstElement().subscribe(catalogEntity -> {
+                        ProductEntity productEntity = new ProductEntity(ingredient.getQuantity() * ratio, ingredient.getMeasure(), catalogEntity.getIngredient());
+                        productEntity.setProductState(AddEditProductModel.DIALOG_BASKET_ID);
+                        productEntity.setPrice(catalogEntity.getPrice());
+                        productEntity.setDensity(catalogEntity.getDensity());
+                        productEntity.setCalories(catalogEntity.getCalories());
+                        productEntity.setUnitMeasure(catalogEntity.getUnitMeasure());
+                        productEntity.setUnitQuantity(catalogEntity.getUnitQuantity());
+                        productEntity.setExpiration(catalogEntity.getExpiration());
+                        repository.saveProductEntity(productEntity, null);
+                    }, throwable -> Log.i("sendToBasket", throwable.toString())));
+
         }
     }
 

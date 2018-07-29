@@ -13,13 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.baikaleg.v3.cookingaid.data.Repository;
+import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.databinding.FragmentRecipeBinding;
 import com.baikaleg.v3.cookingaid.ui.recipes.dialog.RecountDialog;
+import com.baikaleg.v3.cookingaid.ui.recipes.dialog.SendToBasketDialog;
 import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeItemEventNavigator;
 
 public class RecipesFragment extends Fragment implements RecipeItemEventNavigator {
     private static final String arg_cat = "argCategory";
-    private static final int RECIPES_RECOUNT_REQUEST_CODE = 100;
+    private static final int RECIPES_RECOUNT_REQUEST_CODE = 101;
+    private static final int RECIPES_TO_BASKET_REQUEST_CODE = 102;
     private RecipesViewModel recipesViewModel;
     private Repository repository;
     private RecipesViewAdapter adapter;
@@ -35,10 +38,16 @@ public class RecipesFragment extends Fragment implements RecipeItemEventNavigato
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == RECIPES_RECOUNT_REQUEST_CODE) {
-            int persons = data.getIntExtra(RecountDialog.PERSONS_INTENT_KEY, 0);
-            int position = data.getIntExtra(RecountDialog.POSITION_INTENT_KEY, 0);
-            adapter.recount(position, persons);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == RECIPES_RECOUNT_REQUEST_CODE) {
+                int persons = data.getIntExtra(RecountDialog.PERSONS_INTENT_KEY, 0);
+                int position = data.getIntExtra(RecountDialog.POSITION_INTENT_KEY, 0);
+                adapter.recount(position, persons);
+            } else if (requestCode == RECIPES_TO_BASKET_REQUEST_CODE) {
+                Recipe recipe = data.getParcelableExtra(SendToBasketDialog.RECIPE_INTENT_KEY);
+                float ratio = data.getFloatExtra(SendToBasketDialog.RATIO_INTENT_KEY, 0);
+                recipesViewModel.sendToBasket(recipe, ratio);
+            }
         }
     }
 
@@ -63,7 +72,7 @@ public class RecipesFragment extends Fragment implements RecipeItemEventNavigato
         binding.setViewmodel(recipesViewModel);
         binding.setLifecycleOwner(this);
 
-        adapter = new RecipesViewAdapter(getActivity(), repository,this);
+        adapter = new RecipesViewAdapter(getActivity(), repository, this);
         binding.recycler.setAdapter(adapter);
         binding.recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         return binding.getRoot();
@@ -84,7 +93,9 @@ public class RecipesFragment extends Fragment implements RecipeItemEventNavigato
     }
 
     @Override
-    public void onClickSandBtn(int position) {
-
+    public void onClickSendBtn(Recipe recipe, float ratio) {
+        SendToBasketDialog basketDialog = SendToBasketDialog.newInstance(recipe, ratio);
+        basketDialog.setTargetFragment(this, RECIPES_TO_BASKET_REQUEST_CODE);
+        basketDialog.show(getActivity().getSupportFragmentManager(), "dialog");
     }
 }

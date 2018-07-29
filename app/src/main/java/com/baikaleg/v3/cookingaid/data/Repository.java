@@ -136,7 +136,9 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onComplete() {
-                        listener.onProductEntitySaved();
+                        if (listener != null) {
+                            listener.onProductEntitySaved();
+                        }
                     }
 
                     @Override
@@ -158,7 +160,9 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onComplete() {
-                        listener.onProductEntitySaved();
+                        if (listener != null) {
+                            listener.onProductEntitySaved();
+                        }
                     }
 
                     @Override

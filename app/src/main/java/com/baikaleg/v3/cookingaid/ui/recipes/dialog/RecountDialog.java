@@ -2,6 +2,7 @@ package com.baikaleg.v3.cookingaid.ui.recipes.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -45,8 +46,8 @@ public class RecountDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         DialogRecountRecipeBinding binding = DataBindingUtil.inflate(inflater, R.layout.dialog_recount_recipe, null, false);
         dialog.setTitle("How many people are you going to cook for?");
-        binding.btnCancel.setOnClickListener(v -> dismiss());
-        binding.btnOk.setOnClickListener(v -> {
+
+        dialog.setPositiveButton(getString(R.string.save), (dialogInterface, i) -> {
             if (!TextUtils.isEmpty(binding.personsField.getText().toString())) {
                 int persons = Integer.parseInt(binding.personsField.getText().toString());
                 if (persons != 0) {
@@ -61,7 +62,9 @@ public class RecountDialog extends DialogFragment {
             } else {
                 Toast.makeText(getActivity(), getString(R.string.msg_fill_field), Toast.LENGTH_SHORT).show();
             }
-
+        });
+        dialog.setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> {
+            dismiss();
         });
 
         dialog.setView(binding.getRoot());

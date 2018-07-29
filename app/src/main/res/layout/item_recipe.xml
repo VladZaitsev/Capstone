@@ -53,7 +53,7 @@
                 style="@style/AppTheme.CommonMargin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/persons(viewmodel.recipe.servings)}"
+                android:text="@{@string/persons(viewmodel.servings)}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/name_txt" />
