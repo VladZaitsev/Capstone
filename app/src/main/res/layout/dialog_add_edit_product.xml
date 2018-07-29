@@ -27,7 +27,7 @@
             android:layout_marginTop="8dp"
             android:dropDownHeight="200dp"
             android:enabled="@{model.isEditable?true:false}"
-            android:hint="@string/mock_title"
+            android:hint="@string/ingredient"
             android:imeOptions="actionDone"
             android:inputType="text|textAutoComplete"
             android:scrollbars="vertical"
@@ -38,6 +38,7 @@
 
         <EditText
             android:id="@+id/quantity"
+            quantityIsSet="@={model.isQuantitySet}"
             style="@style/AppTheme.CommonMargin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -52,9 +53,9 @@
         <Spinner
             android:id="@+id/measure"
             style="@style/AppTheme.CommonMargin"
+            onMeasureSelected="@{model.measureSelectedListener}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            onMeasureSelected="@{model.measureSelectedListener}"
             android:entries="@array/measures"
             app:layout_constraintBottom_toBottomOf="@+id/quantity"
             app:layout_constraintEnd_toEndOf="parent"
@@ -161,13 +162,14 @@
             style="@style/AppTheme.CommonMargin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:enabled="@{model.isQuantitySet?true:false}"
             android:hint="@string/price_example"
             android:inputType="numberDecimal"
+            android:text="@={`` +model.productEntity.totalPrice}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/barrier"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
-            app:priceValue="@={model.price}" />
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
 
         <EditText
             android:id="@+id/calories_field"

@@ -1,6 +1,7 @@
 package com.baikaleg.v3.cookingaid.data.database.entity.product;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
@@ -22,6 +23,9 @@ public class CatalogEntity extends Ingredient implements Product {
     //This block of information is valid if measure of ingredient is "UNIT"
     private float unitQuantity;
     private String unitMeasure;
+
+    @Ignore
+    private float totalPrice;
 
     public CatalogEntity(float quantity, String measure, String ingredient) {
         super(quantity, measure, ingredient);
@@ -66,12 +70,27 @@ public class CatalogEntity extends Ingredient implements Product {
     }
 
     @Override
-    public float getTotalPrice() {
+    public void setTotalPrice(float total) {
+        this.totalPrice = total;
         if (getMeasure().equals("UNIT")) {
             float gramsInUnit = convertToGrams(unitMeasure, unitQuantity, density);
-            return price * gramsInUnit * getQuantity();
+            this.price = total / (gramsInUnit * getQuantity());
         } else {
-            return convertToGrams(getMeasure(), getQuantity(), density) * price;
+            this.price = total / convertToGrams(getMeasure(), getQuantity(), density);
+        }
+    }
+
+    @Override
+    public float getTotalPrice() {
+        if (totalPrice == 0) {
+            if (getMeasure().equals("UNIT")) {
+                float gramsInUnit = convertToGrams(unitMeasure, unitQuantity, density);
+                return price * gramsInUnit * getQuantity();
+            } else {
+                return convertToGrams(getMeasure(), getQuantity(), density) * price;
+            }
+        } else {
+            return totalPrice;
         }
     }
 

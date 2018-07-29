@@ -2,6 +2,7 @@ package com.baikaleg.v3.cookingaid.ui.addeditproduct;
 
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.widget.Toast;
 
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.databinding.DialogAddEditProductBinding;
@@ -65,5 +67,15 @@ public class AddEditProductDialog extends DialogFragment implements AddEditProdu
     @Override
     public void onCancel() {
         getDialog().cancel();
+    }
+
+    @Override
+    public void showNoIngredientMsg() {
+        Toast.makeText(getActivity(), getString(R.string.msg_ingredient_field_is_empty), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showNoQuantityMsg() {
+        Toast.makeText(getActivity(), getString(R.string.msg_quantity_field_is_empty), Toast.LENGTH_SHORT).show();
     }
 }

@@ -9,4 +9,6 @@ public interface Product {
     float getTotalWeight();
 
     float getTransformedQuantity(String measure);
+
+    void setTotalPrice(float total);
 }

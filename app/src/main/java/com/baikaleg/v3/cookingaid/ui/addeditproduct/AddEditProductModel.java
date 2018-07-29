@@ -33,7 +33,7 @@ public class AddEditProductModel extends ViewModel {
 
     private MutableLiveData<Boolean> isUnitMeasure = new MutableLiveData<>();
 
-    private MutableLiveData<Float> price = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isQuantitySet = new MutableLiveData<>();
 
     private boolean isEditable;
 
@@ -45,12 +45,7 @@ public class AddEditProductModel extends ViewModel {
 
     private Resources resources;
 
-    private OnCatalogEntitySaveListener catalogSaveListener = new OnCatalogEntitySaveListener() {
-        @Override
-        public void onCatalogEntitySaved() {
-            onDestroy();
-        }
-    };
+    private OnCatalogEntitySaveListener catalogSaveListener = this::onDestroy;
 
     private OnProductEntitySaveListener productSaveListener = new OnProductEntitySaveListener() {
         @Override
@@ -98,7 +93,6 @@ public class AddEditProductModel extends ViewModel {
                     productEntity.setValue(entity);
 
                     oldIngredient = data.getIngredient();
-                    price.postValue(data.getPrice());
                 }
                 oldCatalogId = data.getId();
             }
@@ -114,7 +108,6 @@ public class AddEditProductModel extends ViewModel {
         @Override
         public void onProductEntityByIdLoaded(ProductEntity entity) {
             productEntity.setValue(entity);
-            price.setValue(entity.getTotalPrice());
             repository.loadCatalogEntityByName(entity.getIngredient(), catalogLoadedListener);
         }
     };
@@ -149,8 +142,8 @@ public class AddEditProductModel extends ViewModel {
         return productEntity;
     }
 
-    public MutableLiveData<Float> getPrice() {
-        return price;
+    public MutableLiveData<Boolean> getIsQuantitySet() {
+        return isQuantitySet;
     }
 
     public MutableLiveData<Boolean> getIsUnitMeasure() {
@@ -163,16 +156,21 @@ public class AddEditProductModel extends ViewModel {
 
     public void onSaveBtnClicked() {
         if (productEntity.getValue() != null) {
-            productEntity.getValue().fromTotalPrice(price.getValue());
-            if (isEditable) {
-                if (dialogId == DIALOG_STORAGE_ID) {
-                    Calendar calendar = Calendar.getInstance();
-                    productEntity.getValue().setPurchaseDate(calendar.getTime());
-                }
-                productEntity.getValue().setId(0);
-                repository.saveProductEntity(productEntity.getValue(), productSaveListener);
+            if (TextUtils.isEmpty(productEntity.getValue().getIngredient())) {
+                navigator.showNoIngredientMsg();
+            } else if (productEntity.getValue().getQuantity() == 0) {
+                navigator.showNoQuantityMsg();
             } else {
-                repository.updateProductEntity(productEntity.getValue(), productSaveListener);
+                if (isEditable) {
+                    if (dialogId == DIALOG_STORAGE_ID) {
+                        Calendar calendar = Calendar.getInstance();
+                        productEntity.getValue().setPurchaseDate(calendar.getTime());
+                    }
+                    productEntity.getValue().setId(0);
+                    repository.saveProductEntity(productEntity.getValue(), productSaveListener);
+                } else {
+                    repository.updateProductEntity(productEntity.getValue(), productSaveListener);
+                }
             }
         }
     }

@@ -67,9 +67,9 @@ public class AddEditProductBinding {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               if(listener!=null){
-                   listener.onMeasureSelected(parent.getSelectedItem().toString());
-               }
+                if (listener != null) {
+                    listener.onMeasureSelected(parent.getSelectedItem().toString());
+                }
                 newTextAttrChanged.onChange();
             }
 
@@ -88,46 +88,36 @@ public class AddEditProductBinding {
         return spinner.getSelectedItem().toString();
     }
 
-    @BindingAdapter(value = "priceValueAttrChanged")
-    public static void setListener(EditText editText, final InverseBindingListener listener) {
-        if (listener != null) {
-            editText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
 
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
+    @BindingAdapter(value = {"quantityIsSet", "quantitySetAttrChanged"}, requireAll = false)
+    public static void bindQuantityField(
+            EditText view,
+            boolean isQuantitySet,
+            final InverseBindingListener newTextAttrChanged) {
 
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    listener.onChange();
-                }
-            });
-        }
-    }
+        TextWatcher newValue = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-    @BindingAdapter("priceValue")
-    public static void setRealValue(EditText view, float value) {
-        boolean setValue = view.getText().length() == 0;
-        try {
-            if (!setValue) {
-                setValue = Float.parseFloat(view.getText().toString()) != value;
             }
-        } catch (NumberFormatException e) {
-        }
-        if (setValue) {
-            view.setText(String.valueOf(value));
-        }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                newTextAttrChanged.onChange();
+            }
+        };
+        view.addTextChangedListener(newValue);
     }
 
-    @InverseBindingAdapter(attribute = "priceValue")
-    public static float getRealValue(EditText view) {
-        try {
-            return Float.parseFloat(view.getText().toString());
-        } catch (NumberFormatException e) {
-            return 0;
-        }
+    @InverseBindingAdapter(attribute = "quantityIsSet", event = "quantitySetAttrChanged")
+    public static Boolean captureQuantityField(EditText view) {
+        String text = view.getText().toString();
+        return !TextUtils.isEmpty(text) && !(Float.parseFloat(text) == 0);
     }
+
 }
