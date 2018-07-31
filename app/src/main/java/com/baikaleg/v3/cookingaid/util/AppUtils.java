@@ -3,6 +3,7 @@ package com.baikaleg.v3.cookingaid.util;
 import android.content.Context;
 
 import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,7 +13,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class AppUtils {
 
@@ -97,5 +100,12 @@ public class AppUtils {
             }
         }
         return builder.toString();
+    }
+
+    public static long timeDiff(ProductEntity entity) {
+        long current_time = Calendar.getInstance().getTime().getTime();
+        long bought_time = entity.getPurchaseDate().getTime();
+        long days = TimeUnit.DAYS.convert(current_time - bought_time, TimeUnit.MILLISECONDS);
+        return entity.getExpiration() - days;
     }
 }

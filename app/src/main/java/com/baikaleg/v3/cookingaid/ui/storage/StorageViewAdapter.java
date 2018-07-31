@@ -10,28 +10,24 @@ import android.view.ViewGroup;
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 import com.baikaleg.v3.cookingaid.databinding.ItemStorageBinding;
+import com.baikaleg.v3.cookingaid.util.AppUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 public class StorageViewAdapter extends RecyclerView.Adapter<StorageViewAdapter.StorageViewHolder> {
     private List<ProductEntity> products = new ArrayList<>();
 
     public Context context;
     private StorageItemNavigator navigator;
-    private long current_time;
     private DateFormat dateFormat;
 
     StorageViewAdapter(Context context, StorageItemNavigator navigator) {
         this.context = context;
         this.navigator = navigator;
-        Calendar calendar = Calendar.getInstance();
-        current_time = calendar.getTime().getTime();
         dateFormat = new SimpleDateFormat(context.getString(R.string.format_of_date), Locale.getDefault());
     }
 
@@ -48,9 +44,7 @@ public class StorageViewAdapter extends RecyclerView.Adapter<StorageViewAdapter.
     public void onBindViewHolder(@NonNull StorageViewHolder holder, int position) {
         ProductEntity entity = products.get(position);
         String details;
-        long bought_time = entity.getPurchaseDate().getTime();
-        long days = TimeUnit.DAYS.convert(current_time - bought_time, TimeUnit.MILLISECONDS);
-        long diff = entity.getExpiration() - days;
+        long diff = AppUtils.timeDiff(entity);
         if (diff < 0) {
             details = context.getString(R.string.msg_product_has_expired);
         } else {

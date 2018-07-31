@@ -8,6 +8,7 @@ import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Flowable;
@@ -25,6 +26,8 @@ public interface DataSource {
     void loadCatalogEntityByName(String name, OnCatalogEntityLoadedListener listener);
 
     void loadAllProductEntities(OnProductEntityLoadedListener listener, int state);
+
+    Flowable<ArrayList<String>> loadExpiryProductsNames();
 
     Single<List<ProductEntity>> loadProductEntitiesByQuery(String ingredient);
 

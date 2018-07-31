@@ -13,8 +13,10 @@ import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.data.network.RecipeApi;
+import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductModel;
 import com.baikaleg.v3.cookingaid.util.AppUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -69,6 +71,18 @@ public class Repository implements DataSource {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listener::onAllProductEntitiesLoaded));
+    }
+
+    @Override
+    public Flowable<ArrayList<String>> loadExpiryProductsNames() {
+        return db.productDao().loadAllProducts()
+                .flatMap(productEntities -> Flowable.fromIterable(productEntities)
+                        .filter(productEntity -> productEntity.getProductState() == AddEditProductModel.DIALOG_STORAGE_ID)
+                        .filter(productEntity -> AppUtils.timeDiff(productEntity) < 0)
+                        .map(Ingredient::getIngredient)
+                        .toList()
+                        .toFlowable()
+                        .map(ArrayList::new));
     }
 
     @Override
