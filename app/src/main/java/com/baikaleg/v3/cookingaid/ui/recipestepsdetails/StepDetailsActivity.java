@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
+import com.baikaleg.v3.cookingaid.data.model.Step;
 import com.baikaleg.v3.cookingaid.databinding.ActivityStepDetailsBinding;
 
 import java.util.ArrayList;
@@ -36,14 +37,15 @@ public class StepDetailsActivity extends AppCompatActivity {
         }
 
         currentPosition = getIntent().getIntExtra(EXTRA_STEP_POSITION, 0);
-        Recipe recipe = getIntent().getParcelableExtra(EXTRA_RECIPE);
+        //Recipe recipe = getIntent().getParcelableExtra(EXTRA_RECIPE);
 
+        ArrayList<Step> steps = getIntent().getParcelableArrayListExtra(EXTRA_RECIPE);
         ActivityStepDetailsBinding binding =
                 DataBindingUtil.setContentView(this, R.layout.activity_step_details);
 
         StepDetailsPagerAdapter adapter = new StepDetailsPagerAdapter(getSupportFragmentManager());
-        for (int i = 0; i < recipe.getSteps().size(); i++) {
-            adapter.addFrag(StepDetailsFragment.newInstance(recipe.getSteps().get(i)));
+        for (int i = 0; i < steps.size(); i++) {
+            adapter.addFrag(StepDetailsFragment.newInstance(steps.get(i)));
         }
         binding.pagerSteps.setAdapter(adapter);
         binding.pagerSteps.setCurrentItem(currentPosition);

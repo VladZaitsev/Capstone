@@ -100,7 +100,7 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewAdapter.
             page.setOnClickListener(view -> {
                 Intent intent = new Intent(context, StepDetailsActivity.class);
                 intent.putExtra(StepDetailsActivity.EXTRA_STEP_POSITION, position);
-                intent.putExtra(StepDetailsActivity.EXTRA_RECIPE, recipe);
+                intent.putParcelableArrayListExtra(StepDetailsActivity.EXTRA_RECIPE, new ArrayList<>(recipe.getSteps()));
                 context.startActivity(intent);
             });
 
