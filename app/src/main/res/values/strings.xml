@@ -39,8 +39,8 @@
     <string name="price">Price, $</string>
     <string name="calories_in_100">Kcal in 100g</string>
     <string name="expiration">Expiry days</string>
-    <string name="cancel">Cancel</string>
-    <string name="save">Save</string>
+    <string name="cancel">CANCEL</string>
+    <string name="save">SAVE</string>
 
     <!--measures-->
     <string name="kg_measure">K</string>
@@ -60,6 +60,8 @@
     <string name="msg_cannot_be_null">Value cannot be 0</string>
     <string name="msg_ingredient_field_is_empty">Please, fill `INGREDIENT` filed</string>
     <string name="msg_quantity_field_is_empty">Please, fill `QUANTITY` filed</string>
+    <string name="msg_sent_to_basket_permission">Send all ingredients for recipe %1$s to shopping list?</string>
+    <string name="msg_how_many_servings">How many people are you going to cook for?</string>
 
 
     <string name="total_price">Total: %1$s $</string>
@@ -87,5 +89,7 @@
     <string name="list_of_expiry_products">List of expiry products:</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="send">Send</string>
+    <string name="number_of_persons">Number of persons</string>
 
 </resources>

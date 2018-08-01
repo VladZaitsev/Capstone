@@ -64,6 +64,8 @@ public class RecipesActivity extends BaseActivity {
                 .from(this)
                 .inflate(R.layout.tab_recipe_item, null);
         tab.setText(title);
+        tab.setPadding(0,8,0,0);
+       // tab.setBackgroundColor(getResources().getColor(R.color.colorTabBackground));
         tab.setCompoundDrawablesWithIntrinsicBounds(0, imageId, 0, 0);
         binding.tabs.getTabAt(i).setCustomView(tab);
     }

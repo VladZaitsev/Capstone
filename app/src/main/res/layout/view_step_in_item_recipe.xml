@@ -8,7 +8,6 @@
 
         <TextView
             android:id="@+id/step_short_description"
-            style="@style/AppTheme.SubviewMargin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
@@ -17,7 +16,6 @@
 
         <TextView
             android:id="@+id/step_description"
-            style="@style/AppTheme.SubviewMargin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"

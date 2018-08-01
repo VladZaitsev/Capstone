@@ -18,11 +18,11 @@
     </string-array>
 
     <integer-array name="category_imgs">
-        <item>@drawable/ic_dessert</item>
-        <item>@drawable/ic_soup</item>
-        <item>@drawable/ic_pizza</item>
-        <item>@drawable/ic_salad</item>
-        <item>@drawable/ic_drink</item>
+        <item>@drawable/recipe_tab_dessert</item>
+        <item>@drawable/recipe_tab_soup</item>
+        <item>@drawable/recipe_tab_pizza</item>
+        <item>@drawable/recipe_tab_salad</item>
+        <item>@drawable/recipe_tab_drink</item>
     </integer-array>
 
     <string-array name="measures">

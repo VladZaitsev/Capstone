@@ -45,7 +45,7 @@ public class RecountDialog extends DialogFragment {
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         DialogRecountRecipeBinding binding = DataBindingUtil.inflate(inflater, R.layout.dialog_recount_recipe, null, false);
-        dialog.setTitle("How many people are you going to cook for?");
+        dialog.setTitle(getString(R.string.msg_how_many_servings));
 
         dialog.setPositiveButton(getString(R.string.save), (dialogInterface, i) -> {
             if (!TextUtils.isEmpty(binding.personsField.getText().toString())) {

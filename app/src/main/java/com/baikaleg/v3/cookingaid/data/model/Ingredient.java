@@ -1,5 +1,6 @@
 package com.baikaleg.v3.cookingaid.data.model;
 
+import android.arch.persistence.room.Ignore;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -16,8 +17,8 @@ public class Ingredient implements Parcelable {
     @SerializedName("ingredient")
     @Expose
     private String ingredient;
-
-   private int ingredientState;
+    @Ignore
+    private int ingredientState;
 
     public Ingredient(float quantity, String measure, String ingredient) {
         this.quantity = quantity;

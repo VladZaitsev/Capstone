@@ -61,8 +61,8 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewAdapter.
                 viewModel.getRatio().get()));
 
         RecipesStepsPagerAdapter pagerAdapter = new RecipesStepsPagerAdapter();
-        holder.recipeItemBinding.dots.setupWithViewPager(holder.recipeItemBinding.stepsContent, true);
-        holder.recipeItemBinding.stepsContent.setAdapter(pagerAdapter);
+        holder.recipeItemBinding.dots.setupWithViewPager(holder.recipeItemBinding.steps, true);
+        holder.recipeItemBinding.steps.setAdapter(pagerAdapter);
     }
 
     @Override

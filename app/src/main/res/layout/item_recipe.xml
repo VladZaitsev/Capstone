@@ -15,13 +15,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/card_view_margin"
-        android:background="@color/colorImageBackground"
         app:cardElevation="@dimen/card_view_elevation">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/ver_margin">
+            android:background="@color/colorCardViewBackground">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -29,118 +28,144 @@
                 android:layout_height="200dp"
                 android:background="@color/colorImageBackground"
                 android:contentDescription="@string/cd_image"
-                android:padding="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/mock_recipe_item" />
 
-            <TextView
-                android:id="@+id/name_txt"
-                style="@style/AppTheme.CommonMargin"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:maxLines="3"
-                android:text="@{viewmodel.recipe.name}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintBottom_toTopOf="@+id/btn_top_barrier"
-                app:layout_constraintEnd_toStartOf="@+id/txt_barrier"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-            <TextView
-                android:id="@+id/quantity_txt"
-                style="@style/AppTheme.CommonMargin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{@string/persons(viewmodel.servings)}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/name_txt" />
-
-            <TextView
-                android:id="@+id/calories_txt"
-                style="@style/AppTheme.CommonMargin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{@string/calories_recipe_item(viewmodel.calories)}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/quantity_txt" />
-
-            <TextView
-                android:id="@+id/price_txt"
-                style="@style/AppTheme.CommonMargin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{@string/price_recipe_item(viewmodel.price)}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/calories_txt" />
-
-            <ImageButton
-                android:id="@+id/recount_btn"
-                style="@style/AppTheme.CommonMargin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/cd_recount"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/btn_top_barrier"
-                app:srcCompat="@drawable/btn_recount" />
-
-            <ImageButton
-                android:id="@+id/basket_btn"
-                style="@style/AppTheme.CommonMargin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/cd_basket"
-                app:layout_constraintStart_toEndOf="@+id/recount_btn"
-                app:layout_constraintTop_toTopOf="@+id/btn_top_barrier"
-                app:srcCompat="@drawable/btn_basket" />
-
-            <ImageButton
-                android:id="@+id/expand_btn"
-                style="@style/AppTheme.CommonMargin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/cd_basket"
-                android:onClick="@{()->viewmodel.expandBtnClick()}"
-                android:src="@{viewmodel.isExpanded ? @drawable/btn_expand_less :@drawable/btn_expand_more }"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/btn_top_barrier" />
-
-            <android.support.constraint.Barrier
-                android:id="@+id/btn_top_barrier"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/details_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="name_txt,quantity_txt,calories_txt,price_txt" />
+                android:background="@color/colorContainerBackground"
+                app:layout_constraintTop_toBottomOf="@+id/imageView">
 
-            <android.support.constraint.Barrier
-                android:id="@+id/txt_barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="left"
-                app:constraint_referenced_ids="quantity_txt,calories_txt,price_txt" />
+                <TextView
+                    android:id="@+id/name_txt"
+                    style="@style/AppTheme.CommonMargin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ver_margin"
+                    android:maxLines="2"
+                    android:text="@{viewmodel.recipe.name}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/colorTextPrimary"
+                    app:layout_constraintEnd_toStartOf="@+id/expand_btn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
+                <ImageButton
+                    android:id="@+id/expand_btn"
+                    style="@style/AppTheme.CommonMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/cd_basket"
+                    android:onClick="@{()->viewmodel.expandBtnClick()}"
+                    android:src="@{viewmodel.isExpanded ? @drawable/btn_expand_less :@drawable/btn_expand_more }"
+                    app:layout_constraintBottom_toBottomOf="@+id/calories_txt"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/name_txt" />
+
+                <TextView
+                    android:id="@+id/calories_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/ver_margin"
+                    android:text="@{@string/calories_recipe_item(viewmodel.calories)}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/colorTextSecondary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/name_txt"
+                    app:layout_constraintTop_toBottomOf="@+id/name_txt" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
                 android:id="@+id/ingredients_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ver_margin"
-                android:background="@drawable/background_view"
-                android:elevation="@dimen/view_elevation"
-                android:orientation="vertical"
-                android:padding="@dimen/ver_margin"
-                android:visibility="@{viewmodel.isExpanded?View.VISIBLE : View.GONE, default=gone}"
-                app:ingredients="@{viewmodel.ingredients}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recount_btn"
-                app:ratio="@{viewmodel.ratio}" />
+                android:background="@color/colorContainerBackground"
+                app:layout_constraintTop_toBottomOf="@+id/details_container">
+
+                <LinearLayout
+                    android:id="@+id/ingredients"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_view"
+                    android:orientation="vertical"
+                    app:ingredients="@{viewmodel.ingredients}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:ratio="@{viewmodel.ratio}" />
+
+                <TextView
+                    android:id="@+id/price_txt"
+                    style="@style/AppTheme.CommonMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/price_recipe_item(viewmodel.price)}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/colorTextPrimary"
+                    app:layout_constraintBottom_toBottomOf="@+id/servings_img"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/servings_img" />
+
+                <TextView
+                    android:id="@+id/servings_txt"
+                    style="@style/AppTheme.CommonMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/ver_margin"
+                    android:text="@{``+viewmodel.servings}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/colorTextPrimary"
+                    app:layout_constraintBottom_toBottomOf="@+id/servings_img"
+                    app:layout_constraintEnd_toStartOf="@+id/servings_img"
+                    app:layout_constraintTop_toTopOf="@+id/servings_img" />
+
+                <ImageButton
+                    android:id="@+id/recount_btn"
+                    style="@style/AppTheme.CommonMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/cd_recount"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ingredients"
+                    app:srcCompat="@drawable/btn_recount" />
+
+                <ImageButton
+                    android:id="@+id/basket_btn"
+                    style="@style/AppTheme.CommonMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/cd_basket"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/recount_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/ingredients"
+                    app:srcCompat="@drawable/btn_basket" />
+
+                <ImageView
+                    android:id="@+id/servings_img"
+                    style="@style/AppTheme.CommonMargin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/cd_basket"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/price_txt"
+                    app:layout_constraintTop_toBottomOf="@+id/ingredients"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/btn_servings" />
+            </android.support.constraint.ConstraintLayout>
 
             <LinearLayout
                 android:id="@+id/steps_container"
@@ -148,20 +173,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ver_margin"
                 android:background="@drawable/background_view"
-                android:elevation="@dimen/view_elevation"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/ver_margin"
-                android:paddingEnd="@dimen/ver_margin"
-                android:paddingStart="@dimen/ver_margin"
-                android:paddingTop="@dimen/ver_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ingredients_container">
 
                 <android.support.v4.view.ViewPager
-                    android:id="@+id/steps_content"
+                    android:id="@+id/steps"
+                    style="@style/AppTheme.CommonMargin"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
+                    android:layout_height="100dp"
                     app:steps="@{viewmodel.recipe}" />
 
                 <android.support.design.widget.TabLayout
@@ -178,10 +199,10 @@
             <android.support.constraint.Group
                 android:id="@+id/group"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:visibility="@{viewmodel.isExpanded?View.VISIBLE : View.GONE, default=gone}"
-                app:constraint_referenced_ids="steps_container,ingredients_container" />
-        </android.support.constraint.ConstraintLayout>
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="ingredients_container,steps_container" />
 
+        </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 </layout>

@@ -45,8 +45,8 @@ public class SendToBasketDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setTitle("Do you really want to send all ingredients for recipe '" + recipe.getName() + "' to shopping list?");
-        dialog.setPositiveButton(getString(R.string.save), (dialogInterface, i) -> {
+        dialog.setTitle(getString(R.string.msg_sent_to_basket_permission, recipe.getName()));
+        dialog.setPositiveButton(getString(R.string.send), (dialogInterface, i) -> {
             Intent intent = new Intent();
             intent.putExtra(RECIPE_INTENT_KEY, recipe);
             intent.putExtra(RATIO_INTENT_KEY, ratio);

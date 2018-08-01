@@ -7,15 +7,12 @@
         android:layout_height="wrap_content">
 
         <EditText
-
             android:id="@+id/persons_field"
+            style="@style/AppTheme.CommonMargin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:ems="10"
-            android:hint="Persons for"
+            android:hint="@string/number_of_persons"
             android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

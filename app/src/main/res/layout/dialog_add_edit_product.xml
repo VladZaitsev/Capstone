@@ -38,8 +38,8 @@
 
         <EditText
             android:id="@+id/quantity"
-            quantityIsSet="@={model.isQuantitySet}"
             style="@style/AppTheme.CommonMargin"
+            quantityIsSet="@={model.isQuantitySet}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/quantity"
@@ -197,28 +197,30 @@
             app:layout_constraintStart_toEndOf="@+id/barrier"
             app:layout_constraintTop_toBottomOf="@+id/calories_field" />
 
-        <Button
+        <TextView
             android:id="@+id/cancel_btn"
-            style="@style/AppTheme.CommonMargin"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="30dp"
             android:onClick="@{()->model.onCancelBtnClicked()}"
             android:text="@string/cancel"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/save_btn"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/expiration_field" />
 
-        <Button
+        <TextView
             android:id="@+id/save_btn"
-            style="@style/AppTheme.CommonMargin"
-            android:layout_width="0dp"
+            android:layout_margin="30dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{()->model.onSaveBtnClicked()}"
             android:text="@string/save"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/cancel_btn"
             app:layout_constraintTop_toBottomOf="@+id/expiration_field" />
 
     </android.support.constraint.ConstraintLayout>
