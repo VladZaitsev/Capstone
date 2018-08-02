@@ -64,15 +64,14 @@ public class StorageViewAdapter extends RecyclerView.Adapter<StorageViewAdapter.
         return products.size();
     }
 
-    public void refresh(@NonNull List<ProductEntity> list) {
+    void refresh(@NonNull List<ProductEntity> list) {
         this.products.clear();
         this.products.addAll(list);
         notifyDataSetChanged();
     }
 
-    public void remove(int position) {
+    void remove(int position) {
         navigator.onItemRemoved(products.get(position));
-        notifyItemRemoved(position);
     }
 
     class StorageViewHolder extends RecyclerView.ViewHolder {

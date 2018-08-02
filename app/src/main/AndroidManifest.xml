@@ -12,8 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".ui.BaseActivity" />
-        <activity android:name=".ui.basket.BasketActivity" />
-        <activity android:name=".ui.storage.StorageActivity" />
+        <activity
+            android:name=".ui.basket.BasketActivity"
+            android:configChanges="screenSize|orientation|screenLayout" />
+        <activity
+            android:name=".ui.storage.StorageActivity"
+            android:configChanges="screenSize|orientation|screenLayout" />
         <activity android:name=".ui.recipes.RecipesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

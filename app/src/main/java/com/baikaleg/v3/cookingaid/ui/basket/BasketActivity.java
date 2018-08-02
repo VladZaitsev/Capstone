@@ -16,7 +16,6 @@ import com.baikaleg.v3.cookingaid.ui.BaseActivity;
 import com.baikaleg.v3.cookingaid.ui.SwipeToDeleteCallback;
 import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductDialog;
 import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductModel;
-import com.baikaleg.v3.cookingaid.ui.storage.StorageViewModel;
 
 import java.util.List;
 

@@ -94,15 +94,6 @@ public class CatalogEntity extends Ingredient implements Product {
         }
     }
 
-    public void fromTotalPrice(float totalPrice) {
-        if (getMeasure().equals("UNIT")) {
-            float gramsInUnit = convertToGrams(unitMeasure, unitQuantity, density);
-            this.price = totalPrice / (gramsInUnit * getQuantity());
-        } else {
-            this.price = totalPrice / convertToGrams(getMeasure(), getQuantity(), density);
-        }
-    }
-
     /**
      * Transform quantity of product to 'GRAMS" and calculate calories
      *

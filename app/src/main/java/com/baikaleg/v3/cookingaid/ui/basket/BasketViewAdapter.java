@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
@@ -23,7 +22,7 @@ public class BasketViewAdapter extends RecyclerView.Adapter<BasketViewAdapter.Ba
     public Context context;
     private BasketItemNavigator navigator;
 
-    public BasketViewAdapter(Context context, BasketItemNavigator navigator) {
+    BasketViewAdapter(Context context, BasketItemNavigator navigator) {
         this.context = context;
         this.navigator = navigator;
     }
@@ -40,14 +39,13 @@ public class BasketViewAdapter extends RecyclerView.Adapter<BasketViewAdapter.Ba
     @Override
     public void onBindViewHolder(@NonNull BasketViewHolder holder, int position) {
         ProductEntity entity = products.get(position);
+        holder.binding.check.setChecked(false);
         holder.binding.setProduct(entity);
         holder.binding.setDetails(String.format(Locale.getDefault(), "%.2f", entity.getTotalPrice()));
         holder.binding.getRoot().setOnClickListener(view -> navigator.onItemClicked(entity.getId()));
         holder.binding.check.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b) {
                 navigator.onItemSelected(products.get(position));
-                products.remove(position);
-                notifyItemRemoved(position);
             }
         });
     }
@@ -57,16 +55,15 @@ public class BasketViewAdapter extends RecyclerView.Adapter<BasketViewAdapter.Ba
         return products.size();
     }
 
-    public void refresh(@NonNull List<ProductEntity> list) {
-        this.products.clear();
+    void refresh(@NonNull List<ProductEntity> list) {
+        this.products = new ArrayList<>();
         this.products.addAll(list);
         notifyDataSetChanged();
     }
 
-    public void remove(int position) {
+    void remove(int position) {
         navigator.onItemRemoved(products.get(position));
         products.remove(position);
-        notifyItemRemoved(position);
     }
 
     class BasketViewHolder extends RecyclerView.ViewHolder {

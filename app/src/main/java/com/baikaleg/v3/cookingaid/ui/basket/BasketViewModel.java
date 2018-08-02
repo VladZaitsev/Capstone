@@ -80,18 +80,18 @@ public class BasketViewModel extends AndroidViewModel {
         repository.loadAllProductEntities(loadedListener, STATE);
     }
 
-    public void remove(ProductEntity entity) {
+    void remove(ProductEntity entity) {
         repository.removeProductEntity(entity);
     }
 
-    public void bought(ProductEntity entity) {
+    void bought(ProductEntity entity) {
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         entity.setProductState(3);
         entity.setPurchaseDate(calendar.getTime());
         repository.updateProductEntity(entity, saveListener);
     }
 
-    public void onDestroy() {
+    void onDestroy() {
         loadedListener = null;
         saveListener = null;
         repository.onDestroyed();

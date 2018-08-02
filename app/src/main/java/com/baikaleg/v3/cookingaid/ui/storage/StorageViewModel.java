@@ -21,7 +21,7 @@ public class StorageViewModel extends AndroidViewModel {
         public void onAllProductEntitiesLoaded(List<ProductEntity> list) {
             data.setValue(list);
             if (list.size() != 0) {
-                isEmpty.setValue(list.size() != 0 ? false : true);
+                isEmpty.setValue(list.size() == 0);
             } else {
                 isEmpty.setValue(true);
             }
@@ -49,11 +49,11 @@ public class StorageViewModel extends AndroidViewModel {
         repository.loadAllProductEntities(loadedListener, STATE);
     }
 
-    public void remove(ProductEntity entity) {
+    void remove(ProductEntity entity) {
         repository.removeProductEntity(entity);
     }
 
-    public void onDestroy() {
+    void onDestroy() {
         repository.onDestroyed();
         loadedListener = null;
     }

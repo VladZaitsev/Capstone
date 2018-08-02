@@ -13,16 +13,16 @@ import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
 import com.baikaleg.v3.cookingaid.databinding.ActivityStorageBinding;
 import com.baikaleg.v3.cookingaid.ui.BaseActivity;
-import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductDialog;
 import com.baikaleg.v3.cookingaid.ui.SwipeToDeleteCallback;
+import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductDialog;
 import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductModel;
 
 import java.util.List;
 
 public class StorageActivity extends BaseActivity implements StorageItemNavigator {
-    private StorageViewModel viewModel;
 
-    public AddEditProductDialog dialog;
+    private StorageViewModel viewModel;
+    private AddEditProductDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -48,6 +48,8 @@
     <string name="oz_measure">OZ</string>
     <string name="cup_measure">CUP</string>
     <string name="unit_measure">UNIT</string>
+    <string name="tsp_measure">TSP</string>
+    <string name="tblsp_measure">TBLSP</string>
 
     <!-- messages-->
     <string name="msg_no_recipes">Sorry, no recipes</string>

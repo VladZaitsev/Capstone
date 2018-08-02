@@ -31,6 +31,8 @@
         <item>@string/oz_measure</item>
         <item>@string/cup_measure</item>
         <item>@string/unit_measure</item>
+        <item>@string/tsp_measure</item>
+        <item>@string/tblsp_measure</item>
     </string-array>
 
     <string-array name="unit_measures">
@@ -38,5 +40,7 @@
         <item>@string/g_measure</item>
         <item>@string/oz_measure</item>
         <item>@string/cup_measure</item>
+        <item>@string/tsp_measure</item>
+        <item>@string/tblsp_measure</item>
     </string-array>
 </resources>
