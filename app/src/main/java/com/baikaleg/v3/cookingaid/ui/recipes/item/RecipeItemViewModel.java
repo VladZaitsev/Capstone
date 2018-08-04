@@ -1,5 +1,6 @@
 package com.baikaleg.v3.cookingaid.ui.recipes.item;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
@@ -37,6 +38,12 @@ public class RecipeItemViewModel extends BaseObservable {
 
     @Bindable
     public final ObservableFloat price = new ObservableFloat(0);
+
+    @Bindable
+    public final ObservableInt width = new ObservableInt(0);
+
+    @Bindable
+    public final ObservableInt height = new ObservableInt(0);
 
     @Bindable
     public final ObservableInt servings = new ObservableInt(0);
@@ -122,5 +129,10 @@ public class RecipeItemViewModel extends BaseObservable {
 
     public ObservableFloat getRatio() {
         return ratio;
+    }
+
+    public void setImageSize(int width, int height) {
+        this.width.set(width);
+        this.height.set(height);
     }
 }

@@ -94,6 +94,10 @@ public class Recipe implements Parcelable {
         this.category = category;
     }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public int describeContents() {
         return 0;

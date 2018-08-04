@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.util.MutableInt;
 
 import com.baikaleg.v3.cookingaid.data.Repository;
 import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
@@ -96,7 +97,7 @@ public class RecipesViewModel extends AndroidViewModel {
         repository.onDestroyed();
     }
 
-    void setCategory(String category) {
+        void setCategory(String category) {
         recipeCategory = category;
     }
 }

@@ -15,6 +15,7 @@ import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.data.network.RecipeApi;
 import com.baikaleg.v3.cookingaid.ui.addeditproduct.AddEditProductModel;
 import com.baikaleg.v3.cookingaid.util.AppUtils;
+import com.crashlytics.android.Crashlytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,11 +52,15 @@ public class Repository implements DataSource {
     }
 
     //TODO Replace category inserting after source changing
+    //TODO Delete default photo
     @Override
     public Observable<List<Recipe>> getRecipes() {
         return recipeApi.createService().getRecipes()
                 .flatMap(recipes -> Observable.fromIterable(recipes)
-                        .doOnNext(recipe -> recipe.setCategory("dessert"))
+                        .doOnNext(recipe -> {
+                            recipe.setCategory("dessert");
+                           // recipe.setImage("https://vk.com/doc2131185_450915954?hash=d858773117387e2a2f&dl=73d3832f40b8a68d3f");
+                        })
                         .toList()
                         .toObservable());
     }
@@ -70,7 +75,7 @@ public class Repository implements DataSource {
                         .toFlowable())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(listener::onAllProductEntitiesLoaded));
+                .subscribe(listener::onAllProductEntitiesLoaded, throwable -> Crashlytics.log(throwable.getMessage())));
     }
 
     @Override
@@ -94,7 +99,7 @@ public class Repository implements DataSource {
                         .toList())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(listener::onAllCatalogIngredientsLoaded));
+                .subscribe(listener::onAllCatalogIngredientsLoaded, throwable -> Crashlytics.log(throwable.getMessage())));
     }
 
     @Override
@@ -113,7 +118,7 @@ public class Repository implements DataSource {
                 .loadProductByName(name)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(listener::onCatalogEntityByNameLoaded));
+                .subscribe(listener::onCatalogEntityByNameLoaded, throwable -> Crashlytics.log(throwable.getMessage())));
     }
 
     @Override
@@ -135,7 +140,7 @@ public class Repository implements DataSource {
         compositeDisposable.add(db.productDao().loadProductById(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(listener::onProductEntityByIdLoaded));
+                .subscribe(listener::onProductEntityByIdLoaded, throwable -> Crashlytics.log(throwable.getMessage())));
     }
 
     @Override
@@ -157,7 +162,7 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Crashlytics.log(e.getMessage());
                     }
                 });
     }
@@ -181,7 +186,7 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Crashlytics.log(e.getMessage());
                     }
                 });
     }
@@ -203,7 +208,7 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Crashlytics.log(e.getMessage());
                     }
                 });
     }
@@ -225,7 +230,7 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Crashlytics.log(e.getMessage());
                     }
                 });
     }
@@ -246,7 +251,7 @@ public class Repository implements DataSource {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Crashlytics.log(e.getMessage());
                     }
                 });
     }

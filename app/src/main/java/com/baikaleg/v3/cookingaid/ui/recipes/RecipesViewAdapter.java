@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -32,6 +34,7 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewAdapter.
     private Repository repository;
     private float ratio = 1;
     private RecipeItemEventNavigator navigator;
+    private int imageHeight, imageWidth;
 
     RecipesViewAdapter(Context context, Repository repository, RecipeItemEventNavigator navigator) {
         this.context = context;
@@ -52,7 +55,14 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewAdapter.
     public void onBindViewHolder(@NonNull RecipesViewHolder holder, int position) {
         final Recipe recipe = recipesList.get(position);
 
+        /*ConstraintLayout.LayoutParams newLayoutParams = new ConstraintLayout.LayoutParams(imageWidth, imageHeight);
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(holder.recipeItemBinding.mainContainer);
+        holder.recipeItemBinding.imageView.setLayoutParams(newLayoutParams);
+        constraintSet.applyTo(holder.recipeItemBinding.mainContainer);*/
+
         RecipeItemViewModel viewModel = new RecipeItemViewModel(recipe, ratio, repository);
+        viewModel.setImageSize(imageWidth, imageHeight);
         holder.recipeItemBinding.setViewmodel(viewModel);
 
         holder.recipeItemBinding.recountBtn.setOnClickListener(v -> navigator.onClickRecountBtn(position));
@@ -68,6 +78,11 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewAdapter.
     @Override
     public int getItemCount() {
         return this.recipesList.size();
+    }
+
+    void setImageSize(int width, int height) {
+        this.imageHeight = height;
+        this.imageWidth = width;
     }
 
     void refresh(@NonNull List<Recipe> list) {

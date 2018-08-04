@@ -19,19 +19,22 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
+            android:id="@+id/main_container"
             android:layout_height="match_parent"
             android:background="@color/colorCardViewBackground">
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@color/colorImageBackground"
                 android:contentDescription="@string/cd_image"
+                app:imageWidth="@{viewmodel.width}"
+                app:imageHeight="@{viewmodel.height}"
+                app:imageUrl="@{viewmodel.recipe.image}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/mock_recipe_item" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/details_container"
@@ -59,8 +62,7 @@
                     style="@style/AppTheme.CommonMargin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@android:color/transparent"
+                    android:background="?android:selectableItemBackground"
                     android:contentDescription="@string/cd_basket"
                     android:onClick="@{()->viewmodel.expandBtnClick()}"
                     android:src="@{viewmodel.isExpanded ? @drawable/btn_expand_less :@drawable/btn_expand_more }"
@@ -132,7 +134,7 @@
                     style="@style/AppTheme.CommonMargin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
+                    android:background="?android:selectableItemBackground"
                     android:contentDescription="@string/cd_recount"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -144,8 +146,7 @@
                     style="@style/AppTheme.CommonMargin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="@android:color/transparent"
+                    android:background="?android:selectableItemBackground"
                     android:contentDescription="@string/cd_basket"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/recount_btn"

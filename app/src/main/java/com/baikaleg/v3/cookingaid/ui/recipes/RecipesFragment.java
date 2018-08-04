@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.Repository;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.databinding.FragmentRecipeBinding;
@@ -26,6 +27,7 @@ public class RecipesFragment extends Fragment implements RecipeItemEventNavigato
     private RecipesViewModel recipesViewModel;
     private Repository repository;
     private RecipesViewAdapter adapter;
+    private boolean isLand, isTablet;
 
     public static RecipesFragment newInstance(String category) {
         RecipesFragment fragment = new RecipesFragment();
@@ -69,10 +71,15 @@ public class RecipesFragment extends Fragment implements RecipeItemEventNavigato
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentRecipeBinding binding = FragmentRecipeBinding.inflate(inflater, container, false);
 
-        binding.setViewmodel(recipesViewModel);
-        binding.setLifecycleOwner(this);
+        isLand = getResources().getBoolean(R.bool.isLand);
+        isTablet = getResources().getBoolean(R.bool.isTablet);
 
         adapter = new RecipesViewAdapter(getActivity(), repository, this);
+
+        binding.setViewmodel(recipesViewModel);
+        binding.setLifecycleOwner(this);
+        setViewParameters();
+
         binding.recycler.setAdapter(adapter);
         binding.recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         return binding.getRoot();
@@ -97,5 +104,23 @@ public class RecipesFragment extends Fragment implements RecipeItemEventNavigato
         SendToBasketDialog basketDialog = SendToBasketDialog.newInstance(recipe, ratio);
         basketDialog.setTargetFragment(this, RECIPES_TO_BASKET_REQUEST_CODE);
         basketDialog.show(getActivity().getSupportFragmentManager(), "dialog");
+    }
+
+    private void setViewParameters() {
+        int imageWidth, imageHeight;
+        int screenWidth = getResources().getDisplayMetrics().widthPixels;
+        if (!isTablet) {
+            if (!isLand) {
+                imageWidth = screenWidth;
+                imageHeight = (imageWidth * 2) / 3;
+            } else {
+                imageWidth = screenWidth ;
+                imageHeight = imageWidth /3;
+            }
+        } else {
+            imageWidth = screenWidth;
+            imageHeight = imageWidth /3 ;
+        }
+        adapter.setImageSize(imageWidth, imageHeight);
     }
 }
