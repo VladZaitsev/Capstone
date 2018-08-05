@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.baikaleg.v3.cookingaid.R;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.ProductEntity;
 import com.baikaleg.v3.cookingaid.databinding.ItemBasketBinding;
 
 import java.util.ArrayList;

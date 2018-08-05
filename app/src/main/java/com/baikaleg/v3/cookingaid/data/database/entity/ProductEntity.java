@@ -1,6 +1,9 @@
-package com.baikaleg.v3.cookingaid.data.database.entity.product;
+package com.baikaleg.v3.cookingaid.data.database.entity;
 
 import android.arch.persistence.room.Entity;
+
+import com.baikaleg.v3.cookingaid.data.database.entity.CatalogEntity;
+
 import java.util.Date;
 
 @Entity(tableName = "product")

@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,8 +15,9 @@ import com.baikaleg.v3.cookingaid.data.callback.OnCatalogEntityLoadedListener;
 import com.baikaleg.v3.cookingaid.data.callback.OnCatalogEntitySaveListener;
 import com.baikaleg.v3.cookingaid.data.callback.OnProductEntityLoadedListener;
 import com.baikaleg.v3.cookingaid.data.callback.OnProductEntitySaveListener;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.CatalogEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.ProductEntity;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.Calendar;
 import java.util.List;
@@ -44,6 +46,8 @@ public class AddEditProductModel extends ViewModel {
     private Repository repository;
 
     private Resources resources;
+
+    private FirebaseAnalytics firebaseAnalytics;
 
     private OnCatalogEntitySaveListener catalogSaveListener = this::onDestroy;
 
@@ -116,6 +120,7 @@ public class AddEditProductModel extends ViewModel {
         this.repository = Repository.getInstance(context);
         this.resources = context.getResources();
         this.dialogId = dialogId;
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
         ProductEntity entity = new ProductEntity(0, resources.getString(R.string.kg_measure), null);
         entity.setProductState(dialogId);
@@ -156,6 +161,7 @@ public class AddEditProductModel extends ViewModel {
 
     public void onSaveBtnClicked() {
         if (productEntity.getValue() != null) {
+            sendAnalyticsData(productEntity.getValue());
             if (TextUtils.isEmpty(productEntity.getValue().getIngredient())) {
                 navigator.showNoIngredientMsg();
             } else if (productEntity.getValue().getQuantity() == 0) {
@@ -181,6 +187,13 @@ public class AddEditProductModel extends ViewModel {
 
     private void onDestroy() {
         navigator.onCancel();
+    }
+
+    private void sendAnalyticsData(ProductEntity entity) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, entity.getIngredient());
+        bundle.putString(FirebaseAnalytics.Param.CONTENT, entity.toString());
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
     public AdapterView.OnItemClickListener catalogSelectedListener = new AdapterView.OnItemClickListener() {

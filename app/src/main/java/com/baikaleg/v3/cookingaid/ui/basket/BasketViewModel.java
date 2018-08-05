@@ -8,8 +8,8 @@ import android.support.annotation.NonNull;
 import com.baikaleg.v3.cookingaid.data.Repository;
 import com.baikaleg.v3.cookingaid.data.callback.OnProductEntityLoadedListener;
 import com.baikaleg.v3.cookingaid.data.callback.OnProductEntitySaveListener;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductList;
+import com.baikaleg.v3.cookingaid.data.database.entity.ProductEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.ProductList;
 
 import java.util.Calendar;
 import java.util.List;

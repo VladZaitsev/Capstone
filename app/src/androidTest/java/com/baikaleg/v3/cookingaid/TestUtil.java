@@ -2,7 +2,7 @@ package com.baikaleg.v3.cookingaid;
 
 import android.content.Context;
 
-import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.CatalogEntity;
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.util.AppUtils;
 

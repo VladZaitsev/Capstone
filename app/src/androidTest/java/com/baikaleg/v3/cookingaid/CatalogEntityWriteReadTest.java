@@ -8,8 +8,8 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.baikaleg.v3.cookingaid.data.database.AppDatabase;
 import com.baikaleg.v3.cookingaid.data.database.dao.CatalogDao;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductList;
+import com.baikaleg.v3.cookingaid.data.database.entity.CatalogEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.ProductList;
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.util.AppUtils;
 

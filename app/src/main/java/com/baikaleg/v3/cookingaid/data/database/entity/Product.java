@@ -1,4 +1,4 @@
-package com.baikaleg.v3.cookingaid.data.database.entity.product;
+package com.baikaleg.v3.cookingaid.data.database.entity;
 
 public interface Product {
 

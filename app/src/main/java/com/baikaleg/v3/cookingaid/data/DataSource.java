@@ -4,8 +4,8 @@ import com.baikaleg.v3.cookingaid.data.callback.OnCatalogEntityLoadedListener;
 import com.baikaleg.v3.cookingaid.data.callback.OnCatalogEntitySaveListener;
 import com.baikaleg.v3.cookingaid.data.callback.OnProductEntityLoadedListener;
 import com.baikaleg.v3.cookingaid.data.callback.OnProductEntitySaveListener;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.CatalogEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.ProductEntity;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 
 import java.util.ArrayList;

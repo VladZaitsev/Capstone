@@ -1,6 +1,5 @@
 package com.baikaleg.v3.cookingaid.data.database.dao;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.db.SupportSQLiteQuery;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -10,11 +9,10 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.RawQuery;
 import android.arch.persistence.room.Update;
 
-import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.CatalogEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.ProductEntity;
 
 import java.util.List;
-import java.util.Observable;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;

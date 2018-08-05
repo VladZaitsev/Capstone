@@ -8,8 +8,8 @@ import com.baikaleg.v3.cookingaid.data.callback.OnCatalogEntitySaveListener;
 import com.baikaleg.v3.cookingaid.data.callback.OnProductEntityLoadedListener;
 import com.baikaleg.v3.cookingaid.data.callback.OnProductEntitySaveListener;
 import com.baikaleg.v3.cookingaid.data.database.AppDatabase;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.CatalogEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.ProductEntity;
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.data.network.RecipeApi;
@@ -52,7 +52,6 @@ public class Repository implements DataSource {
     }
 
     //TODO Replace category inserting after source changing
-    //TODO Delete default photo
     @Override
     public Observable<List<Recipe>> getRecipes() {
         return recipeApi.createService().getRecipes()

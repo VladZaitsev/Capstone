@@ -2,8 +2,8 @@ package com.baikaleg.v3.cookingaid.util;
 
 import android.content.Context;
 
-import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.CatalogEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.ProductEntity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

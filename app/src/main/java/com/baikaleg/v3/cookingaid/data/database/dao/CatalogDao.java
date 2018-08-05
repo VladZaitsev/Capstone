@@ -9,7 +9,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.RawQuery;
 import android.arch.persistence.room.Update;
 
-import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.CatalogEntity;
 
 import java.util.List;
 

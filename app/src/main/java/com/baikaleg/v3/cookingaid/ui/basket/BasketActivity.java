@@ -10,7 +10,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 
 import com.baikaleg.v3.cookingaid.R;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.ProductEntity;
 import com.baikaleg.v3.cookingaid.databinding.ActivityBasketBinding;
 import com.baikaleg.v3.cookingaid.ui.BaseActivity;
 import com.baikaleg.v3.cookingaid.ui.SwipeToDeleteCallback;

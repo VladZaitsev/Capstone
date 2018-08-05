@@ -1,6 +1,5 @@
 package com.baikaleg.v3.cookingaid.ui.recipes.item;
 
-import android.arch.lifecycle.MutableLiveData;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
@@ -13,17 +12,13 @@ import android.util.Log;
 
 import com.baikaleg.v3.cookingaid.BR;
 import com.baikaleg.v3.cookingaid.data.Repository;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductList;
+import com.baikaleg.v3.cookingaid.data.database.entity.ProductList;
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Maybe;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Function;
 
 public class RecipeItemViewModel extends BaseObservable {
 

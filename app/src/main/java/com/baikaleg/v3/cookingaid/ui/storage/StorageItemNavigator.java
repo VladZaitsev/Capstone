@@ -1,6 +1,6 @@
 package com.baikaleg.v3.cookingaid.ui.storage;
 
-import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.ProductEntity;
 
 public interface StorageItemNavigator {
 

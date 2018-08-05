@@ -1,7 +1,19 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
+    signingConfigs {
+        release {
+            storeFile file(keystoreProperties['STORE_FILE'])
+            keyAlias keystoreProperties['KEY_ALIAS']
+            storePassword keystoreProperties['STORE_PASSWORD']
+            keyPassword keystoreProperties['KEY_PASSWORD']
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.baikaleg.v3.cookingaid"
@@ -16,6 +28,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -65,7 +78,7 @@ dependencies {
     implementation "android.arch.persistence.room:rxjava2:$rootProject.lifecycle_version"
 
     implementation 'com.google.firebase:firebase-core:16.0.1'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.3'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
 }
 
 apply plugin: 'com.google.gms.google-services'

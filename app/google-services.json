@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "548576321359",
+    "firebase_url": "https://cookingaid-da308.firebaseio.com",
+    "project_id": "cookingaid-da308",
+    "storage_bucket": "cookingaid-da308.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548576321359:android:9a176f59e30a3f56",
+        "android_client_info": {
+          "package_name": "com.baikaleg.v3.cookingaid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548576321359-173kr1q8q5079qfvlafic7imsrnk1g0l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.baikaleg.v3.cookingaid",
+            "certificate_hash": "b87a3d2b09a3200541e4d0fe7524b05d383ef5c1"
+          }
+        },
+        {
+          "client_id": "548576321359-odp9l2ruggncbtcbv785gkgl5i7kvthj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCa4cvFVthUiyuXL8HyabKHAGjGjKz2TY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548576321359-odp9l2ruggncbtcbv785gkgl5i7kvthj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

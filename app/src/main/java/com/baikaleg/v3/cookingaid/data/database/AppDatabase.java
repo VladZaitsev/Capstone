@@ -12,8 +12,8 @@ import android.util.Log;
 import com.baikaleg.v3.cookingaid.data.database.converters.DateConverter;
 import com.baikaleg.v3.cookingaid.data.database.dao.CatalogDao;
 import com.baikaleg.v3.cookingaid.data.database.dao.ProductDao;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.CatalogEntity;
-import com.baikaleg.v3.cookingaid.data.database.entity.product.ProductEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.CatalogEntity;
+import com.baikaleg.v3.cookingaid.data.database.entity.ProductEntity;
 import com.baikaleg.v3.cookingaid.util.AppUtils;
 
 import java.util.List;
