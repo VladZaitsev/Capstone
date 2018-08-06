@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.Locale;
 
 public class StorageViewAdapter extends RecyclerView.Adapter<StorageViewAdapter.StorageViewHolder> {
-    private List<ProductEntity> products = new ArrayList<>();
+    private final List<ProductEntity> products = new ArrayList<>();
 
-    public Context context;
-    private StorageItemNavigator navigator;
-    private DateFormat dateFormat;
+    private final Context context;
+    private final StorageItemNavigator navigator;
+    private final DateFormat dateFormat;
 
     StorageViewAdapter(Context context, StorageItemNavigator navigator) {
         this.context = context;
@@ -76,7 +76,7 @@ public class StorageViewAdapter extends RecyclerView.Adapter<StorageViewAdapter.
 
     class StorageViewHolder extends RecyclerView.ViewHolder {
 
-        ItemStorageBinding binding;
+        final ItemStorageBinding binding;
 
         StorageViewHolder(ItemStorageBinding binding) {
             super(binding.getRoot());

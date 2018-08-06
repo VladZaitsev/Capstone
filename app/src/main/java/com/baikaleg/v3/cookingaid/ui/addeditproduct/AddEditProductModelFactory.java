@@ -5,10 +5,11 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-public class AddEditProductModelFactory implements ViewModelProvider.Factory {
+class AddEditProductModelFactory implements ViewModelProvider.Factory {
 
-    private Context context;
-    private int dialogID, productID;
+    private final Context context;
+    private final int dialogID;
+    private final int productID;
 
     AddEditProductModelFactory(Context context, int dialogID, int productID) {
         this.context = context;

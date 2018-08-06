@@ -12,22 +12,22 @@ public class Recipe implements Parcelable {
 
     @SerializedName("id")
     @Expose
-    private int id = 0;
+    private final int id;
     @SerializedName("name")
     @Expose
-    private String name = null;
+    private final String name;
     @SerializedName("ingredients")
     @Expose
-    private List<Ingredient> ingredients = null;
+    private final List<Ingredient> ingredients;
     @SerializedName("steps")
     @Expose
-    private List<Step> steps = null;
+    private final List<Step> steps;
     @SerializedName("servings")
     @Expose
-    private int servings = 0;
+    private final int servings;
     @SerializedName("image")
     @Expose
-    private String image = null;
+    private final String image;
 
     //TODO describe additional fields
     private String category = null;
@@ -92,10 +92,6 @@ public class Recipe implements Parcelable {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     @Override

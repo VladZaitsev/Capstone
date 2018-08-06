@@ -2,7 +2,6 @@ package com.baikaleg.v3.cookingaid.ui.addeditproduct;
 
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;

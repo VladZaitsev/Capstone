@@ -15,6 +15,7 @@ import com.baikaleg.v3.cookingaid.ui.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RecipesActivity extends BaseActivity {
 
@@ -24,7 +25,7 @@ public class RecipesActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().setTitle(getString(R.string.title_activity_recipes));
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_activity_recipes));
         // Inflate view and obtain an instance of the binding class.
         LayoutInflater inflater = LayoutInflater.from(this);
         binding = DataBindingUtil.inflate(inflater, R.layout.activity_recipe, frameLayout, true);
@@ -67,7 +68,7 @@ public class RecipesActivity extends BaseActivity {
         tab.setPadding(0,8,0,0);
        // tab.setBackgroundColor(getResources().getColor(R.color.colorTabBackground));
         tab.setCompoundDrawablesWithIntrinsicBounds(0, imageId, 0, 0);
-        binding.tabs.getTabAt(i).setCustomView(tab);
+        Objects.requireNonNull(binding.tabs.getTabAt(i)).setCustomView(tab);
     }
 
     private class CategoryPagerAdapter extends FragmentStatePagerAdapter {

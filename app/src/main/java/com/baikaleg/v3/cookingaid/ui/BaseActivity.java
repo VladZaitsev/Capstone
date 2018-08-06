@@ -21,8 +21,8 @@ public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
-    public NavigationView navigationView;
-    public FrameLayout frameLayout;
+    protected NavigationView navigationView;
+    protected FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +63,16 @@ public class BaseActivity extends AppCompatActivity
             return false;
         }
 
-        if (id == R.id.nav_recipes) {
-            startActivity(new Intent(getApplicationContext(), RecipesActivity.class));
-        } else if (id == R.id.nav_basket) {
-            startActivity(new Intent(getApplicationContext(), BasketActivity.class));
-        } else if (id == R.id.nav_storage) {
-            startActivity(new Intent(getApplicationContext(), StorageActivity.class));
+        switch (id) {
+            case R.id.nav_recipes:
+                startActivity(new Intent(getApplicationContext(), RecipesActivity.class));
+                break;
+            case R.id.nav_basket:
+                startActivity(new Intent(getApplicationContext(), BasketActivity.class));
+                break;
+            case R.id.nav_storage:
+                startActivity(new Intent(getApplicationContext(), StorageActivity.class));
+                break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

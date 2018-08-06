@@ -33,8 +33,8 @@ import io.reactivex.schedulers.Schedulers;
 public class Repository implements DataSource {
 
     private final RecipeApi recipeApi;
-    private AppDatabase db;
-    private CompositeDisposable compositeDisposable;
+    private final AppDatabase db;
+    private final CompositeDisposable compositeDisposable;
 
     private static Repository instance;
 

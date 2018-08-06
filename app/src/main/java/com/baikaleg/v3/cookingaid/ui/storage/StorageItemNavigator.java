@@ -2,7 +2,7 @@ package com.baikaleg.v3.cookingaid.ui.storage;
 
 import com.baikaleg.v3.cookingaid.data.database.entity.ProductEntity;
 
-public interface StorageItemNavigator {
+interface StorageItemNavigator {
 
     void onItemClicked(int id);
 

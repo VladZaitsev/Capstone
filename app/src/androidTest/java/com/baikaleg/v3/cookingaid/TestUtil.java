@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestUtil {
+class TestUtil {
 
     public static List<Ingredient> createIngredientsList(Context context) throws Exception {
         String str_data = AppUtils.readFromFile("ingredients.txt", context);

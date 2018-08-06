@@ -11,7 +11,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecipeApi {
-    private Context context;
+    private final Context context;
 
     public RecipeApi(Context context) {
         this.context = context;

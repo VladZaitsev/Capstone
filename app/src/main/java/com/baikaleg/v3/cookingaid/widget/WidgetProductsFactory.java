@@ -10,10 +10,11 @@ import com.baikaleg.v3.cookingaid.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WidgetProductsFactory implements RemoteViewsFactory {
+class WidgetProductsFactory implements RemoteViewsFactory {
 
-    private List<String> data, products;
-    private Context context;
+    private final List<String> data;
+    private List<String> products;
+    private final Context context;
 
     WidgetProductsFactory(Context context, Intent intent) {
         this.context = context;

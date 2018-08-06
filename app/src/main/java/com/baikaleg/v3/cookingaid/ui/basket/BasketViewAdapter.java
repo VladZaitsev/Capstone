@@ -1,6 +1,5 @@
 package com.baikaleg.v3.cookingaid.ui.basket;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -19,11 +18,9 @@ public class BasketViewAdapter extends RecyclerView.Adapter<BasketViewAdapter.Ba
 
     private List<ProductEntity> products = new ArrayList<>();
 
-    public Context context;
-    private BasketItemNavigator navigator;
+    private final BasketItemNavigator navigator;
 
-    BasketViewAdapter(Context context, BasketItemNavigator navigator) {
-        this.context = context;
+    BasketViewAdapter(BasketItemNavigator navigator) {
         this.navigator = navigator;
     }
 
@@ -68,7 +65,7 @@ public class BasketViewAdapter extends RecyclerView.Adapter<BasketViewAdapter.Ba
 
     class BasketViewHolder extends RecyclerView.ViewHolder {
 
-        ItemBasketBinding binding;
+        final ItemBasketBinding binding;
 
         BasketViewHolder(ItemBasketBinding binding) {
             super(binding.getRoot());

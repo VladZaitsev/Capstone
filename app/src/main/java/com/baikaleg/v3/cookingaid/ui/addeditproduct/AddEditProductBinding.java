@@ -3,7 +3,6 @@ package com.baikaleg.v3.cookingaid.ui.addeditproduct;
 import android.databinding.BindingAdapter;
 import android.databinding.InverseBindingAdapter;
 import android.databinding.InverseBindingListener;
-import android.databinding.adapters.ListenerUtil;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -13,8 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
-
-import com.baikaleg.v3.cookingaid.R;
 
 import java.util.List;
 

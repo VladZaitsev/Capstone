@@ -21,7 +21,7 @@ public class StorageViewModel extends AndroidViewModel {
         public void onAllProductEntitiesLoaded(List<ProductEntity> list) {
             data.setValue(list);
             if (list.size() != 0) {
-                isEmpty.setValue(list.size() == 0);
+                isEmpty.setValue(false);
             } else {
                 isEmpty.setValue(true);
             }

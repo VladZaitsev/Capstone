@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 import com.baikaleg.v3.cookingaid.ui.recipes.RecipesViewAdapter.RecipesStepsPagerAdapter;

@@ -1,11 +1,10 @@
 package com.baikaleg.v3.cookingaid.data.database.entity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ProductList extends CatalogEntity {
-    private List<Product> children = new ArrayList<>();
+    private final List<Product> children = new ArrayList<>();
 
     public ProductList() {
         super(0, null, null);
@@ -17,15 +16,6 @@ public class ProductList extends CatalogEntity {
 
     public void addAll(List<ProductEntity> list) {
         children.addAll(list);
-    }
-
-    public void remove(Product child) {
-        int i = children.indexOf(child);
-        children.remove(i);
-    }
-
-    public void remove(Product... components) {
-        children.removeAll(Arrays.asList(components));
     }
 
     public void clear() {

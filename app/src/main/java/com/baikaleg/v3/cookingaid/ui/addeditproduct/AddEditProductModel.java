@@ -29,29 +29,31 @@ public class AddEditProductModel extends ViewModel {
 
     private AddEditProductNavigator navigator;
 
-    private MutableLiveData<List<String>> catalogEntityNames = new MutableLiveData<>();
+    private final MutableLiveData<List<String>> catalogEntityNames = new MutableLiveData<>();
 
-    private MutableLiveData<ProductEntity> productEntity = new MutableLiveData<>();
+    private final MutableLiveData<ProductEntity> productEntity = new MutableLiveData<>();
 
-    private MutableLiveData<Boolean> isUnitMeasure = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isUnitMeasure = new MutableLiveData<>();
 
-    private MutableLiveData<Boolean> isQuantitySet = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isQuantitySet = new MutableLiveData<>();
 
-    private boolean isEditable;
+    private final boolean isEditable;
 
-    private int oldCatalogId, dialogId;
+    private int oldCatalogId;
+
+    private final int dialogId;
 
     private String oldIngredient;
 
-    private Repository repository;
-
     private Resources resources;
 
-    private FirebaseAnalytics firebaseAnalytics;
+    private final Repository repository;
 
-    private OnCatalogEntitySaveListener catalogSaveListener = this::onDestroy;
+    private final FirebaseAnalytics firebaseAnalytics;
 
-    private OnProductEntitySaveListener productSaveListener = new OnProductEntitySaveListener() {
+    private final OnCatalogEntitySaveListener catalogSaveListener = this::onDestroy;
+
+    private final OnProductEntitySaveListener productSaveListener = new OnProductEntitySaveListener() {
         @Override
         public void onProductEntitySaved() {
             if (productEntity.getValue() != null) {
@@ -72,7 +74,7 @@ public class AddEditProductModel extends ViewModel {
         }
     };
 
-    private OnCatalogEntityLoadedListener catalogLoadedListener = new OnCatalogEntityLoadedListener() {
+    private final OnCatalogEntityLoadedListener catalogLoadedListener = new OnCatalogEntityLoadedListener() {
 
         @Override
         public void onAllCatalogIngredientsLoaded(List<String> list) {
@@ -103,19 +105,6 @@ public class AddEditProductModel extends ViewModel {
         }
     };
 
-    private OnProductEntityLoadedListener productLoadedListener = new OnProductEntityLoadedListener() {
-        @Override
-        public void onAllProductEntitiesLoaded(List<ProductEntity> list) {
-
-        }
-
-        @Override
-        public void onProductEntityByIdLoaded(ProductEntity entity) {
-            productEntity.setValue(entity);
-            repository.loadCatalogEntityByName(entity.getIngredient(), catalogLoadedListener);
-        }
-    };
-
     AddEditProductModel(Context context, int dialogId, int productId) {
         this.repository = Repository.getInstance(context);
         this.resources = context.getResources();
@@ -130,6 +119,18 @@ public class AddEditProductModel extends ViewModel {
             repository.loadAllCatalogIngredients(catalogLoadedListener);
             isEditable = true;
         } else {
+            OnProductEntityLoadedListener productLoadedListener = new OnProductEntityLoadedListener() {
+                @Override
+                public void onAllProductEntitiesLoaded(List<ProductEntity> list) {
+
+                }
+
+                @Override
+                public void onProductEntityByIdLoaded(ProductEntity entity) {
+                    productEntity.setValue(entity);
+                    repository.loadCatalogEntityByName(entity.getIngredient(), catalogLoadedListener);
+                }
+            };
             repository.loadProductEntityById(productId, productLoadedListener);
             isEditable = false;
         }

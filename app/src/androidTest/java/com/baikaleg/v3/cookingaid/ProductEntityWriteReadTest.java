@@ -18,16 +18,13 @@ import java.io.IOException;
 @RunWith(AndroidJUnit4.class)
 public class ProductEntityWriteReadTest {
 
-    private ProductDao productDao;
-
     private AppDatabase db;
-    private Context context;
 
     @Before
     public void createDb() {
-        context = InstrumentationRegistry.getTargetContext();
+        Context context = InstrumentationRegistry.getTargetContext();
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
-        productDao = db.productDao();
+        ProductDao productDao = db.productDao();
     }
 
     @After

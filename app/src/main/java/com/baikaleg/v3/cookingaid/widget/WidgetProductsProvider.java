@@ -6,28 +6,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class WidgetProductsProvider extends AppWidgetProvider {
     public final static String WIDGET_PRODUCTS_EXTRA = "widget_products_extra";
-
-    @Override
-    public void onEnabled(Context context) {
-        super.onEnabled(context);
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        super.onDisabled(context);
-    }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -37,12 +23,7 @@ public class WidgetProductsProvider extends AppWidgetProvider {
         }
     }
 
-    @Override
-    public void onDeleted(Context context, int[] appWidgetIds) {
-        super.onDeleted(context, appWidgetIds);
-    }
-
-    public static void update(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+    private static void update(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_products);
         Repository repository = Repository.getInstance(context);
 

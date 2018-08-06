@@ -18,7 +18,7 @@ import java.util.Locale;
 public class BasketViewModel extends AndroidViewModel {
     private final static int STATE = 2;
     private final Repository repository;
-    private ProductList productList;
+    private final ProductList productList;
 
     private final MutableLiveData<List<ProductEntity>> data = new MutableLiveData<>();
     private final MutableLiveData<String> totalPrice = new MutableLiveData<>();

@@ -17,11 +17,11 @@ import com.baikaleg.v3.cookingaid.data.model.Ingredient;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.disposables.CompositeDisposable;
 
 public class RecipeItemViewModel extends BaseObservable {
-
     @Bindable
     public final ObservableBoolean isExpanded = new ObservableBoolean(false);
 
@@ -43,21 +43,21 @@ public class RecipeItemViewModel extends BaseObservable {
     @Bindable
     public final ObservableInt servings = new ObservableInt(0);
 
-    private Repository repository;
+    private final Repository repository;
 
-    private CompositeDisposable compositeDisposable;
+    private final CompositeDisposable compositeDisposable;
 
-    private ObservableField<Recipe> recipe = new ObservableField<>();
+    private final ObservableField<Recipe> recipe = new ObservableField<>();
 
     private final ObservableFloat ratio = new ObservableFloat();
 
-    public RecipeItemViewModel(Recipe recipe, float ratio, Repository repository) {
+    private final OnExpandButtonClickListener listener;
+
+
+    public RecipeItemViewModel(Recipe recipe, float ratio, Repository repository, OnExpandButtonClickListener listener) {
         this.repository = repository;
         this.compositeDisposable = new CompositeDisposable();
-
-        if (ratio != 1) {
-            isExpanded.set(true);
-        }
+        this.listener = listener;
 
         this.ratio.set(ratio);
         this.recipe.set(recipe);
@@ -91,9 +91,11 @@ public class RecipeItemViewModel extends BaseObservable {
     }
 
     public void expandBtnClick() {
-        isExpanded.set(!isExpanded.get());
-        if (isExpanded.get() && recipe != null) {
-            List<Ingredient> ingredientsList = recipe.get().getIngredients();
+        boolean b=!isExpanded.get();
+        isExpanded.set(b);
+        listener.onExpandButtonClickListener(b);
+        if (b && recipe != null) {
+            List<Ingredient> ingredientsList = Objects.requireNonNull(recipe.get()).getIngredients();
             for (int i = 0; i < ingredientsList.size(); i++) {
                 String ingredient = ingredientsList.get(i).getIngredient();
                 int finalI = i;
@@ -129,5 +131,13 @@ public class RecipeItemViewModel extends BaseObservable {
     public void setImageSize(int width, int height) {
         this.width.set(width);
         this.height.set(height);
+    }
+
+    public void setIsExpanded(boolean b) {
+        isExpanded.set(b);
+    }
+
+    public interface OnExpandButtonClickListener {
+        void onExpandButtonClickListener(boolean b);
     }
 }

@@ -12,6 +12,8 @@ import android.support.v7.app.AlertDialog;
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.model.Recipe;
 
+import java.util.Objects;
+
 public class SendToBasketDialog extends DialogFragment {
     public static final String RECIPE_INTENT_KEY = "recipe";
     public static final String RATIO_INTENT_KEY = "ratio";
@@ -44,18 +46,16 @@ public class SendToBasketDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder dialog = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
         dialog.setTitle(getString(R.string.msg_sent_to_basket_permission, recipe.getName()));
         dialog.setPositiveButton(getString(R.string.send), (dialogInterface, i) -> {
             Intent intent = new Intent();
             intent.putExtra(RECIPE_INTENT_KEY, recipe);
             intent.putExtra(RATIO_INTENT_KEY, ratio);
-            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+            Objects.requireNonNull(getTargetFragment()).onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
             dismiss();
         });
-        dialog.setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> {
-            dismiss();
-        });
+        dialog.setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> dismiss());
 
         return dialog.create();
     }

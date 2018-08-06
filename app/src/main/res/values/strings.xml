@@ -89,9 +89,9 @@
     <string name="badNumber">error</string>
     <string name="empty_widget_list">Empty list</string>
     <string name="list_of_expiry_products">List of expiry products:</string>
-    <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="send">Send</string>
     <string name="number_of_persons">Number of persons</string>
+    <string name="one_unit_equals">1 unit =</string>
 
 </resources>

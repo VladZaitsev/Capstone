@@ -20,10 +20,17 @@ import com.baikaleg.v3.cookingaid.ui.recipes.dialog.RecountDialog;
 import com.baikaleg.v3.cookingaid.ui.recipes.dialog.SendToBasketDialog;
 import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeItemEventNavigator;
 
+import java.util.Objects;
+
 public class RecipesFragment extends Fragment implements RecipeItemEventNavigator {
     private static final String arg_cat = "argCategory";
+
+    private static final String SELECTION_KEY = "selection";
+    private static final String RATIO_KEY = "ratio";
+
     private static final int RECIPES_RECOUNT_REQUEST_CODE = 101;
     private static final int RECIPES_TO_BASKET_REQUEST_CODE = 102;
+
     private RecipesViewModel recipesViewModel;
     private Repository repository;
     private RecipesViewAdapter adapter;
@@ -66,15 +73,26 @@ public class RecipesFragment extends Fragment implements RecipeItemEventNavigato
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putFloatArray(RATIO_KEY, adapter.getRatioArray());
+        outState.putBooleanArray(SELECTION_KEY, adapter.getSelectionArray());
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentRecipeBinding binding = FragmentRecipeBinding.inflate(inflater, container, false);
-
         isLand = getResources().getBoolean(R.bool.isLand);
         isTablet = getResources().getBoolean(R.bool.isTablet);
 
         adapter = new RecipesViewAdapter(getActivity(), repository, this);
+
+        if (savedInstanceState != null) {
+            adapter.setSelectionArray(savedInstanceState.getBooleanArray(SELECTION_KEY));
+            adapter.setRatioArray(savedInstanceState.getFloatArray(RATIO_KEY));
+        }
 
         binding.setViewmodel(recipesViewModel);
         binding.setLifecycleOwner(this);
@@ -96,14 +114,14 @@ public class RecipesFragment extends Fragment implements RecipeItemEventNavigato
     public void onClickRecountBtn(int position) {
         RecountDialog recountDialog = RecountDialog.newInstance(position);
         recountDialog.setTargetFragment(this, RECIPES_RECOUNT_REQUEST_CODE);
-        recountDialog.show(getActivity().getSupportFragmentManager(), "dialog");
+        recountDialog.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), "dialog");
     }
 
     @Override
     public void onClickSendBtn(Recipe recipe, float ratio) {
         SendToBasketDialog basketDialog = SendToBasketDialog.newInstance(recipe, ratio);
         basketDialog.setTargetFragment(this, RECIPES_TO_BASKET_REQUEST_CODE);
-        basketDialog.show(getActivity().getSupportFragmentManager(), "dialog");
+        basketDialog.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), "dialog");
     }
 
     private void setViewParameters() {
@@ -114,12 +132,12 @@ public class RecipesFragment extends Fragment implements RecipeItemEventNavigato
                 imageWidth = screenWidth;
                 imageHeight = (imageWidth * 2) / 3;
             } else {
-                imageWidth = screenWidth ;
-                imageHeight = imageWidth /3;
+                imageWidth = screenWidth;
+                imageHeight = imageWidth / 3;
             }
         } else {
             imageWidth = screenWidth;
-            imageHeight = imageWidth /3 ;
+            imageHeight = imageWidth / 3;
         }
         adapter.setImageSize(imageWidth, imageHeight);
     }

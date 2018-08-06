@@ -2,7 +2,6 @@ package com.baikaleg.v3.cookingaid.ui.recipes.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -16,6 +15,8 @@ import android.widget.Toast;
 
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.databinding.DialogRecountRecipeBinding;
+
+import java.util.Objects;
 
 public class RecountDialog extends DialogFragment {
     private static final String arg_pos = "position";
@@ -42,7 +43,7 @@ public class RecountDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder dialog = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
         LayoutInflater inflater = getActivity().getLayoutInflater();
         DialogRecountRecipeBinding binding = DataBindingUtil.inflate(inflater, R.layout.dialog_recount_recipe, null, false);
         dialog.setTitle(getString(R.string.msg_how_many_servings));
@@ -54,7 +55,7 @@ public class RecountDialog extends DialogFragment {
                     Intent intent = new Intent();
                     intent.putExtra(POSITION_INTENT_KEY, position);
                     intent.putExtra(PERSONS_INTENT_KEY, persons);
-                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                    Objects.requireNonNull(getTargetFragment()).onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
                     dismiss();
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.msg_cannot_be_null), Toast.LENGTH_SHORT).show();
@@ -63,9 +64,7 @@ public class RecountDialog extends DialogFragment {
                 Toast.makeText(getActivity(), getString(R.string.msg_fill_field), Toast.LENGTH_SHORT).show();
             }
         });
-        dialog.setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> {
-            dismiss();
-        });
+        dialog.setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> dismiss());
 
         dialog.setView(binding.getRoot());
         return dialog.create();

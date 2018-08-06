@@ -29,7 +29,7 @@ public class AppUtils {
                     .open(fileName);
             isr = new InputStreamReader(is);
             input = new BufferedReader(isr);
-            String line = "";
+            String line;
             while ((line = input.readLine()) != null) {
                 result.append(line);
             }

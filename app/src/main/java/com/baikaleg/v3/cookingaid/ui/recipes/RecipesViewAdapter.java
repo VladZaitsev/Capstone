@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,16 +22,20 @@ import com.baikaleg.v3.cookingaid.ui.recipes.item.RecipeItemViewModel;
 import com.baikaleg.v3.cookingaid.ui.recipestepsdetails.StepDetailsActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewAdapter.RecipesViewHolder> {
     private static final String TAG = RecipesViewAdapter.class.getSimpleName();
-    private List<Recipe> recipesList = new ArrayList<>();
 
-    private Context context;
-    private Repository repository;
-    private float ratio = 1;
-    private RecipeItemEventNavigator navigator;
+    private final List<Recipe> recipesList = new ArrayList<>();
+    private boolean[] selectionArray;
+    private float[] ratioArray;
+
+    private final Context context;
+    private final Repository repository;
+    private final RecipeItemEventNavigator navigator;
+
     private int imageHeight, imageWidth;
 
     RecipesViewAdapter(Context context, Repository repository, RecipeItemEventNavigator navigator) {
@@ -54,15 +56,9 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewAdapter.
     @Override
     public void onBindViewHolder(@NonNull RecipesViewHolder holder, int position) {
         final Recipe recipe = recipesList.get(position);
-
-        /*ConstraintLayout.LayoutParams newLayoutParams = new ConstraintLayout.LayoutParams(imageWidth, imageHeight);
-        ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone(holder.recipeItemBinding.mainContainer);
-        holder.recipeItemBinding.imageView.setLayoutParams(newLayoutParams);
-        constraintSet.applyTo(holder.recipeItemBinding.mainContainer);*/
-
-        RecipeItemViewModel viewModel = new RecipeItemViewModel(recipe, ratio, repository);
+        RecipeItemViewModel viewModel = new RecipeItemViewModel(recipe, ratioArray[position], repository, b -> selectionArray[position] = b);
         viewModel.setImageSize(imageWidth, imageHeight);
+        viewModel.setIsExpanded(selectionArray[position]);
         holder.recipeItemBinding.setViewmodel(viewModel);
 
         holder.recipeItemBinding.recountBtn.setOnClickListener(v -> navigator.onClickRecountBtn(position));
@@ -85,15 +81,40 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewAdapter.
         this.imageWidth = width;
     }
 
+    boolean[] getSelectionArray() {
+        return selectionArray;
+    }
+
+    void setSelectionArray(boolean[] selectionArray) {
+        this.selectionArray = selectionArray;
+    }
+
+    float[] getRatioArray() {
+        return ratioArray;
+    }
+
+    void setRatioArray(float[] ratioArray) {
+        this.ratioArray = ratioArray;
+    }
+
     void refresh(@NonNull List<Recipe> list) {
         this.recipesList.clear();
         this.recipesList.addAll(list);
+
+        if (selectionArray == null) {
+            selectionArray = new boolean[list.size()];
+        }
+        if (ratioArray == null) {
+            ratioArray = new float[list.size()];
+            Arrays.fill(ratioArray, 1f);
+        }
+
         notifyDataSetChanged();
     }
 
     void recount(int position, int persons) {
         float oldValue = recipesList.get(position).getServings();
-        this.ratio = persons / oldValue;
+        ratioArray[position] = persons / oldValue;
         notifyItemChanged(position);
     }
 
@@ -149,7 +170,7 @@ public class RecipesViewAdapter extends RecyclerView.Adapter<RecipesViewAdapter.
     }
 
     class RecipesViewHolder extends RecyclerView.ViewHolder {
-        ItemRecipeBinding recipeItemBinding;
+        final ItemRecipeBinding recipeItemBinding;
 
         RecipesViewHolder(ItemRecipeBinding binding) {
             super(binding.getRoot());

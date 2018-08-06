@@ -8,11 +8,11 @@ import android.text.TextUtils;
 import com.baikaleg.v3.cookingaid.data.model.Step;
 
 public class StepDetailsViewModel extends BaseObservable {
-    public ObservableBoolean isVideo = new ObservableBoolean();
-    public ObservableBoolean isImage = new ObservableBoolean();
+    public final ObservableBoolean isVideo = new ObservableBoolean();
+    public final ObservableBoolean isImage = new ObservableBoolean();
 
-    public ObservableField<String> description = new ObservableField<>();
-    public ObservableField<String> shortDescription = new ObservableField<>();
+    public final ObservableField<String> description = new ObservableField<>();
+    public final ObservableField<String> shortDescription = new ObservableField<>();
 
     public void setStep(Step step) {
         if (TextUtils.isEmpty(step.getVideoURL())) {

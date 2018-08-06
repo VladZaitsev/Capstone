@@ -23,7 +23,7 @@ public class BasketActivity extends BaseActivity implements BasketItemNavigator 
 
     private BasketViewModel viewModel;
 
-    public AddEditProductDialog dialog;
+    private AddEditProductDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class BasketActivity extends BaseActivity implements BasketItemNavigator 
         binding.setLifecycleOwner(this);
         binding.setModel(viewModel);
 
-        BasketViewAdapter adapter = new BasketViewAdapter(this, this);
+        BasketViewAdapter adapter = new BasketViewAdapter( this);
         binding.productsContent.setAdapter(adapter);
         binding.productsContent.setLayoutManager(new LinearLayoutManager(this));
         SwipeToDeleteCallback swipe = new SwipeToDeleteCallback(this) {

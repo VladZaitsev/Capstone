@@ -13,17 +13,19 @@ import android.view.View;
 
 import com.baikaleg.v3.cookingaid.R;
 
+import java.util.Objects;
+
 public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
-    private Drawable background;
-    private Drawable deleteIcon;
-    private int iconMargin;
-    private int backgroundColor;
+    private final Drawable background;
+    private final Drawable deleteIcon;
+    private final int iconMargin;
+    private final int backgroundColor;
 
     protected SwipeToDeleteCallback(Context context) {
         super(0, ItemTouchHelper.LEFT);
         background = new ColorDrawable();
         deleteIcon = ContextCompat.getDrawable(context, R.drawable.btn_delete);
-        deleteIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        Objects.requireNonNull(deleteIcon).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         iconMargin = (int) context.getResources().getDimension(R.dimen.hor_margin);
         backgroundColor = context.getResources().getColor(R.color.colorAccent);
     }
