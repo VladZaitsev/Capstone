@@ -19,6 +19,7 @@ import com.baikaleg.v3.cookingaid.data.database.entity.CatalogEntity;
 import com.baikaleg.v3.cookingaid.data.database.entity.ProductEntity;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +38,8 @@ public class AddEditProductModel extends ViewModel {
 
     private final MutableLiveData<Boolean> isQuantitySet = new MutableLiveData<>();
 
+    private List<ProductEntity> productEntities = new ArrayList<>();
+
     private final boolean isEditable;
 
     private int oldCatalogId;
@@ -51,9 +54,9 @@ public class AddEditProductModel extends ViewModel {
 
     private final FirebaseAnalytics firebaseAnalytics;
 
-    private final OnCatalogEntitySaveListener catalogSaveListener = this::onDestroy;
+    private OnCatalogEntitySaveListener catalogSaveListener = this::onDestroy;
 
-    private final OnProductEntitySaveListener productSaveListener = new OnProductEntitySaveListener() {
+    private OnProductEntitySaveListener productSaveListener = new OnProductEntitySaveListener() {
         @Override
         public void onProductEntitySaved() {
             if (productEntity.getValue() != null) {
@@ -74,7 +77,7 @@ public class AddEditProductModel extends ViewModel {
         }
     };
 
-    private final OnCatalogEntityLoadedListener catalogLoadedListener = new OnCatalogEntityLoadedListener() {
+    private OnCatalogEntityLoadedListener catalogLoadedListener = new OnCatalogEntityLoadedListener() {
 
         @Override
         public void onAllCatalogIngredientsLoaded(List<String> list) {
@@ -105,6 +108,20 @@ public class AddEditProductModel extends ViewModel {
         }
     };
 
+    private OnProductEntityLoadedListener productLoadedListener = new OnProductEntityLoadedListener() {
+        @Override
+        public void onAllProductEntitiesLoaded(List<ProductEntity> list) {
+            productEntities.clear();
+            productEntities.addAll(list);
+        }
+
+        @Override
+        public void onProductEntityByIdLoaded(ProductEntity entity) {
+            productEntity.setValue(entity);
+            repository.loadCatalogEntityByName(entity.getIngredient(), catalogLoadedListener);
+        }
+    };
+
     AddEditProductModel(Context context, int dialogId, int productId) {
         this.repository = Repository.getInstance(context);
         this.resources = context.getResources();
@@ -119,21 +136,10 @@ public class AddEditProductModel extends ViewModel {
             repository.loadAllCatalogIngredients(catalogLoadedListener);
             isEditable = true;
         } else {
-            OnProductEntityLoadedListener productLoadedListener = new OnProductEntityLoadedListener() {
-                @Override
-                public void onAllProductEntitiesLoaded(List<ProductEntity> list) {
-
-                }
-
-                @Override
-                public void onProductEntityByIdLoaded(ProductEntity entity) {
-                    productEntity.setValue(entity);
-                    repository.loadCatalogEntityByName(entity.getIngredient(), catalogLoadedListener);
-                }
-            };
             repository.loadProductEntityById(productId, productLoadedListener);
             isEditable = false;
         }
+        repository.loadAllProductEntities(productLoadedListener, dialogId);
     }
 
     public void setNavigator(AddEditProductNavigator navigator) {
@@ -174,7 +180,14 @@ public class AddEditProductModel extends ViewModel {
                         productEntity.getValue().setPurchaseDate(calendar.getTime());
                     }
                     productEntity.getValue().setId(0);
-                    repository.saveProductEntity(productEntity.getValue(), productSaveListener);
+                    if (productEntities.contains(productEntity.getValue())) {
+                        ProductEntity entity = productEntities.get(productEntities.indexOf(productEntity.getValue()));
+                        entity.setQuantity(entity.getQuantity() + productEntity.getValue().getQuantity());
+                        repository.updateProductEntity(entity, null);
+                        onDestroy();
+                    } else {
+                        repository.saveProductEntity(productEntity.getValue(), productSaveListener);
+                    }
                 } else {
                     repository.updateProductEntity(productEntity.getValue(), productSaveListener);
                 }

@@ -70,6 +70,30 @@ public class CatalogEntity extends Ingredient implements Product {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        final CatalogEntity that = (CatalogEntity) o;
+
+        if (Float.compare(that.calories, calories) != 0) return false;
+        if (Float.compare(that.density, density) != 0) return false;
+        if (Float.compare(that.price, price) != 0) return false;
+        return expiration == that.expiration;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (calories != +0.0f ? Float.floatToIntBits(calories) : 0);
+        result = 31 * result + (density != +0.0f ? Float.floatToIntBits(density) : 0);
+        result = 31 * result + (price != +0.0f ? Float.floatToIntBits(price) : 0);
+        result = 31 * result + expiration;
+        return result;
+    }
+
+    @Override
     public void setTotalPrice(float total) {
         this.totalPrice = total;
         if (getMeasure().equals("UNIT")) {

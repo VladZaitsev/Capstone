@@ -32,6 +32,24 @@ public class Ingredient implements Parcelable {
         ingredient = in.readString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final Ingredient that = (Ingredient) o;
+
+        if (!measure.equals(that.measure)) return false;
+        return ingredient.equals(that.ingredient);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = measure.hashCode();
+        result = 31 * result + ingredient.hashCode();
+        return result;
+    }
+
     public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
         @Override
         public Ingredient createFromParcel(Parcel in) {
