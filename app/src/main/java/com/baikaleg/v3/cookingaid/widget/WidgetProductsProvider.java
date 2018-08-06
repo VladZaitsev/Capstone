@@ -1,5 +1,6 @@
 package com.baikaleg.v3.cookingaid.widget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -11,6 +12,7 @@ import android.widget.RemoteViews;
 
 import com.baikaleg.v3.cookingaid.R;
 import com.baikaleg.v3.cookingaid.data.Repository;
+import com.baikaleg.v3.cookingaid.ui.BaseActivity;
 
 public class WidgetProductsProvider extends AppWidgetProvider {
     public final static String WIDGET_PRODUCTS_EXTRA = "widget_products_extra";
@@ -27,9 +29,10 @@ public class WidgetProductsProvider extends AppWidgetProvider {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_products);
         Repository repository = Repository.getInstance(context);
 
-        repository.loadExpiryProductsNames().subscribe(strings -> {
-            rv.setViewVisibility(R.id.widget_empty_txt, View.GONE);
-
+        repository.loadShoppingList().subscribe(strings -> {
+            if(strings.size()!=0){
+                rv.setViewVisibility(R.id.widget_empty_txt, View.GONE);
+            }
             Intent adapter = new Intent(context, WidgetProductsService.class);
             adapter.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             Uri data = Uri.parse(adapter.toUri(Intent.URI_INTENT_SCHEME));

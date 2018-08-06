@@ -2,6 +2,7 @@ package com.baikaleg.v3.cookingaid.data;
 
 import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.baikaleg.v3.cookingaid.data.callback.OnCatalogEntityLoadedListener;
 import com.baikaleg.v3.cookingaid.data.callback.OnCatalogEntitySaveListener;
@@ -20,17 +21,16 @@ import com.crashlytics.android.Crashlytics;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Completable;
-import io.reactivex.CompletableObserver;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class Repository implements DataSource {
+    private final static int UPDATE_TYPE = 0;
+    private final static int SAVE_TYPE = 1;
 
     private final RecipeApi recipeApi;
     private final AppDatabase db;
@@ -58,7 +58,7 @@ public class Repository implements DataSource {
                 .flatMap(recipes -> Observable.fromIterable(recipes)
                         .doOnNext(recipe -> {
                             recipe.setCategory("dessert");
-                           // recipe.setImage("https://vk.com/doc2131185_450915954?hash=d858773117387e2a2f&dl=73d3832f40b8a68d3f");
+                            // recipe.setImage("https://vk.com/doc2131185_450915954?hash=d858773117387e2a2f&dl=73d3832f40b8a68d3f");
                         })
                         .toList()
                         .toObservable());
@@ -78,11 +78,10 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public Flowable<ArrayList<String>> loadExpiryProductsNames() {
+    public Flowable<ArrayList<String>> loadShoppingList() {
         return db.productDao().loadAllProducts()
                 .flatMap(productEntities -> Flowable.fromIterable(productEntities)
-                        .filter(productEntity -> productEntity.getProductState() == AddEditProductModel.DIALOG_STORAGE_ID)
-                        .filter(productEntity -> AppUtils.timeDiff(productEntity) < 0)
+                        .filter(productEntity -> productEntity.getProductState() == AddEditProductModel.DIALOG_BASKET_ID)
                         .map(Ingredient::getIngredient)
                         .toList()
                         .toFlowable()
@@ -124,7 +123,6 @@ public class Repository implements DataSource {
     public Single<List<ProductEntity>> loadProductEntitiesByQuery(String ingredient) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
                 AppUtils.productLoadQuery("product", "ingredient", ingredient));
-        //TODO Select state
         return db.productDao()
                 .loadProductsByQuery(query)
                 .flatMap(productEntities -> Flowable.fromIterable(productEntities)
@@ -144,119 +142,113 @@ public class Repository implements DataSource {
 
     @Override
     public void saveProductEntity(ProductEntity entity, OnProductEntitySaveListener listener) {
-        Completable.fromAction(() -> db.productDao().insertProduct(entity))
-                .subscribeOn(Schedulers.io())
-                .subscribe(new CompletableObserver() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        if (listener != null) {
-                            listener.onProductEntitySaved();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Crashlytics.log(e.getMessage());
-                    }
-                });
+        new SaveProductEntityTask(entity, listener, db, SAVE_TYPE).execute();
     }
 
     @Override
     public void updateProductEntity(ProductEntity entity, OnProductEntitySaveListener listener) {
-        Completable.fromAction(() -> db.productDao().updateProduct(entity))
-                .subscribeOn(Schedulers.io())
-                .subscribe(new CompletableObserver() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        if (listener != null) {
-                            listener.onProductEntitySaved();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Crashlytics.log(e.getMessage());
-                    }
-                });
+        new SaveProductEntityTask(entity, listener, db, UPDATE_TYPE).execute();
     }
 
     @Override
     public void saveCatalogEntity(CatalogEntity entity, OnCatalogEntitySaveListener listener) {
-        Completable.fromAction(() -> db.catalogDao().insertProduct(entity))
-                .subscribeOn(Schedulers.io())
-                .subscribe(new CompletableObserver() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        listener.onCatalogEntitySaved();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Crashlytics.log(e.getMessage());
-                    }
-                });
+       new SaveCatalogEntityTask(entity, listener, db, SAVE_TYPE).execute();
     }
 
     @Override
     public void updateCatalogEntity(CatalogEntity entity, OnCatalogEntitySaveListener listener) {
-        Completable.fromAction(() -> db.catalogDao().updateProduct(entity))
-                .subscribeOn(Schedulers.io())
-                .subscribe(new CompletableObserver() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        listener.onCatalogEntitySaved();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Crashlytics.log(e.getMessage());
-                    }
-                });
+        new SaveCatalogEntityTask(entity, listener, db, UPDATE_TYPE).execute();
     }
 
     @Override
     public void removeProductEntity(ProductEntity entity) {
-        Completable.fromAction(() -> db.productDao().deleteProduct(entity))
-                .subscribeOn(Schedulers.io())
-                .subscribe(new CompletableObserver() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Crashlytics.log(e.getMessage());
-                    }
-                });
+        new RemoveProductEntityTask(db, entity).execute();
     }
 
     public void onDestroyed() {
         db.close();
         compositeDisposable.clear();
+    }
+
+    private static class SaveProductEntityTask extends AsyncTask<Void, Void, Void> {
+        private ProductEntity entity;
+        private OnProductEntitySaveListener listener;
+        private AppDatabase database;
+        private int type;
+
+        SaveProductEntityTask(ProductEntity entity, OnProductEntitySaveListener listener, AppDatabase database, int type) {
+            this.entity = entity;
+            this.listener = listener;
+            this.database = database;
+            this.type = type;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if (type == SAVE_TYPE) {
+                database.productDao().insertProduct(entity);
+            } else if (type == UPDATE_TYPE) {
+                database.productDao().updateProduct(entity);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (listener != null) {
+                listener.onProductEntitySaved();
+            }
+        }
+    }
+
+    private static class SaveCatalogEntityTask extends AsyncTask<Void, Void, Void> {
+        private CatalogEntity entity;
+        private OnCatalogEntitySaveListener listener;
+        private AppDatabase database;
+        private int type;
+
+        SaveCatalogEntityTask(CatalogEntity entity, OnCatalogEntitySaveListener listener, AppDatabase database, int type) {
+            this.entity = entity;
+            this.listener = listener;
+            this.database = database;
+            this.type = type;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if (type == SAVE_TYPE) {
+                database.catalogDao().insertProduct(entity);
+            } else if (type == UPDATE_TYPE) {
+                database.catalogDao().updateProduct(entity);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (listener != null) {
+                listener.onCatalogEntitySaved();
+            }
+        }
+    }
+
+    private static class RemoveProductEntityTask extends AsyncTask<Void, Void, Void> {
+        private AppDatabase database;
+        private ProductEntity entity;
+
+        RemoveProductEntityTask(AppDatabase database, ProductEntity entity) {
+            this.database = database;
+            this.entity = entity;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            database.productDao().deleteProduct(entity);
+            return null;
+        }
     }
 }

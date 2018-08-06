@@ -27,7 +27,7 @@ public interface DataSource {
 
     void loadAllProductEntities(OnProductEntityLoadedListener listener, int state);
 
-    Flowable<ArrayList<String>> loadExpiryProductsNames();
+    Flowable<ArrayList<String>> loadShoppingList();
 
     Single<List<ProductEntity>> loadProductEntitiesByQuery(String ingredient);
 
