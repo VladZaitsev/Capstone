@@ -166,7 +166,6 @@ public class Repository implements DataSource {
     }
 
     public void onDestroyed() {
-        db.close();
         compositeDisposable.clear();
     }
 

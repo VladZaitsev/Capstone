@@ -23,6 +23,7 @@
     <string name="cd_pallet">choose color for category</string>
     <string name="cd_select_all">select all items</string>
     <string name="cd_timer_start">start or stop timer</string>
+    <string name="cd_add_product">add product</string>
 
     <!-- recipes types-->
     <string name="recipe_dessert">dessert</string>
